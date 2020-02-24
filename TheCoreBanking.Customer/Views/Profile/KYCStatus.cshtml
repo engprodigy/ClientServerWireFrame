@@ -1,0 +1,88 @@
+﻿@model TheCoreBanking.Customer.Data.Models.TblKycitem
+
+@section pagedescription{
+<span class="title f24px">CUSTOMER MANAGEMENT M0DULE</span>
+}
+
+<div class="card">
+    <div class="card-header text-center">
+        <h4 class="card-title">KYC Status</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="custom-toolbar"></div>
+                    <table class="data-table" id="kyc-data-table"
+                           data-toggle="table" data-search="true"
+                           data-search-align="right" data-toolbar="#custom-toolbar"
+                           data-buttons-class="danger" data-show-refresh="true"
+                           data-show-toggle="true" data-mobile-responsive="true"
+                           data-check-on-init="true" data-pagination="true"
+                           data-show-pagination-switch="true" data-unique-id="customerid"
+                           data-url="LoadCustomers" data-min-width="626">
+                        <thead>
+                            <tr>
+                                <th data-field="surname"
+                                    data-sortable="true">Surname</th>
+                                <th data-field="firstname"
+                                    data-sortable="true">Firstname</th>
+                                <th data-field="customercode"
+                                    data-sortable="true"
+                                    data-align="right">Customer Code</th>
+                                <th data-field="customeraccounttype.name"
+                                    data-sortable="true">Account Type</th>
+                                <th data-align="center" 
+                                    data-formatter="utilities.viewKYCBtnFormatter">
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="KYCmodal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="w-100">
+                    <h4 class="modal-title text-primary font-weight-bold">
+                        KYC Info
+                    </h4>
+                    <h5 class="text-primary mt-2"></h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="KYCtable" class="table">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>#</th>
+                                <th>Requirement</th>
+                                <th>Mandatory</th>
+                                <th class="text-center">Action</th>
+                                <th style="width:15%" class="text-center">Deferred Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/modules/kycstatus.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/modules/kycstatus.min.js"></script>
+    </environment>
+}

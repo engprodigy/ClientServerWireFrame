@@ -1,0 +1,616 @@
+@model TheCoreBanking.Customer.Data.Models.TblCasa
+
+@section pagedescription{
+    <span class="title f24px">CUSTOMER MANAGEMENT M0DULE</span>
+}
+
+<div class="card" id="customer-card">
+    <div class="card-header text-center">
+        <h4 class="card-title">Account Maintenance</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                   
+                    <table id="data-table" class="data-table"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add modal and forms here -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false"
+     id="mandateUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="">
+                    <h4 class="text-primary font-weight-bold my-2">
+                        Account Mandates(es)
+                    </h4>
+                    <h5 class="headerAcctDetails text-primary"></h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-xs-12 w-100">
+                            <div id="mandate-toolbar" style="display:none">
+                                <button class="btn btn-danger" type="button"
+                                      onclick="utilities.showNewMandateFrm()"  >
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Add new mandates
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="mandateUpdateTable" class="data-table"
+                                       data-toggle="table" data-show-refresh="true" data-min-width="992"
+                                       data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                       data-buttons-class="danger"  data-unique-id="fileId"
+                                       data-toolbar="#mandate-toolbar" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-sortable="true" data-field="accountnumber">Account Number</th>
+                                            <th data-sortable="true" data-field="signatorysurname">Surname</th>
+                                            <th data-sortable="true" data-field="signatoryothername">Other Name</th>
+                                            <th data-sortable="true" data-field="signatoryfirstname">First Name</th>
+                                            <th data-sortable="true" data-field="description">Description</th>
+                                            
+                                            @*<th data-formatter="utilities.editMandateBtnFormatter"></th>*@
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card shadow-none">
+                                <form id="frmMandateUpdate">
+                                    <input type="hidden" name="mandateid" />
+                                    <input type="hidden" name="mandatedescription" />
+                                    <input type="hidden" name="fileid" />
+                                    <div class="row mb-2 required">
+                                        <label class="col-md-12 col-form-label" id="mandateType" name="mandateType">&nbsp;</label>
+
+                                    </div>
+
+
+
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-6" id="mandateImage" name="mandateImage">
+
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <input type="file" name="mandate-image" data-browse-label="Choose File"
+                                                   data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                                                   data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                   data-show-caption="false" data-drop-zone-enabled="false" class="file" />
+                                            <label class="text-center w-100">Upload New Mandate Image</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2 justify-content-between">
+                                        <div class="col">
+                                            <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
+                                                    onclick="utilities.showMandateTable()">
+                                                DONE
+                                            </button>
+                                        </div>
+
+                                        <div class="col">
+                                            <button type="button" id="updateBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.updateMandate()">
+                                                UPDATE
+                                            </button>
+                                            <button type="button" id="saveBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.addAddress()">
+                                                SAVE
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                               
+                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false"
+     id="refereeUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="">
+                    <h4 class="text-primary font-weight-bold my-2">
+                        Account Referee(s)
+                    </h4>
+                    <h5 class="headerrefereeDetails text-primary"></h5>
+                    <br />
+                    <div class="text-primary" id="status">
+
+                    </div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+            </div>
+            
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row justify-content-center">
+                                <div class="col-xs-12 w-100">
+                                    <div id="referee-toolbar" style="display:none">
+                                        <button class="btn btn-danger" type="button"
+                                                onclick="utilities.showNewRefreeFrm()">
+                                            <i class="now-ui-icons ui-1_simple-add"></i>
+                                            Add new referee
+                                        </button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="refereeUpdateTable" class="data-table"
+                                               data-toggle="table" data-show-refresh="true" data-min-width="992"
+                                               data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                               data-buttons-class="danger" data-unique-id="refereeid"
+                                               data-toolbar="#referee-toolbar" data-mobile-responsive="true">
+                                            <thead>
+                                                <tr>
+                                                    @*<th data-field="state" data-checkbox="true"></th>*@
+
+                                                    <th data-sortable="true" data-field="fullname">Referee Full Name</th>
+                                                    <th data-sortable="true" data-field="address">Referee Address</th>
+                                                    <th data-sortable="true" data-field="phone">Referee Phone</th>
+                                                    <th data-sortable="true" data-field="accountno">Referee Account Number</th>
+                                                    <th data-sortable="true" data-field="relationship">Relationship</th>
+
+                                                    <th data-formatter="utilities.editRefereeBtnFormatter"></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <div class="card shadow-none">
+                                        <form id="frmrefereeUpdate">
+                                            <input type="hidden" name="refereeid" />
+                                            <input type="hidden" name="casaaccountid" />
+                                            <input type="hidden" name="datecreated" />
+                                            
+                                            @*<input type="hidden" name="mandatedescription" />
+        <input type="hidden" name="fileid" />
+        <div class="row mb-2 required">
+            <label class="col-md-12 col-form-label" id="mandateType" name="mandateType">&nbsp;</label>
+
+        </div>*@
+
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Full Name</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input name="fullname" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Address</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <textarea name="address" required
+                                                                  class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Phone</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input name="phone" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Relationship</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input name="relationship" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Account Name</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input name="accountname" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Account No.</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <input name="accountno" required class="form-control" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Bank</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <select name="bankid" id="ddlUBank" class="form-control" required>
+                                                            <option></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 required">
+                                                <label class="col-md-2 col-form-label">Bank Address</label>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <textarea name="bankaddress" required
+                                                                  class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2 justify-content-center">
+                                                <div class="col-xs-12">
+                                                    <input type="file" name="referee-file" data-browse-label="Choose File" required
+                                                           data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                                                           data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                           data-show-caption="false" data-drop-zone-enabled="false" class="file" />
+                                                    <label class="text-center w-100">Referee's Document</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2 justify-content-between">
+                                                <div class="col">
+                                                    <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
+                                                            onclick="utilities.showRefereeTable()">
+                                                        CANCEL
+                                                    </button>
+                                                </div>
+
+                                                <div class="col">
+                                                    <button type="button" id="updateBtn"
+                                                            class="btn btn-danger btn-wd pull-right"
+                                                            onclick="utilities.updateRefereeInfo()">
+                                                        UPDATE
+                                                    </button>
+                                                    <button type="button" id="saveBtn"
+                                                            class="btn btn-danger btn-wd pull-right"
+                                                            onclick="utilities.addNewReferee()">
+                                                        SAVE
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="productConversionModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="">
+                    <h4 class="text-primary font-weight-bold my-2">
+                        Product Conversion
+                    </h4>
+                    <h5 class="headerProductConversionDetails text-primary"></h5>
+                    <h5 class="headerProductConversionDetails2 text-primary"></h5>
+                    
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-xs-12 w-100">
+                            <div  id="mandate-toolbar">
+                                <p class="text-primary"> SELECT NEW PRODUCT YOU WANT TO CONVERT TO BELOW: </p>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="productListTable" class="data-table"
+                                       data-toggle="table" data-show-refresh="true" data-min-width="992"
+                                       data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                       data-buttons-class="danger" data-unique-id="id"
+                                       data-page-list="[5,10,25,50,100,150,200,250,300]"
+                                       data-search-align="right" data-page-size="5"
+                                       data-toolbar="#mandate-toolbar" data-mobile-responsive="true"
+                                       data-pagination="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-radio="true"></th>
+                                            <th data-sortable="true" data-field="productName">Product Name</th>
+                                            <th data-sortable="true" data-field="productType.pdType">Product Type</th>
+                                            @*<th data-sortable="true" data-field="productcategory.productcategoryname">Product Category</th>*@
+                                            <th data-sortable="true" data-field="productCode">Product Code</th>
+                                            <th data-sortable="true" data-field="productDescription">Description</th>
+
+
+                                            @*<th data-formatter="utilities.editMandateBtnFormatter"></th>*@
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                        @*<div class="row mt-2 ">
+                                        <div class="col">
+                                            <button type="button" id="doneBtn" class="btn btn-danger btn-wd"
+                                                    onclick="utilities.showMandateTable()">
+                                                DONE
+                                            </button>
+                                        </div>
+
+                                        <div class="col" >
+                                            <button type="button" id="updateBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.updateMandate()">
+                                                UPDATE
+                                            </button>
+                                           <button type="button" id="saveBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.addAddress()">
+                                                SAVE
+                                            </button>
+                                        </div>
+                                    </div>*@
+
+                    </div>
+                    <div class="row justify-content-center">
+                         <div class="col">
+                            <div class="card shadow-none">
+                               
+                         <div class="row mt-2 justify-content-between">
+                            <div class="col">
+                                <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
+                                        onclick="utilities.showMandateTable()">
+                                    CANCEL
+                                </button>
+                            </div>
+
+                            <div class="col">
+                                <button type="button" id="updateBtn"
+                                        class="btn btn-danger btn-wd pull-right"
+                                        onclick="utilities.updateMandate()">
+                                    UPDATE
+                                </button>
+                                @*<button type="button" id="saveBtn"
+                                        class="btn btn-danger btn-wd pull-right"
+                                        onclick="utilities.addAddress()">
+                                    SAVE
+                                </button>*@
+                            </div>
+                        </div>
+                    
+
+
+                </div>
+            </div>
+        </div>
+                                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="emailUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="">
+                    <h4 class="text-primary font-weight-bold mb-2">
+                        Accounts Customer Email(s)
+                    </h4>
+                    <h5 class="headerCustDetails text-primary"></h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-xs-12">
+                            <div id="email-toolbar">
+                                <button class="btn btn-danger" type="button"
+                                        onclick="utilities.showNewEmailFrm()">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Add new email
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="emailUpdateTable" class="data-table"
+                                       data-toggle="table" data-show-refresh="true"
+                                       data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                       data-buttons-class="danger" data-unique-id="emailcontactid"
+                                       data-toolbar="#email-toolbar" data-mobile-responsive="true">
+                                    <thead>
+                                        <tr>
+                                            <th data-sortable="true" data-field="email">Email</th>
+                                            <th data-formatter="utilities.editEmailBtnFormatter"
+                                                data-align="center" data-width="5%"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card shadow-none">
+                                <form id="frmEmailUpdate">
+                                    <input type="hidden" name="emailcontactid" />
+                                    <input type="hidden" name="customerid" />
+                                    <div class="row mb-2 required">
+                                        <label class="col-md-2 col-form-label">Email</label>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <input name="email" required class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 justify-content-between">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger btn-wd pull-left"
+                                                    onclick="utilities.showEmailTable()">
+                                                CANCEL
+                                            </button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" id="updateBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.updateEmail()">
+                                                UPDATE
+                                            </button>
+                                            <button type="button" id="saveBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.addEmail()">
+                                                SAVE
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="accountFeeUpdateModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="height: 710px">
+            <div class="modal-header">
+                <div class="">
+                    <h4 class="text-primary font-weight-bold mb-2">
+                        Account Fee Maintenance
+                    </h4>
+                    <h5 class="headerAcctFeeDetails text-primary"></h5>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-xs-12">
+                            <div id="email-toolbar">
+                                <button class="btn btn-danger" type="button"
+                                        onclick="updateLinkedFees()">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Update/Add Account Fee
+                                </button>
+                            </div>
+                            <table id="productMappingFeesTable" data-toggle="table"
+                                   data-url="../Account/LoadFeeList"
+                                    class="data-table"
+                                       data-click-to-select="true"
+                                       data-search="true" data-show-toggle="true" 
+                                       data-mobile-responsive="true"
+                                       data-height="320"
+                                       data-min-width="1200"
+                                       data-page-list="[5,10,25,50,100,150,200,250,300]"
+                                       data-search-align="right" data-page-size="5" data-unique-id="pdFeesId"
+                                       data-buttons-class="danger">
+                                <thead>
+                                    <tr>
+                                        <th data-field="state" data-checkbox="true"></th>
+                                        <th data-field="pdFeesId">Fee Name</th>
+                                        <th data-field="pdFeesName">Fee Name</th>
+                                        <th data-field="pdFeesInterval">Interval</th>
+                                        <th data-field="pdTypeId">Product Type ID</th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <div class="card shadow-none">
+                                <form id="formproductMappingFeesUpdate">
+                                    <input type="hidden" name="emailcontactid" />
+                                    <input type="hidden" name="customerid" />
+                                    <div class="row mb-2 required">
+                                        <label class="col-md-2 col-form-label">Email</label>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <input name="email" required class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 justify-content-between">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger btn-wd pull-left"
+                                                    onclick="utilities.showEmailTable()">
+                                                CANCEL
+                                            </button>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" id="updateBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.updateEmail()">
+                                                UPDATE
+                                            </button>
+                                            <button type="button" id="saveBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.addEmail()">
+                                                SAVE
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+        @section Scripts {
+            <environment include="Development">
+                <script src="~/js/modules/accountmaintenance.js"></script>
+            </environment>
+            <environment exclude="Development">
+                <script src="~/js/modules/accountmaintenance.min.js"></script>
+            </environment>
+        }

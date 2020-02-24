@@ -1,0 +1,237 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/Montserrat.min.css",
+    "inputFiles": [
+      "wwwroot/css/Montserrat.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/fontawesome/css/all.min.css",
+    "inputFiles": [
+      "wwwroot/css/fontawesome/css/all.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/select2/select2.min.css",
+    "inputFiles": [
+      "wwwroot/css/select2/select2.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/select2/select2-bootstrap4.min.css",
+    "inputFiles": [
+      "wwwroot/css/select2/select2-bootstrap4.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/pace/red/pace-theme-material.min.css",
+    "inputFiles": [
+      "wwwroot/css/pace/red/pace-theme-material.css"
+    ]
+  },
+  // js
+  {
+    "outputFileName": "wwwroot/js/bootstraptable/bootstrap-table.min.js",
+    "inputFiles": [
+      "wwwroot/js/bootstraptable/bootstrap-table.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/bootstraptable/mobile/bootstrap-table-mobile.min.js",
+    "inputFiles": [
+      "wwwroot/js/bootstraptable/mobile/bootstrap-table-mobile.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/profile.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/profile.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/CustomFields.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/CustomFields.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/kycstatus.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/kycstatus.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/account.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/account.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/accountType.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/accountType.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/modeofid.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/modeofid.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/department.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/department.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/industry.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/industry.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/kycitem.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/kycitem.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/maritalstatus.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/maritalstatus.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/sector.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/sector.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/freeze.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/freeze.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/title.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/title.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/poststatus.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/poststatus.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/select2/select2.min.js",
+    "inputFiles": [
+      "wwwroot/js/select2/select2.mod.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/select2/accountmaintenance.min.js",
+    "inputFiles": [
+      "wwwroot/js/select2/accountmaintenance.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
+  }
+]

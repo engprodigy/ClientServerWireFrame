@@ -1,0 +1,114 @@
+﻿@model TheCoreBanking.Customer.Data.Models.TblModeofidentification
+
+<div class="card card-plain">
+    <div class="card-header text-center">
+        <h4 class="card-title">Mode of Identities</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                    <div id="modeofid-toolbar">
+                        <button class="btn btn-danger" id="btnAddModeOfID"
+                                onclick="openModeOfIDModal()">
+                            <i class="now-ui-icons ui-1_simple-add"></i>
+                            Add Mode of ID
+                        </button>
+                    </div>
+                    <table id="modeTable" data-toggle="table"
+                           data-url="./Setup/ListModeOfIDs"
+                           data-search="true" class="data-table"
+                           data-toolbar="#modeofid-toolbar"
+                           data-search-align="right"
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-buttons-class="danger">
+                        <thead>
+                            <tr>
+                                <th data-field="idmode" data-sortable="true">Mode of ID</th>
+                                @*<th data-field="createdby">Created By</th>*@
+                                <th data-field="createDate" data-sortable="true"
+                                    data-formatter="dateFormatter">Created On</th>
+                                <th data-field="active" data-formatter="activeFormatter"
+                                    data-sortable="true" data-width="5%" data-align="center">Active</th>
+                                <th data-events="modeEvents" data-formatter="editFormatter"
+                                    data-align="center" data-width="5%"></th>
+                                <th data-events="modeEvents" data-formatter="deleteFormatter"
+                                    data-align="center" data-width="5%"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add modal and forms here -->
+<div id="AddNewMode" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="card-title text-primary font-weight-bold w-100 ml-3 mb-3">
+                    <span id="modeOfIDTitle">New</span> Identity Mode
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmModeOfID">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="createdby" id="createdby" />
+                                <input type="hidden" name="createddate" id="createddate" />
+                                <input type="hidden" name="companycode" id="companycode" />
+                                <div class="row mb-2 required">
+                                    <label class="col-md-4 col-form-label">Identity Mode</label>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <input name="idmode" required id="idmode"
+                                                   type="text" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label class="col-md-4 col-form-label">Active</label>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="form-check pl-0">
+                                            <label class="form-check-label">
+                                                <input name="active" class="form-check-input" 
+                                                    type="checkbox" id="active">
+                                                <span class="form-check-sign"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-right" type="button" 
+                                                id="btnAddMode" onclick="AddModeofID()">
+                                            Save Record
+                                        </button>
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnModeUpdate" onclick="updateModeofID()">
+                                            Update Record
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
