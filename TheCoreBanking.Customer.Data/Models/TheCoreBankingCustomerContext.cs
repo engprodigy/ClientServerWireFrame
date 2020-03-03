@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
+using TheCoreBanking.Customer.Data.ProcedureAndFunctionDTO;
 
 namespace TheCoreBanking.Customer.Data.Models
 {
@@ -85,8 +85,12 @@ namespace TheCoreBanking.Customer.Data.Models
         public virtual DbSet<TblFreezetransactionlist> TblFreezetransactionlist { get; set; }
         public virtual DbSet<TblFreezetype> TblFreezetype { get; set; }
         public virtual DbSet<TblDesignation> TblDesignation { get; set; }
+        public virtual DbSet<TblAccountclosure> TblAccountclosure { get; set; }
         public virtual DbSet<TblBankingProductFeesListExtraMaintenance> TblBankingProductFeesListExtraMaintenance { get; set; }
+        public virtual DbSet<TblFinanceChartOfAccount> TblFinanceChartOfAccount { get; set; }
 
+        public virtual DbSet<ChargesPending> ChargesPendings { get; set; }
+        public virtual DbSet<TblStampcharge> TblStampcharge { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -94,9 +98,9 @@ namespace TheCoreBanking.Customer.Data.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                
+
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+                optionsBuilder.UseSqlServer(@"Server=DESKTOP-4051Q1P\APPCORE;Database=TheCoreBanking;User Id=sa;Password=new+123;");
                 //optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 #else
                 optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
@@ -4489,6 +4493,180 @@ namespace TheCoreBanking.Customer.Data.Models
                    .HasForeignKey(d => d.Casaaccountid)
                    .OnDelete(DeleteBehavior.ClientSetNull)
                    .HasConstraintName("FK_TBL_CASA_TBL_CASAACCOUNTID");
+            });
+            modelBuilder.Entity<TblAccountclosure>(entity =>
+            {
+                entity.ToTable("TBL_ACCOUNTCLOSURE", "Customer");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Accountnumber)
+                    .IsRequired()
+                    .HasColumnName("ACCOUNTNUMBER")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Amountpayable)
+                    .HasColumnName("AMOUNTPAYABLE")
+                    .HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Approved).HasColumnName("APPROVED");
+
+                entity.Property(e => e.Approvedby)
+                    .HasColumnName("APPROVEDBY")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Branchcode)
+                    .HasColumnName("BRANCHCODE")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Charges)
+                    .HasColumnName("CHARGES")
+                    .HasColumnType("decimal(18, 4)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Comment)
+                    .HasColumnName("COMMENT")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Companycode)
+                    .HasColumnName("COMPANYCODE")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Cotamount)
+                    .HasColumnName("COTAMOUNT")
+                    .HasColumnType("decimal(18, 4)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Createdby)
+                    .HasColumnName("CREATEDBY")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Creditaccount)
+                    .HasColumnName("CREDITACCOUNT")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Dateapproved)
+                    .HasColumnName("DATEAPPROVED")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Datecreated)
+                    .HasColumnName("DATECREATED")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Disapproved).HasColumnName("DISAPPROVED");
+
+                entity.Property(e => e.Interestamount)
+                    .HasColumnName("INTERESTAMOUNT")
+                    .HasColumnType("decimal(18, 4)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Operationid).HasColumnName("OPERATIONID");
+
+                entity.Property(e => e.Reference)
+                    .HasColumnName("REFERENCE")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remark)
+                    .HasColumnName("REMARK")
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Smsamount)
+                    .HasColumnName("SMSAMOUNT")
+                    .HasColumnType("decimal(18, 4)")
+                    .HasDefaultValueSql("((0))");
+            });
+            modelBuilder.Entity<TblFinanceChartOfAccount>(entity =>
+            {
+                entity.ToTable("tbl_FinanceChartOfAccount", "Finance");
+
+                entity.Property(e => e.AccountCategoryId).HasColumnName("AccountCategoryID");
+
+                entity.Property(e => e.AccountGroupId).HasColumnName("AccountGroupID");
+
+                entity.Property(e => e.AccountId)
+                    .IsRequired()
+                    .HasColumnName("AccountID")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AccountName)
+                    .HasMaxLength(500)
+                    .HasColumnName("AccountName")
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AccountTypeId).HasColumnName("AccountTypeID");
+
+                entity.Property(e => e.BrId)
+                    .HasColumnName("brID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CoyId)
+                    .IsRequired()
+                    .HasColumnName("coyID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.FscaptionCode)
+                    .HasColumnName("FSCaptionCode")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OldAccountId)
+                    .HasColumnName("OldAccountID")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OldAccountId1)
+                    .HasColumnName("OldAccountID1")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OldAccountId2)
+                    .HasColumnName("OldAccountID2")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RelationShip)
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StCode).HasColumnName("stCode");
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+            modelBuilder.Entity<TblStampcharge>(entity =>
+            {
+                entity.ToTable("TBL_STAMPCHARGE", "Retail");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Charge).HasColumnName("CHARGE");
+
+                entity.Property(e => e.Chartofaccountid).HasColumnName("CHARTOFACCOUNTID");
+
+                entity.Property(e => e.Datecreated)
+                    .HasColumnName("DATECREATED")
+                    .HasColumnType("date");
+
+                entity.HasOne(d => d.tblFinanceChartOfAccount)
+                    .WithMany(p => p.TblStampcharge)
+                    .HasForeignKey(d => d.Chartofaccountid)
+                    .HasConstraintName("FK_TBL_Finance_tbl_FinanceChartOfAccount");
+
             });
         }
     }

@@ -85,6 +85,8 @@ namespace TheCoreBanking.Customer.Data.Helpers
                 {typeof(IFreezeTransactionListRepository), dbContext => new FreezeTransactionListRepository(dbContext)},
                 {typeof(IAccountFreezeRepository), dbContext => new AccountFreezeRepository(dbContext)},
                 {typeof(IDesignationRepository), dbContext => new DesignationRepository(dbContext)},
+                {typeof(IAccountClosureRepository), dbContext => new AccountClosureRepository(dbContext)},
+                 {typeof(IChartofAccountRepository), dbContext => new ChartofAccountRepository(dbContext)},
             };
         }
 
