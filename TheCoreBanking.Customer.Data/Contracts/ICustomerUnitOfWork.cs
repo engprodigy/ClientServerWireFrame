@@ -62,5 +62,8 @@ namespace TheCoreBanking.Customer.Data.Contracts
         IFreezereasontypeRepository Reasontype { get; }
         ICustomerCustomFieldRepository CustomFields { get; }
         IDesignationRepository Designation { get; }
+        IAccountClosureRepository ClosuredAccount { get; }
+
+        IChartofAccountRepository Chart { get; }
     }
 }

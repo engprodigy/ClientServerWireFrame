@@ -65,7 +65,8 @@ namespace TheCoreBanking.Customer.Data
         public IFreezereasontypeRepository Reasontype { get { return GetEntityRepository<IFreezereasontypeRepository>(); } }
         public ICustomerCustomFieldRepository CustomFields { get { return GetEntityRepository<ICustomerCustomFieldRepository>(); } }
         public IDesignationRepository Designation { get { return GetEntityRepository<IDesignationRepository>(); } }
-
+        public IAccountClosureRepository ClosuredAccount => GetEntityRepository<IAccountClosureRepository>();
+        public IChartofAccountRepository Chart { get { return GetEntityRepository<IChartofAccountRepository>(); } }
         public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
         {
             repositoryProvider.DbContext = DbContext;

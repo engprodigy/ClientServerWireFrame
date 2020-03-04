@@ -51,7 +51,16 @@ namespace TheCoreBanking.Customer.Data.Repository
                  => dbSet.Where(casa => casa.Accountnumber == AccountNumber);
 
 
+        public IQueryable<TblCasa> GetAccountWaitingForClosure()
+        {
+            //return  dbSet.Where(c => c.Accountstatusid != (int)AccountStatusEnum.CLOSED);
+            return dbSet.Where(c => c.Accountstatusid != 4);
+        }
 
-        
+        public IQueryable<TblCasa> GetClosedAccount()
+        {
+            return dbSet.Where(c => c.Accountstatusid == (int)AccountStatusEnum.CLOSED);
+        }
+
     }
 }

@@ -1,0 +1,40 @@
+﻿@model TheCoreBanking.Customer.Data.Models.TblAccountclosure
+<div class="card">
+    <div class="card-header text-center">
+       
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+              
+                    <table id="tillMapTable" data-toggle="table"
+                           data-url="@Url.Action("listCloseAccountPending", "AccountServices")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#tillmap-toolbar"
+                           data-search-align="right" data-detail-view="true"                  
+                           data-show-pagination-switch="true"
+                           data-mobile-responsive="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true" data-unique-id="id"
+                           data-buttons-class="danger"
+                           data-striped="true table-hover"                         
+                           data-detail-formatter="utilities.tillMapTypeTableFormatter">
+                        <thead>
+                            <tr>
+                                <th data-field="accountnumber" data-sortable="true">Account To Close</th>
+                                <th data-field="creditaccount">Ledger To Credit:</th>
+                                <th data-field="interestamount">Interest Amount</th>
+                                <th data-field="smsamount">SMS Amount</th>
+                                <th data-field="cotamount">COT Amount</th>
+                                 
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

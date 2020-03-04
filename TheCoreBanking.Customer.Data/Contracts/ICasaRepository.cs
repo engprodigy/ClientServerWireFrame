@@ -11,5 +11,7 @@ namespace TheCoreBanking.Customer.Data.Contracts
         TblCasa GetDetailedByAccountNo(string AccountNumber);
         TblCasa GetMandates(string AccountNumber);
         IQueryable<TblCasa> GetProductDetails(string AccountNumber);
+        IQueryable<TblCasa> GetAccountWaitingForClosure();
+        IQueryable<TblCasa> GetClosedAccount();
     }
 }

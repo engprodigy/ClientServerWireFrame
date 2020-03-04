@@ -1,0 +1,172 @@
+﻿@model TheCoreBanking.Customer.Data.Models.TblCasa
+
+<div class="card">
+    <div class="card-header text-center">
+    
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="card card-plain">
+                <div class="card-body">
+                   
+                    <table id="closeAccountTable" data-toggle="table"
+                           data-url="@Url.Action("listAccountsForClosure", "AccountServices")"
+                           data-search="true" class="data-table"
+                           data-toolbar="#definition-toolbar"
+                           data-search-align="right" data-detail-view="true"
+                           data-show-pagination-switch="true" data-checkbox-header="false"
+                           data-mobile-responsive="true"  
+                           data-show-refresh="true" data-pagination="true"
+                           data-show-toggle="true" data-unique-id="id"
+                           data-buttons-class="danger"
+                           data-striped="true table-hover"
+                           data-detail-formatter="define.CloseAcctTableFormatter"> 
+                        <thead>
+                            <tr>
+                                <th data-field="accountname" data-sortable="true">ACCOUNT NAME</th>
+
+                                <th data-field="accountnumber" data-sortable="true">ACCOUNTNUMBER</th>
+                                <th data-field="branchid" data-sortable="true">BRANCHID</th>
+                                @*<th data-field="accountstatusid" data-sortable="true">ACCOUNTSTATUSID</th>*@
+
+
+                                <th data-events="CloseEvents" data-formatter="editCloseFormatter"
+                                    data-align="center" data-width="5%"></th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewClosed" class="modal fade" role="dialog" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="title text-primary">
+                    <span id="chaneTitle">New</span> Close Account
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <form id="frmAcctClosed">
+                                <input type="hidden" name="id" id="id" />
+                                <input type="hidden" name="charges" id="charges" />
+                                 
+
+
+                              <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Ledger Account To Credit: </label>
+                                        <select name="chartofaccountid" required id="chartofaccountid"
+                                                class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                                @*<div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Ledger Account To Credit: </label>
+                                            <input type="text" class="form-control" placeholder="Enter Account To Credit" name="ledgeraccount" required id="ledgeraccount">
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Customer Account Number:  </label>
+                                            <input type="text" class="form-control" name="accountnumber" id="accountnumber" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Current Balance:</label>
+                                            <input type="text" class="form-control style=" color:green;font-weight:bold" text-right" required name="availablebalance" id="availablebalance" placeholder="0.00" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Amount Payable : </label>
+                                            <input type="text" class="form-control" name="payableamount" id="payableamount" readonly>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Amount Frozen : </label>
+                                            <input type="text" class="form-control" name="freezeAmount" id="freezeAmount" onblur="changeText()" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>SMS Accrued:  </label>
+                                            <input type="text" class="form-control" name="smsAccude" id="smsAccude" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>COT Accrued : </label>
+                                            <input type="text" class="form-control" name="cotAccude" id="cotAccude" onblur="changeText()" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Interest Accrued </label>
+                                            <input type="text" class="form-control" name="interesetAccude" id="interesetAccude" onblur="changeText()" readonly>
+                                            @*<p class="form-control-static">hello@creative-tim.com</p>*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Remark on Account Closure : </label>
+                                            <textarea rows="4" cols="80" class="form-control" name="comment" id="comment " placeholder="Describe the extra details or situation and expectation"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4 justify-content-between">
+                                    <div class="col">
+                                        <button class="btn btn-danger btn-wd pull-left" type="reset">Clear</button>
+                                    </div>
+                                    <div class="col">
+
+                                        <button class="btn btn-danger btn-wd pull-right" type="button"
+                                                id="btnPostClosed" onclick="AddClosedAccounts()">
+                                            Close Account
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
