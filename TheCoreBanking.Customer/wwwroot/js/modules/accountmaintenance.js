@@ -181,6 +181,7 @@ function initDataTable() {
         detailView: true,
         detailFormatter: utilities.mandateDetailTableFormatter,
         url: "../Account/LoadAccounts",
+        // url: url_path + "/Profile/LoadCustomers",
         showPaginationSwitch: true,
         pagination: true,
         mobileResponsive: true,
@@ -422,7 +423,7 @@ function feeMaintenanceHandler(self) {
     productFeeListExtra = [];
     $.ajax({
         type: 'GET',
-        url: '../Account/GetFeeName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
+        url: url_path + '/../GetFeeName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
         success: function (result) {
             console.log(result);
             $.each(result, function (index, value) {
@@ -444,7 +445,7 @@ function feeMaintenanceHandler(self) {
 
     $.ajax({
         type: 'GET',
-        url: '../Account/GetFeeExtraName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
+        url: url_path + '/../GetFeeExtraName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
         success: function (result) {
             console.log(result);
             $.each(result, function (index, value) {

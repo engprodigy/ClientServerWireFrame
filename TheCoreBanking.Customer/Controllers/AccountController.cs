@@ -14,6 +14,7 @@ using TheCoreBanking.Customer.Data.Models;
 using TheCoreBanking.Customer.ViewModel;
 using TheCoreBanking.Customer.ViewModels;
 
+
 namespace TheCoreBanking.Customer.Controllers
 {
     public class AccountController : Controller
@@ -89,7 +90,8 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(result);
         }
 
-        [HttpGet]
+
+       // [HttpGet]
         public JsonResult LoadAccounts()
         {
             var result = CustomerUnitOfWork.Accounts.GetDetailed().OrderByDescending(c => c.Customerid).Take(10);
@@ -145,6 +147,14 @@ namespace TheCoreBanking.Customer.Controllers
 
             return Json(list);
 
+        }
+
+
+        
+        public JsonResult LoadAccountsForIndexView()
+        {
+            var result = CustomerUnitOfWork.Accounts.GetDetailed();
+            return Json(result);
         }
 
 
@@ -565,12 +575,26 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult LoadProducts()
         {
 
+            string Uri = null;
+
 #if DEBUG
-            string Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductEndpointDev;
-           // string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductEndpoint;
+           
+            if ((int)ApiEndPointEnum.APIENDPOINT == 1)
+            { 
+
+                Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductEndpoint;
+
+            }
+            else {
+               
+                Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductEndpointDev;
+
+            }
+
+
 
 #else
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductEndpoint;
+             Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductEndpoint;
 
 #endif
 
@@ -590,12 +614,28 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult LoadFeeList()
         {
 
+
+            string Uri = null;
+
 #if DEBUG
-            string Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeListEndpointDev;
-            //string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeListEndpoint;
+           
+            if ((int)ApiEndPointEnum.APIENDPOINT == 1)
+            {
+
+                Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeListEndpoint;
+
+            }
+            else
+            {
+
+                Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeListEndpointDev;
+
+            }
+
+
 
 #else
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeListEndpoint;
+            Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeListEndpoint;
 
 #endif
 
@@ -616,15 +656,30 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult GetFeeName(string productName, string casaAccountId)
         {
 
+
+            string Uri = null;
+
 #if DEBUG
-            string Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeLinkToAccountEndpointDev + "?productName=" + productName;
-            //string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountEndpoint + "?productName=" + productName;;
+
+            if ((int)ApiEndPointEnum.APIENDPOINT == 1)
+            {
+
+                Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountEndpoint + "?productName=" + productName;
+
+            }
+            else
+            {
+
+                Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeLinkToAccountEndpointDev + "?productName=" + productName;
+
+            }
+
+
 
 #else
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountEndpoint;
+             Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountEndpoint + "?productName=" + productName;
 
 #endif
-
             var Products = CustomerUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -639,13 +694,30 @@ namespace TheCoreBanking.Customer.Controllers
         [HttpGet]
         public JsonResult GetFeeExtraName(string productName, string casaAccountId)
         {
+            
+    
+
+            string Uri = null;
 
 #if DEBUG
-            string Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeLinkToAccountExtraEndpointDev + "?productName=" + productName + "&casaAccountId=" + casaAccountId;
-            //string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountExtraEndpoint + "?productName=" + productName + "&casaAccountId=" + casaAccountId;
+
+            if ((int)ApiEndPointEnum.APIENDPOINT == 1)
+            {
+
+                 Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountExtraEndpoint + "?productName=" + productName + "&casaAccountId=" + casaAccountId;
+
+            }
+            else
+            {
+
+                Uri = ApiConstants.BaseApiUrlDev + ApiConstants.ProductFeeLinkToAccountExtraEndpointDev + "?productName=" + productName + "&casaAccountId=" + casaAccountId;
+
+            }
+
+
 
 #else
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountExtraEndpoint + "?productName=" + productName + "&casaAccountId=" + casaAccountId;;
+             Uri = ApiConstants.BaseApiUrl + ApiConstants.ProductFeeLinkToAccountExtraEndpoint + "?productName=" + productName + "&casaAccountId=" + casaAccountId;
 
 #endif
 
@@ -850,9 +922,11 @@ namespace TheCoreBanking.Customer.Controllers
             }
         }
 
-#endregion
+        #endregion
 
-#region Create
+        #region Create
+
+        [HttpPost]
 
         public JsonResult AddAccount([FromBody]AddAccountVM accountinfo)
         {

@@ -224,9 +224,9 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/select2/accountmaintenance.min.js",
+    "outputFileName": "wwwroot/js/modules/accountmaintenance.min.js",
     "inputFiles": [
-      "wwwroot/js/select2/accountmaintenance.js"
+      "wwwroot/js/modules/accountmaintenance.js"
     ],
     "minify": {
       "enabled": true,

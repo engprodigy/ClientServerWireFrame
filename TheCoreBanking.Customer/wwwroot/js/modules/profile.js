@@ -1742,6 +1742,7 @@ function clear() {
 
 function initWizards() {
     // Add Wizard Initialization
+    debugger
     $('#wizardComponent').bootstrapWizard({
         'tabClass': 'nav nav-pills',
         'nextSelector': '.btn-next',

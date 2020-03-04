@@ -7,7 +7,9 @@ if (window.location.href == "http://localhost:1659/Account") {
 
    // alert("VALID");
 }
-var departments, productData = {}, updateAccount, iscurrentaccount = false;
+
+console.log(url_path + "/../AddAccount");
+var departments, productData = {}, productDataArray = [], updateAccount, iscurrentaccount = false;
 var customer, product, mandate_count = 0, referee_counter = 0;
 
 $(document).ready(function () {
@@ -76,9 +78,21 @@ function initDataTable() {
     $.ajax(url_path + "/LoadProducts")
         .then(function (response) {
 
+            console.log(response);
+
             $("#product-data-table").bootstrapTable('hideLoading');
 
             $('#product-data-table').bootstrapTable('load', response);
+
+            var counter = 0;
+
+            $.each(response, function (index, value) {
+
+              //  array.splice(2, 0, "three");
+
+                productData[value.id] = value.productName;
+                console.log(productData);
+            });
 
         });
 
@@ -87,6 +101,9 @@ function initDataTable() {
 
 function saveAccount(postdata) {
     // build referees & signatories (when present)
+    debugger
+    console.log(postdata);
+
     var mandate_data = $("#mandate-data-table").bootstrapTable("getData");
     var referee_data = $("#referee-data-table").bootstrapTable("getData");
     if (mandate_data.length !== 0) {
@@ -105,7 +122,9 @@ function saveAccount(postdata) {
 
     debugger
 
-    $.ajax(url_path + "/AddAccount", {
+    
+
+    $.ajax(url_path +  "/AddAccount", {
         data: JSON.stringify(postdata),
         method: "POST",
         contentType: "application/json"
@@ -602,6 +621,9 @@ function populateUpdate(row_data) {
 
 function initUpdate(casaaccountid) {
     clear();
+
+    debugger
+
     var row_data = $("#account-data-table")
         .bootstrapTable("getRowByUniqueId", casaaccountid);
 
@@ -860,6 +882,7 @@ function initWizard() {
             }).then(function (isConfirm) {
                 if (isConfirm) {
                     // freeze finish button
+                    debugger
                     $("#accountWizard .btn-finish").attr("disabled", "true");
 
                     var formsArray = [];
@@ -1622,7 +1645,40 @@ var utilities = {
                 values: [tracker]
             });
     },
-    objectAppendHelper: function (item, container, append = true) {
+    productNameTableFormatter: function (index, row, detail) {
+            detail.html("Loading...");
+        
+        var productid = row.productid;
+               //productData
+            debugger
+            var top_row = $("<div class='row'></div>");
+            var bottom_row = $("<div class='row'></div>");
+            //var bvn_col = $("<div class='col-sm-12 col-md-6'></div>");
+            //var phone_col = $("<div class='col-sm-12 col-md-6'></div>");
+            //var email_col = $("<div class='col-sm-12 col-md-6'></div>");
+            var address_col = $("<div class='col'></div>");
+
+            address_col.append("<h6 class='detail-primary d-inline-block mb-3'>Product Name</h6>");
+            if(productData.length == 0) {
+                address_col.append("<p>No procuct name attached.</p>");
+            } else {
+               // $.each(addresses, function (index, value) {
+                    var html = [];
+                html.push("<p><b>" + productData[productid] + "</b></p>");
+                   // html.push(value.address + ", " + value.city + ", " + value.state.statename);
+                  //  html.push(", " + value.country.name + ".</p>");
+                    address_col.append(html.join(""));
+               // });
+            }
+            
+
+            top_row.append(address_col);
+         // bottom_row.append(address_col);
+            detail.empty();
+            detail.append(top_row, bottom_row);
+        
+    },
+     objectAppendHelper: function (item, container, append = true) {
         if ($.trim(item.value).length !== 0) {
             if (append) {
                 container[item.name] = item.value;
