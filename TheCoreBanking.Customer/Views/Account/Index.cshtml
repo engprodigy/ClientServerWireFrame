@@ -21,12 +21,14 @@
                     </div>
                     <table id="account-data-table" class="data-table"
                            data-toggle="table" data-search="true"
-                           data-url='@Url.Action("LoadAccounts","Account")'
+                           data-detail-view="true"
+                           data-url='@Url.Action("LoadAccountsForIndexView","Account")'
                            data-search-align="right" data-toolbar="#account-custom-toolbar"
                            data-buttons-class="danger" data-show-refresh="true"
                            data-show-toggle="true" data-mobile-responsive="true"
                            data-check-on-init="true" data-pagination="true"
                            data-show-pagination-switch="true" data-unique-id="casaaccountid"
+                           data-detail-formatter="utilities.productNameTableFormatter"
                            data-min-width="">
                         <thead>
                             <tr>
@@ -37,11 +39,6 @@
                                 <th data-field="accountname"
                                     data-sortable="true">
                                     Account Name
-                                </th>
-                                <th data-field="productName"
-                                    data-sortable="true"
-                                   >
-                                    Product
                                 </th>
                                 <th data-field="postnostatusid"
                                     data-sortable="true">

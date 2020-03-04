@@ -96,8 +96,8 @@ namespace TheCoreBanking.Customer.Data.Models
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
-                //optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+               // optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+                optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 #else
                 optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 #endif
@@ -1489,120 +1489,120 @@ namespace TheCoreBanking.Customer.Data.Models
                 entity.Property(e => e.Workstate).HasColumnName("WORKSTATE");
 
                 entity.HasOne(d => d.Annualincome)
-                    .WithMany(p => p.TblCustomer)
-                    .HasForeignKey(d => d.Annualincomeid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_ANNUALINCOME");
+                .WithMany(p => p.TblCustomer)
+                .HasForeignKey(d => d.Annualincomeid)
+                .HasConstraintName("FK_TBL_CUSTOMERs_TBL_ANNUALINCOME");
 
                 entity.HasOne(d => d.Bankaccountype)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Bankaccountypeid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_BANKACCOUNTTYPE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_BANKACCOUNTTYPE");
 
                 entity.HasOne(d => d.Bank)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Bankid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_BANK");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_BANK");
 
                 entity.HasOne(d => d.Branch)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Branchid)
-                    .HasConstraintName("FK_tbl_Customer_tbl_Branch");
+                    .HasConstraintName("FK_tbl_Customers_tbl_Branch");
 
                 entity.HasOne(d => d.Businesscategory)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Businesscategoryid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_BUSINESSCATEGORY");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_BUSINESSCATEGORY");
 
                 entity.HasOne(d => d.Customeraccounttype)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Customeraccounttypeid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_CUSTOMERACCOUNTTYPE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_CUSTOMERACCOUNTTYPE");
 
                 entity.HasOne(d => d.Customersensitivitylevel)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Customersensitivitylevelid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_SENSITIVITYLEVEL");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_SENSITIVITYLEVEL");
 
                 entity.HasOne(d => d.EmploymentstatusNavigation)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Employmentstatus)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_EMPLOYMENTTYPE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_EMPLOYMENTTYPE");
 
                 entity.HasOne(d => d.Gender)
                     .WithMany(p => p.TblCustomerGender)
                     .HasForeignKey(d => d.Genderid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_GENDER");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_GENDER");
 
                 entity.HasOne(d => d.Industry)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Industryid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_INDUSTRY");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_INDUSTRY");
 
                 entity.HasOne(d => d.Institutiontype)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Institutiontypeid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_INSTITUTIONTYPE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_INSTITUTIONTYPE");
 
                 entity.HasOne(d => d.Maritalstatus)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Maritalstatusid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_MARITAL_STATUS");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_MARITAL_STATUS");
 
                 entity.HasOne(d => d.Modeofidentification)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Modeofidentificationid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_MODEOFIDENTIFICATION");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_MODEOFIDENTIFICATION");
 
                 entity.HasOne(d => d.Nokgender)
                     .WithMany(p => p.TblCustomerNokgender)
                     .HasForeignKey(d => d.Nokgenderid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_GENDER1");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_GENDER1");
 
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Regionid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_REGION");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_REGION");
 
                 entity.HasOne(d => d.Relationshipofficer)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Relationshipofficerid)
-                    .HasConstraintName("FK__TBL_STAFF__TBL_CUSTOMER");
+                    .HasConstraintName("FK__TBL_STAFF__TBL_CUSTOMERs");
 
                 entity.HasOne(d => d.Sector)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Sectorid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_SECTOR");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_SECTOR");
 
                 entity.HasOne(d => d.Sourceoffund)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Sourceoffundid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_SOURCEOFFUNDS");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_SOURCEOFFUNDS");
 
                 entity.HasOne(d => d.Stateoforigin)
                     .WithMany(p => p.TblCustomerStateoforigin)
                     .HasForeignKey(d => d.Stateoforiginid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_STATE1");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_STATE1");
 
                 entity.HasOne(d => d.Stateoriginlga)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Stateoriginlgaid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_STATEANDLGA");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_STATEANDLGA");
 
                 entity.HasOne(d => d.Title)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Titleid)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_TITLE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_TITLE");
 
                 entity.HasOne(d => d.WorkcountryNavigation)
                     .WithMany(p => p.TblCustomer)
                     .HasForeignKey(d => d.Workcountry)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_COUNTRY");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_COUNTRY");
 
                 entity.HasOne(d => d.WorkstateNavigation)
                     .WithMany(p => p.TblCustomerWorkstateNavigation)
                     .HasForeignKey(d => d.Workstate)
-                    .HasConstraintName("FK_TBL_CUSTOMER_TBL_STATE");
+                    .HasConstraintName("FK_TBL_CUSTOMERs_TBL_STATE");
             });
 
             modelBuilder.Entity<TblCustomeraccountalertmedium>(entity =>

@@ -10,11 +10,11 @@ namespace TheCoreBanking.Customer.Data.Models
             TblCasa = new HashSet<TblCasa>();
             
         }*/
-        public long Id { get; set; }        
+        public long Id { get; set; }
         public string Productid { get; set; }
-        public int Companyid { get; set; }
-        public int Producttypeid { get; set; }
-        public int Productcategoryid { get; set; }
+        public int? Companyid { get; set; }
+        public int? Producttypeid { get; set; }
+        public int? Productcategoryid { get; set; }
         public bool? Ismultiplecurency { get; set; }
         public short? Productclassid { get; set; }
         public string Productcode { get; set; }
@@ -40,10 +40,10 @@ namespace TheCoreBanking.Customer.Data.Models
         public short? ProductBehaviourid { get; set; }
         public bool? Allowoverdrawn { get; set; }
         public int? Overdrawngl { get; set; }
-        public bool Allowrate { get; set; }
-        public bool Allowtenor { get; set; }
-        public bool Allowmoratorium { get; set; }
-        public bool Allowcustomeraccountforcedebit { get; set; }
+        public bool? Allowrate { get; set; }
+        public bool? Allowtenor { get; set; }
+        public bool? Allowmoratorium { get; set; }
+        public bool? Allowcustomeraccountforcedebit { get; set; }
         public int? Defaultgraceperiod { get; set; }
         public int? Cleanupperiod { get; set; }
         public int? Expiryperiod { get; set; }

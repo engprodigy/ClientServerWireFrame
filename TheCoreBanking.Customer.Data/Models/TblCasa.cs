@@ -20,7 +20,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public int Productid { get; set; }
         public int? Companyid { get; set; }
         public int? Branchid { get; set; }
-        public int Currencyid { get; set; }
+        public int? Currencyid { get; set; }
         public bool Iscurrentaccount { get; set; }
         public int? Tenor { get; set; }
         public decimal? Interestrate { get; set; }
@@ -29,7 +29,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Actionby { get; set; }
         public DateTime? Actiondate { get; set; }
         public int Accountstatusid { get; set; }
-        public int Operationid { get; set; }
+        public int? Operationid { get; set; }
         public decimal Availablebalance { get; set; }
         public decimal Ledgerbalance { get; set; }
         public string Accountofficerid { get; set; }
@@ -53,7 +53,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Lastupdatecomment { get; set; }
         public DateTime? Datetimecreated { get; set; }
         public DateTime? Datetimeupdated { get; set; }
-        public bool Deleted { get; set; }
+        public bool? Deleted { get; set; }
         public string Deletedby { get; set; }
         public DateTime? Datetimedeleted { get; set; }
         public int? Approvalstatusid { get; set; }
