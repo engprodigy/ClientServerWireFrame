@@ -21,6 +21,7 @@ var productFeeListOriginal = [];
 var productFeeListIdOriginal = [];
 var productFeeListExtra = [];
 var productFeeListIdExtra = [];
+var approvalStatus = [];
 
 
 
@@ -387,6 +388,36 @@ function emailMaintenanceHandler(self) {
 
 
 }
+
+//function approvalStatusFormatter(value) {
+
+//    debugger
+
+//    $.ajax("../Account/LoadAccountMandateMaintenanceApprovalStatus/" + value)
+//        .then(function (response) {
+
+//            $.each(response, function (index, value) {
+
+//                console.log(value);
+//                approvalStatus.push(value);
+             
+//            });
+            
+           
+        
+//        });
+
+//    console.log(approvalStatus[0])
+//    return approvalStatus[0];
+//    //if (value == 1) {
+//    //console.log(approvalStatus)
+
+    
+
+//    //} else {
+//    //    return "Pending";
+//    //}
+//}
 
 function feeMaintenanceHandler(self) {
 
@@ -1039,8 +1070,8 @@ var utilities = {
     
     updateMandate: function () {
         debugger
-        var $table = $('#productListTable');
-        alert('getSelections: ' + JSON.stringify($table.bootstrapTable('getSelections')));
+        var form = $("#frmMandateUpdate");
+        if (!form.valid()) return;
 
         swal({
             title: "Are you sure?",
@@ -1090,10 +1121,11 @@ var utilities = {
 
                     var id = form.find("[name=mandatedescription]").val();
                     var fileid = form.find("[name=fileid]").val();
-
+                    var mandateid = form.find("[name=mandateid]").val();
+                    
                     // send ajax request
                     $.ajax("../Account/AddMandateUpdate/" +
-                        id + "/?fileid=" + fileid ,
+                        id + "/?fileid=" + fileid + "&mandateid=" + mandateid ,
                         {
                             method: "POST",
                             contentType: false,
@@ -1745,6 +1777,38 @@ var utilities = {
         $("#accountFeeUpdateModal").modal("hide");
 
     },
+    updateProduct: function () {
+        debugger
+        var $table = $('#productListTable');
+        alert('getSelections: ' + JSON.stringify($table.bootstrapTable('getSelections')));
+
+       
+
+    },
+    /*approvalStatusFormatter: function (value) {
+
+        debugger
+        
+        $.ajax("../Account/LoadAccountMandateMaintenanceApprovalStatus/" + value)
+            .then(function (response) {
+
+              //  if (response) {
+                    console.log(response)
+                approvalStatus = response;
+
+              //  } 
+            });
+      
+        //if (value == 1) {
+        console.log(approvalStatus)
+
+        return approvalStatus;
+
+        //} else {
+        //    return "Pending";
+        //}
+    },*/
+
    /* clearWizard: function () {
         clear();
         $('#account-data-table').bootstrapTable('refresh', {

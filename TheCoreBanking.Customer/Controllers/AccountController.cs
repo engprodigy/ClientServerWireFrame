@@ -891,13 +891,14 @@ namespace TheCoreBanking.Customer.Controllers
 
             var MandatesDetails = (from a in _context.TblMandate
                        join c in _context.TblCasa on a.Casaaccountid equals c.Casaaccountid     
-                       where a.Casaaccountid == Int32.Parse(id) && a.Isdeleted == false
+                       where a.Casaaccountid == Int32.Parse(id) && a.Isdeleted == false 
                        select new { MandateID = a.Mandateid, Signatorysurname = a.Signatorysurname, Signatoryothername = a.Signatoryothername,
                            Signatoryfirstname = a.Signatoryfirstname, Casaaccountnumber = c.Accountnumber
                        }).ToArray();
 
+               
 
-            var query = (from b in _contextF.TblMandateimages
+                var query = (from b in _contextF.TblMandateimages
                          join a in MandatesDetails on b.Mandateid equals a.MandateID
                          where b.Isdeleted == false
                          select new
@@ -907,7 +908,10 @@ namespace TheCoreBanking.Customer.Controllers
                              Signatorysurname = a.Signatorysurname,
                              Signatoryothername = a.Signatoryothername,
                              Signatoryfirstname = a.Signatoryfirstname,
+                             Isapproved = b.Isapproved,
+                             Isdisapproved = b.Isdisapproved,
                              Description = b.Description,
+                             Approvalstatus = b.Approvalstatus,
                              Mime = b.Mime,
                              Byte = b.Byte,
                              FileId = b.Fileid
@@ -915,6 +919,54 @@ namespace TheCoreBanking.Customer.Controllers
            
 
             return Json(query);
+            }
+            catch
+            {
+                return Json(false);
+            }
+        }
+
+
+        public JsonResult LoadAccountMandateMaintenanceForApproval(string id)
+        {
+            try
+            {
+
+                var MandatesDetails = (from a in _context.TblMandate
+                                       join c in _context.TblCasa on a.Casaaccountid equals c.Casaaccountid
+                                       
+                                       select new
+                                       {
+                                           MandateID = a.Mandateid,
+                                           Signatorysurname = a.Signatorysurname,
+                                           Signatoryothername = a.Signatoryothername,
+                                           Signatoryfirstname = a.Signatoryfirstname,
+                                           Casaaccountnumber = c.Accountnumber
+                                       }).ToArray();
+
+
+
+                var query = (from b in _contextF.TblMandateimages
+                             join a in MandatesDetails on b.Mandateid equals a.MandateID
+                             where b.Isdeleted == false
+                             select new
+                             {
+                                 MandateId = a.MandateID,
+                                 Accountnumber = a.Casaaccountnumber,
+                                 Signatorysurname = a.Signatorysurname,
+                                 Signatoryothername = a.Signatoryothername,
+                                 Signatoryfirstname = a.Signatoryfirstname,
+                                 Isapproved = b.Isapproved,
+                                 Isdisapproved = b.Isdisapproved,
+                                 Description = b.Description,
+                                 Approvalstatus = b.Approvalstatus,
+                                 Mime = b.Mime,
+                                 Byte = b.Byte,
+                                 FileId = b.Fileid
+                             });
+
+
+                return Json(query);
             }
             catch
             {
@@ -1040,11 +1092,32 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(true);
         }
 
-        public JsonResult AddMandateUpdate(string id, AddMandateVM upload, int fileid)
+        public JsonResult AddMandateUpdate(string id, AddMandateVM upload, int fileid, int mandateid)
         {
-            /*upload.Data.Casaaccountid = Id;
-            CustomerUnitOfWork.Mandates.Add(upload.Data);
-            CustomerUnitOfWork.Commit();*/
+
+            //var mandateDetail = CustomerUnitOfWork.Mandates.GetById(upload.Data.Mandateid);
+            //mandateDetail.Isapproved = false;
+            //mandateDetail.Isdisapproved = false;
+            //mandateDetail.Approvalstatus = "Pending";
+            ////CustomerUnitOfWork.Mandates.Add(upload.Data);
+            //// CustomerUnitOfWork.Commit();
+
+            //var dbContextTransaction = _context.Database.BeginTransaction();
+
+            //try
+            //{
+
+            //    _context.TblMandate.Update(mandateDetail);
+            //    _context.SaveChanges();
+
+            //    dbContextTransaction.Commit();
+
+            //}
+            //catch (Exception e)
+            //{
+            //    Debug.WriteLine(e.ToString());
+            //    dbContextTransaction.Rollback();
+            //}
 
             // images upload
             if (upload.Mandate != null )
@@ -1061,6 +1134,9 @@ namespace TheCoreBanking.Customer.Controllers
                             Description = id,
                             Mime = upload.Mandate.ContentType,
                             Isdeleted = false,
+                            Isapproved = false,
+                            Isdisapproved = false,
+                            Approvalstatus = "Pending"
                         };
                         using (var stream = new MemoryStream())
                         {

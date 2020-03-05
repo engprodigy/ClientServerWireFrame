@@ -61,7 +61,8 @@
                                             <th data-sortable="true" data-field="signatoryothername">Other Name</th>
                                             <th data-sortable="true" data-field="signatoryfirstname">First Name</th>
                                             <th data-sortable="true" data-field="description">Description</th>
-                                            
+                                            <th data-sortable="true" data-field="approvalstatus">Status</th>
+
                                             @*<th data-formatter="utilities.editMandateBtnFormatter"></th>*@
                                         </tr>
                                     </thead>
@@ -389,16 +390,16 @@
                                
                          <div class="row mt-2 justify-content-between">
                             <div class="col">
-                                <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
+                               @* <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
                                         onclick="utilities.showMandateTable()">
                                     CANCEL
-                                </button>
+                                </button>*@
                             </div>
 
                             <div class="col">
                                 <button type="button" id="updateBtn"
                                         class="btn btn-danger btn-wd pull-right"
-                                        onclick="utilities.updateMandate()">
+                                        onclick="utilities.updateProduct()">
                                     UPDATE
                                 </button>
                                 @*<button type="button" id="saveBtn"

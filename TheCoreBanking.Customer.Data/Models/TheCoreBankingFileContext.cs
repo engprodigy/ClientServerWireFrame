@@ -73,6 +73,12 @@ namespace TheCoreBanking.Customer.Data.Models
 
                 entity.Property(e => e.Mandateid).HasColumnName("MANDATEID");
 
+                entity.Property(e => e.Isapproved).HasColumnName("ISAPPROVED");
+
+                entity.Property(e => e.Isdisapproved).HasColumnName("ISDISAPPROVED");
+
+                entity.Property(e => e.Approvalstatus).HasColumnName("APPROVALSTATUS");
+
                 entity.Property(e => e.Mime)
                     .HasColumnName("MIME")
                     .HasMaxLength(100)

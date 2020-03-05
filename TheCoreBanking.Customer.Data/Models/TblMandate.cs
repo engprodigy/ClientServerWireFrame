@@ -34,6 +34,9 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Pin { get; set; }
         public string Bvn { get; set; }
         public bool Isdeleted { get; set; }
+        public bool? Isapproved { get; set; }
+        public bool? Isdisapproved { get; set; }
+        public string Approvalstatus { get; set; }
 
         public TblCasa Casaaccount { get; set; }
     }
