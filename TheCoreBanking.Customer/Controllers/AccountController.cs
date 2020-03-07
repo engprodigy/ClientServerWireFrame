@@ -927,7 +927,7 @@ namespace TheCoreBanking.Customer.Controllers
         }
 
 
-        public JsonResult LoadAccountMandateMaintenanceForApproval(string id)
+        public JsonResult LoadAccountMandateMaintenanceForApproval()
         {
             try
             {
@@ -948,7 +948,7 @@ namespace TheCoreBanking.Customer.Controllers
 
                 var query = (from b in _contextF.TblMandateimages
                              join a in MandatesDetails on b.Mandateid equals a.MandateID
-                             where b.Isdeleted == false
+                             where b.Isdeleted == true
                              select new
                              {
                                  MandateId = a.MandateID,
@@ -962,7 +962,8 @@ namespace TheCoreBanking.Customer.Controllers
                                  Approvalstatus = b.Approvalstatus,
                                  Mime = b.Mime,
                                  Byte = b.Byte,
-                                 FileId = b.Fileid
+                                 FileId = b.Fileid,
+                                 CopyFileId = b.Copyfileid
                              });
 
 
@@ -1095,76 +1096,81 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult AddMandateUpdate(string id, AddMandateVM upload, int fileid, int mandateid)
         {
 
-            //var mandateDetail = CustomerUnitOfWork.Mandates.GetById(upload.Data.Mandateid);
-            //mandateDetail.Isapproved = false;
-            //mandateDetail.Isdisapproved = false;
-            //mandateDetail.Approvalstatus = "Pending";
-            ////CustomerUnitOfWork.Mandates.Add(upload.Data);
-            //// CustomerUnitOfWork.Commit();
-
-            //var dbContextTransaction = _context.Database.BeginTransaction();
-
-            //try
-            //{
-
-            //    _context.TblMandate.Update(mandateDetail);
-            //    _context.SaveChanges();
-
-            //    dbContextTransaction.Commit();
-
-            //}
-            //catch (Exception e)
-            //{
-            //    Debug.WriteLine(e.ToString());
-            //    dbContextTransaction.Rollback();
-            //}
-
-            // images upload
-            if (upload.Mandate != null )
+           
+           if (upload.Mandate != null )
                
             {
                 using (var db = new TheCoreBankingFileContext())
                 {
                     if (upload.Mandate != null)
                     {
-                        TblMandateimages mandate = new TblMandateimages
-                        {
-                            Fileid = fileid,
-                            Mandateid = upload.Data.Mandateid,
-                            Description = id,
-                            Mime = upload.Mandate.ContentType,
-                            Isdeleted = false,
-                            Isapproved = false,
-                            Isdisapproved = false,
-                            Approvalstatus = "Pending"
-                        };
-                        using (var stream = new MemoryStream())
-                        {
-                            upload.Mandate.CopyTo(stream);
-                            mandate.Byte = stream.ToArray();
-                        }
-                        db.TblMandateimages.Update(mandate);
+                       
+                        var mandateImageForStatusChange = db.TblMandateimages.Where(f => f.Fileid == fileid).FirstOrDefault();
+                        mandateImageForStatusChange.Approvalstatus = "New Copy Awaiting Approval";
+                        db.Update(mandateImageForStatusChange);
                         db.SaveChanges();
-                        return Json(mandate);
+                        
                     }
                     
                     
                     
                 }
             }
-            
 
+            var dbContextTransaction = _contextF.Database.BeginTransaction();
+
+            try
+            {
+                if (upload.Mandate != null)
+                {
+                    TblMandateimages mandate = new TblMandateimages
+                    {
+                        
+                        Mandateid = upload.Data.Mandateid,
+                        Description = id,
+                        Mime = upload.Mandate.ContentType,
+                        Isdeleted = true,
+                        Isapproved = false,
+                        Isdisapproved = false,
+                        Approvalstatus = "Pending",
+                        Copyfileid = fileid
+                    };
+                    using (var stream = new MemoryStream())
+                    {
+                        upload.Mandate.CopyTo(stream);
+                        mandate.Byte = stream.ToArray();
+                    }
+                    //db.TblMandateimages.Update(mandate);
+                    //db.SaveChanges();
+                    //return Json(mandate);
+                    _contextF.TblMandateimages.Add(mandate);
+                    _contextF.SaveChanges();
+                    dbContextTransaction.Commit();
+                    return Json(mandate);
+                }
+               
+
+                
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
                 return Json(false);
+            }
 
-           
+
+            return Json(false);
+
+
             //if (sendall)
             //{
             //    var mandates = CustomerUnitOfWork.Mandates
             //   .GetByAccountId(id);
             //    return Json(mandates);
             //}
-            
-            
+
+
 
         }
 
@@ -1593,9 +1599,56 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(true);
         }
 
-#endregion
 
-#region Delete
+        public JsonResult UpdateAccountMandateApproval(int FileId, int MandateId, string Description, string Comment, int Copyfileid)
+        {
+            
+            
+            
+            var db2 = new TheCoreBankingFileContext();
+            var mandateDetailForDelete = db2.TblMandateimages.Where(f => f.Mandateid == MandateId && f.Isdeleted == false && f.Description 
+             == Description && f.Fileid == Copyfileid).FirstOrDefault();
+            db2.Remove(mandateDetailForDelete);
+            db2.SaveChanges();
+            
+
+            var db = new TheCoreBankingFileContext();
+
+            var mandateDetail =  db.TblMandateimages.Where(f => f.Fileid == FileId).FirstOrDefault();
+            // db.SaveChanges();
+            // return Json(mandate);
+
+            mandateDetail.Isapproved = true;
+            mandateDetail.Isdisapproved = false;
+            mandateDetail.Isdeleted = false;
+            mandateDetail.Approvalstatus = "Approved";
+
+
+           
+            var dbContextTransaction = _contextF.Database.BeginTransaction();
+
+            try
+            {
+
+                _contextF.TblMandateimages.Update(mandateDetail);
+                _contextF.SaveChanges();
+
+                dbContextTransaction.Commit();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+            }
+
+            return Json(true);
+
+        }
+
+        #endregion
+
+        #region Delete
 
         public IActionResult DeleteAccountReferee(int id)
         {

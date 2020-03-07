@@ -713,12 +713,28 @@ function  updateLinkedFees() {
 $('#mandateUpdateTable').on('check.bs.table', function (row, $element) {
     
     debugger 
+
+    if ($element.approvalstatus == "New Copy Awaiting Approval")
+    {
+        swal({
+            title: 'Update Mandate',
+            text: 'Mandate has an existing entry awaiting approval',
+            type: 'error',
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then(function () {
+            return;
+        });
+
+        return;
+    }
+
     var mandateUpdateForm = $("#frmMandateUpdate");
     mandateUpdateForm.find("[name=mandateid]").val($element.mandateId);
     mandateUpdateForm.find("[name=mandatedescription]").val($element.description);
     mandateUpdateForm.find("[name=mandateType]").text($element.description);
     mandateUpdateForm.find("[name=fileid]").val($element.fileId);
-  
+    
     // swap out title text + hide/show buttons
     $("#mandateUpdateModal #title").text("Edit Mandate");
     $("#frmMandateUpdate #saveBtn").hide();
@@ -1154,7 +1170,7 @@ var utilities = {
                             
                             swal({
                                 title: "Update Mandate",
-                                text: "Account Mandate succesfully added",
+                                text: "Account Mandate succesfully sent for Approval",
                                 type: "success",
                                 allowOutsideClick: false,
                                 allowEscapeKey: false
