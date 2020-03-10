@@ -1,0 +1,104 @@
+﻿
+@model TheCoreBanking.Customer.Data.Models.TblFreezetype
+<div class="tab-pane" id="FreezeTransaction">
+    <form id="frmFreezeTransaction" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+            <div class="card card-plain">
+                <div id="type" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#FreezeTransactionModal2" type="button" id="FreezeTransactionModal" name="FreezeTransactionModal">
+                                    <i class="now-ui-icons ui-1_simple-add"></i>
+                                    Create Freeze Transaction
+                                </button>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <hr />
+                    <div class="form-group">
+                        <table data-toggle="table" data-url="../FreezeSetup/listfreezetransaction" data-cache="false" data-height="500"
+                               id="listfreezeTransactionTable" data-pagination="true" data-search="true" data-show-columns="true" data-checkbox-header="false"
+                               data-show-refresh="true" data-click-to-select="true" data-single-select="true" data-show-toggle="true" data-toolbar="#custom-toolbar"
+                               data-detail-view="true"
+                               data-detail-formatter="detailFormatter">
+                            <thead>
+                                <tr>
+                                    <th data-field="state" data-checkbox="true"></th>
+                                    <th data-field="freezeTransaction" data-sortable="true"><b class="text-danger text-center">Freeze Transaction</b></th>
+                                    <th data-field="code" data-sortable="true"><b class="text-danger text-center">Code</b></th>
+                                    <th data-field="description" data-sortable="true"><b class="text-danger text-center">Description</b></th>
+                                    <th data-formatter="freezeTransactionOperationFormatter" data-events="freezeTransactionOperationEvents"
+                                        data-align="right" data-width="20%"></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+    <!-- Classic Modal -->
+    <div class="modal fade" id="FreezeTransactionModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                    </button>
+                    <h4 class="title title-up" id="titleBS1" name="titleBS">Create Freeze Transaction</h4>
+                    <h4 class="title title-up" id="titleBS2" name="titleBS">Update Freeze Transaction</h4>
+                </div>
+                <form id="frmAddFreezeTransaction">
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <input type="hidden" id="rowId" />
+                            <div class="form-group col-md-6">
+                                Freeze Transaction
+                                <input type="text" class="form-control" id="FreezeTransaction2" />
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                Code
+                                <input type="text" id="Code" class="form-control"/>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            Description
+                            <div class="form-group col-md-12">
+                                <textarea cols="40" rows="10" id="Description" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-default" name="btnSaveFreezeTransaction" id="btnSaveFreezeTransaction">Save Record</button>
+                            <button class="btn btn-danger" id="btnFreezeTransactionUpdate" type="submit" value="Update Record">
+                                <i class="now-ui-icons ui-1_check"></i>
+                                Update Record
+                            </button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!--  End Modal -->
+
+
+</div>
+

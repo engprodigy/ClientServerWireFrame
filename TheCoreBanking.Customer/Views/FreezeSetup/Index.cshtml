@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Freeze Operations Setup";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card ">
+    <div class="card-body">
+        <ul class="nav nav-pills nav-pills-danger justify-content-center" role="tablist">
+            <li class="nav-item justify-content-center">
+                <a class="nav-link active" data-toggle="tab" href="#freezetype" role="tablist">
+                    <i class="now-ui-icons business_briefcase-24"></i>
+                    Freeze Type
+                </a>
+            </li>
+            @*<li class="nav-item justify-content-center">
+                <a class="nav-link" data-toggle="tab" href="#freezedate" role="tablist">
+                    <i class="now-ui-icons business_briefcase-24"></i>
+                    Freeze Date Type
+                </a>
+            </li>*@
+            <li class="nav-item justify-content-center">
+                <a class="nav-link" data-toggle="tab" href="#freezereason" role="tablist">
+                    <i class="now-ui-icons business_bulb-63"></i>
+                    Freeze Reason
+                </a>
+            </li>
+            <li class="nav-item justify-content-center">
+                    <a class="nav-link" data-toggle="tab" href="#transaction" role="tablist">
+                        <i class="now-ui-icons business_bulb-63"></i>
+                        Freeze Transaction
+                    </a>
+                </li>
+        </ul>
+        <div class="tab-content tab-space">
+            <div class="alert alert-dismissible" data-dismiss="modal">&times;</div>
+            <!-- Card header -->
+            <div class="tab-pane active" id="freezetype">
+                @Html.Partial("~/Views/FreezeSetup/_FreezeTypeList.cshtml")
+            </div>
+            @*<div class="tab-pane" id="freezedate">
+                @Html.Partial("~/Views/FreezeSetup/_FreezeDateList.cshtml")
+            </div>*@
+            <div class="tab-pane" id="freezereason">
+                @Html.Partial("~/Views/FreezeSetup/_FreezeReasonList.cshtml")
+            </div>
+
+            <div id="transaction" class="tab-pane">
+                @Html.Partial("~/Views/FreezeSetup/_FreezeTransaction.cshtml")
+            </div>
+        </div>
+    </div>
+</div>

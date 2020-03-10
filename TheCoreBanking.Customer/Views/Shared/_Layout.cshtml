@@ -173,6 +173,12 @@
                         </a>
                     </li>
                     <li>
+                        <a asp-controller="FreezeSetup" asp-action="Index">
+                            <i class="design_app now-ui-icons"></i>
+                            <p>Setup Freeze</p>
+                        </a>
+                    </li>
+                    <li>
                         <a asp-controller="AccountServices" asp-action="Index">
                             <i class="design_app now-ui-icons"></i>
                             <p>Close Accounts</p>
@@ -340,3 +346,7 @@
     @RenderSection("Scripts", false)
 </body>
 </html>
+<script src="~/js/freezedatetype.js"></script>
+<script src="~/js/freezereason.js"></script>
+<script src="~/js/freezesetup.js"></script>
+<script src="~/js/freezetransaction.js"></script>
