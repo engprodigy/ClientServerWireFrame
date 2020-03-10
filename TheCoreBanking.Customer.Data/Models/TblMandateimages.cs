@@ -10,9 +10,10 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Description { get; set; }
         public string Mime { get; set; }
         public byte[] Byte { get; set; }
-        public bool Isdeleted { get; set; }
+        public bool? Isdeleted { get; set; }
         public bool? Isapproved { get; set; }
         public bool? Isdisapproved { get; set; }
         public string Approvalstatus { get; set; }
+        public int? Copyfileid { get; set; }
     }
 }

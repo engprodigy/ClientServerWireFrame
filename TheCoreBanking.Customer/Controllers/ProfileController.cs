@@ -47,8 +47,43 @@ namespace TheCoreBanking.Customer.Controllers
         {
             return View();
         }
-
-
+        [HttpGet]
+        public JsonResult lstCustomFields()
+        {
+            List<TblCustomerCustomFields> customList = new List<TblCustomerCustomFields>();
+            var result = CustomerUnitOfWork.CustomFields.GetAll().ToList();
+            if(result != null)
+            {
+                foreach (var item in result)
+                {
+                    var addList = new TblCustomerCustomFields()
+                    {
+                        Caption1 = item.Caption1,
+                        Caption2 = item.Caption2,
+                        Caption3 = item.Caption3,
+                        Caption4 = item.Caption4,
+                        Caption5 = item.Caption5,
+                        Caption6 = item.Caption6,
+                        Caption7 = item.Caption7,
+                        Caption8 = item.Caption8,
+                        Caption9 = item.Caption9,
+                        Caption10 = item.Caption10,
+                        Caption11 = item.Caption11,
+                        Caption12 = item.Caption12,
+                        Caption13 = item.Caption13,
+                        Caption14 = item.Caption14,
+                        Caption15 = item.Caption15,
+                        Caption16 = item.Caption16,
+                        Caption17 = item.Caption17,
+                        Caption18 = item.Caption18,
+                        Caption19 = item.Caption19,
+                        Caption20 = item.Caption20
+                    };
+                    customList.Add(addList);
+                }
+            }
+            return Json(customList);
+        }
 
         #region Create
 
