@@ -9,18 +9,10 @@ var LGAs = [];
 var Industries = [];
 var tracker = 0;
 
-$(document).ready(function () {
-   /* $.ajax({
-         
-        url: url_path + "/Profile/LoadCustomers",
 
-        success: function (result) {
-            alert(result.customerid);
-        },
-        error: function (e) {
-            alert(e);
-         }
- })*/
+$(document).ready(function () {
+      
+
     initDataTable();
     initSelectTwoConfig();
     initDatePicker(".datepicker");
@@ -1308,8 +1300,10 @@ function save(form) {
         form_data[item.name] = item.value;
     });
 
+
+
     // Manually include arbitrary fields
-    form_data.Customercode = "012345678";
+    //form_data.Customercode = "";
     form_data.Customeraccounttypeid = CustomerType.id;
 
     var customer = {},

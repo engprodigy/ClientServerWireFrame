@@ -89,6 +89,7 @@ namespace TheCoreBanking.Customer.Controllers
                 }
             }
             CustomerUnitOfWork.Commit();
+            GenerateCustomerCode(customerinfo.customer.Customerid);
             return Json(customerinfo.customer.Customerid);
         }
 
@@ -706,6 +707,33 @@ namespace TheCoreBanking.Customer.Controllers
             return ListKYCUploads(id);
         }
 
+        #endregion
+
+        #region Add-On
+
+       
+        public void GenerateCustomerCode(long customerId)
+        {
+            var createCustCode = CustomerUnitOfWork.Customers.CreateCustCode(customerId);
+        }
+        public string GetShortCode(string surName)
+        {
+            string partName = surName.Substring(0, 3);
+          
+            var lastId = 0;
+
+            using (var context = new TheCoreBankingCustomerContext())
+            {
+                  lastId = context.TblCustomer.Max(p => p.Customerid);
+
+            }
+
+      
+            int lid2 = lastId + 1;
+            string shortcode = partName + Convert.ToSingle(lid2);
+
+            return shortcode.ToString();
+        }
         #endregion
 
         private struct StateLGAs {

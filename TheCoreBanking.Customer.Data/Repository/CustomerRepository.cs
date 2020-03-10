@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Data.SqlClient;
 using System.Linq;
 using TheCoreBanking.Customer.Data.Contracts;
 using TheCoreBanking.Customer.Data.Models;
@@ -16,7 +18,18 @@ namespace TheCoreBanking.Customer.Data.Repository
                           .ThenInclude(ki => ki.Action)    //;
                             .OrderByDescending(c=>c.Customerid).Take(10);
 
-       
+        public int CreateCustCode(long custId)
+        {
+            long result = 0;
+            using (var context = new TheCoreBankingCustomerContext())
+            {
+                SqlParameter _ID = new SqlParameter("@ID", custId);
+
+
+                result = context.Database.ExecuteSqlCommand("Customer.sp_GenerateCustCode @ID", _ID);
+                return Convert.ToInt32(result);
+            }
+        }
 
     }
 }
