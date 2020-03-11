@@ -62,6 +62,7 @@ namespace TheCoreBanking.Customer.Data.Helpers
                 {typeof(ICustomerEmailContactRepository), dbContext => new CustomerEmailContactRepository(dbContext)},
                 {typeof(ICustomerAccountKYCItemRepository), dbContext => new CustomerAccountKYCItemRepository(dbContext)},
                 {typeof(IIndustryRepository), dbContext => new IndustryRepository(dbContext)},
+                {typeof(ICustomerCustomFieldRepository), dbContext => new CustomerCustomFieldRepository(dbContext)},
                 {typeof(IAccountAlertMediumRepository), dbContext => new AccountAlertMediumRepository(dbContext)},
                 {typeof(IAccountBankingServiceRepository), dbContext => new AccountBankingServiceRepository(dbContext)},
                 {typeof(IAccountCardTypeRepository), dbContext => new AccountCardTypeRepository(dbContext)},

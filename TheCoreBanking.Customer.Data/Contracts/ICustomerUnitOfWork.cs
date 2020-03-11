@@ -9,6 +9,7 @@ namespace TheCoreBanking.Customer.Data.Contracts
         void Commit();
 
         // Repositories
+    
         IAPIStubRepository API { get; }
         ICustomerRepository Customers { get; }
         IRegionRepository Regions { get; }
