@@ -83,6 +83,13 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(result);
         }
 
+        public JsonResult LoadAccountRefereeMaintenanceForApproval()
+        {
+            var result = CustomerUnitOfWork.AccountReferees
+                .GetAll().Where(a => a.Isapproved == false && a.Isdeleted == true);
+            return Json(result);
+        }
+
         public JsonResult LoadAccountMandates(int id)
         {
             var result = CustomerUnitOfWork.Mandates
@@ -1176,9 +1183,59 @@ namespace TheCoreBanking.Customer.Controllers
 
             public JsonResult AddAccountReferee(int id, AddRefereeVM upload, bool sendall)
         {
+
+            int? newUploadRefereeId = null;
+           // using (var db2 = new TheCoreBankingCustomerContext())
+           // { 
             upload.Data.Casaaccountid = id;
+            upload.Data.Isdeleted = false;
+            upload.Data.Isapproved = false;
+            upload.Data.Approvalstatus = "Pending";
+            upload.Data.Isnewlycreated = true;
+            //  db2.TblAccountreferee.Add(upload.Data);
+            //  db2.SaveChanges();
+
+
+            //  }
             CustomerUnitOfWork.AccountReferees.Add(upload.Data);
             CustomerUnitOfWork.Commit();
+            newUploadRefereeId = upload.Data.Refereeid;
+
+            var dbContextTransaction2 = _context2.Database.BeginTransaction();
+            try
+            {
+                TblAccountreferee accountreferee = new TblAccountreferee
+                {
+
+                    Casaaccountid = upload.Data.Casaaccountid,
+                    Fullname = upload.Data.Fullname,
+                    Address = upload.Data.Address,
+                    Phone = upload.Data.Phone,
+                    Accountname = upload.Data.Accountname,
+                    Accountno = upload.Data.Accountno,
+                    Relationship = upload.Data.Relationship,
+                    Bankid = upload.Data.Bankid,
+                    Datecreated = upload.Data.Datecreated,
+                    Bankaddress = upload.Data.Bankaddress,
+                    Isdeleted = true,
+                    Isapproved = false,
+                    Isdisapproved = false,
+                    Approvalstatus = "Pending",
+                    Copyfileid = newUploadRefereeId.Value,
+                    Isnewlycreated = false
+                };
+
+
+                _context2.TblAccountreferee.Add(accountreferee);
+                _context2.SaveChanges();
+                dbContextTransaction2.Commit();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction2.Rollback();
+                // return Json(false);
+            }
 
             using (var db = new TheCoreBankingFileContext())
             using (var stream = new MemoryStream())
@@ -1205,31 +1262,117 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult UpdateAccountReferee(int id, AddRefereeVM upload, bool sendall)
         {
-           // upload.Data.Casaaccountid = id;
-            CustomerUnitOfWork.AccountReferees.Update(upload.Data);
-            CustomerUnitOfWork.Commit();
-            int? tableId = null;
-            using (var db = new TheCoreBankingFileContext())
+            // upload.Data.Casaaccountid = id;
+            var storedRefereeData = CustomerUnitOfWork.AccountReferees.GetAll().Where(r => r.Refereeid == upload.Data.Refereeid).FirstOrDefault();
+            storedRefereeData.Isdeleted = false;
+            storedRefereeData.Isapproved = false;
+            storedRefereeData.Isnewlycreated = false;
+            storedRefereeData.Approvalstatus = "New Copy Sent for Approval";
+            //CustomerUnitOfWork.AccountReferees.Update(upload.Data);
+            //CustomerUnitOfWork.Commit();
+
+            //if (upload.Data.Isnewlycreated == false)
+            //{
+            var dbContextTransaction2 = _context2.Database.BeginTransaction();
+            try
             {
-                tableId = db.TblRefereedocuments.Where(i => i.Refereeid == upload.Data.Refereeid).FirstOrDefault().Id ;
+                _context2.TblAccountreferee.Update(storedRefereeData);
+                _context2.SaveChanges();
+                dbContextTransaction2.Commit();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction2.Rollback();
+                // return Json(false);
             }
 
-            using (var db = new TheCoreBankingFileContext())
-                
-             using (var stream = new MemoryStream())
-            {
-                upload.Document.CopyTo(stream);
-                TblRefereedocuments refereedocument = new TblRefereedocuments
+            var dbContextTransaction = _context.Database.BeginTransaction();
+
+                try
                 {
-                    Id = tableId.Value,
-                    Refereeid = upload.Data.Refereeid,
-                    Mime = upload.Document.ContentType,
-                    Isdeleted = false,
-                    Filedata = stream.ToArray()
-                };
-                db.TblRefereedocuments.Update(refereedocument);
-                db.SaveChanges();
-            }
+                    if (upload.Data != null)
+                    {
+                        TblAccountreferee accountreferee = new TblAccountreferee
+                        {
+
+                            Casaaccountid = upload.Data.Casaaccountid,
+                            Fullname = upload.Data.Fullname,
+                            Address = upload.Data.Address,
+                            Phone = upload.Data.Phone,
+                            Accountname = upload.Data.Accountname,
+                            Accountno = upload.Data.Accountno,
+                            Relationship = upload.Data.Relationship,
+                            Bankid = upload.Data.Bankid,
+                            Datecreated = upload.Data.Datecreated,
+                            Bankaddress = upload.Data.Bankaddress,
+                            Isdeleted = true,
+                            Isapproved = false,
+                            Isdisapproved = false,
+                            Approvalstatus = "Pending",
+                            Copyfileid = upload.Data.Refereeid,
+                            Isnewlycreated = false
+                        };
+
+                        //db.TblMandateimages.Update(mandate);
+                        //db.SaveChanges();
+                        //return Json(mandate);
+                        _context.TblAccountreferee.Add(accountreferee);
+                        _context.SaveChanges();
+                        dbContextTransaction.Commit();
+                       // return Json(accountreferee);
+                    }
+
+
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                    dbContextTransaction.Rollback();
+                   // return Json(false);
+                }
+
+
+
+                
+
+            //}
+            //else
+            //{
+
+            //    upload.Data.Isdeleted = false;
+            //    upload.Data.Isapproved = false;
+            //    upload.Data.Isnewlycreated = true;
+            //    upload.Data.Approvalstatus = "New Copy Sent for Approval";
+            //    CustomerUnitOfWork.AccountReferees.Update(upload.Data);
+            //    CustomerUnitOfWork.Commit();
+
+            //}
+
+
+            //int? tableId = null;
+            //using (var db = new TheCoreBankingFileContext())
+            //{
+            //    tableId = db.TblRefereedocuments.Where(i => i.Refereeid == upload.Data.Refereeid).FirstOrDefault().Id ;
+            //}
+
+            //using (var db = new TheCoreBankingFileContext())
+
+            // using (var stream = new MemoryStream())
+            //{
+            //    upload.Document.CopyTo(stream);
+            //    TblRefereedocuments refereedocument = new TblRefereedocuments
+            //    {
+            //        Id = tableId.Value,
+            //        Refereeid = upload.Data.Refereeid,
+            //        Mime = upload.Document.ContentType,
+            //        Isdeleted = false,
+            //        Filedata = stream.ToArray()
+            //    };
+            //    db.TblRefereedocuments.Update(refereedocument);
+            //    db.SaveChanges();
+            //}
 
             if (sendall)
             {
@@ -1632,6 +1775,52 @@ namespace TheCoreBanking.Customer.Controllers
 
                 _contextF.TblMandateimages.Update(mandateDetail);
                 _contextF.SaveChanges();
+
+                dbContextTransaction.Commit();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+            }
+
+            return Json(true);
+
+        }
+
+        public JsonResult UpdateAccountRefereeApproval(int Refereeid, string Comment, int Copyfileid)
+        {
+
+
+            try { 
+            var db2 = new TheCoreBankingCustomerContext();
+            var refereeDetailForDelete = db2.TblAccountreferee.Where(f => f.Refereeid == Copyfileid).FirstOrDefault();
+            db2.Remove(refereeDetailForDelete);
+            db2.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                
+            }
+
+
+            var refereeDetail = CustomerUnitOfWork.AccountReferees.GetById(Refereeid);
+            refereeDetail.Isapproved = true;
+            refereeDetail.Isdisapproved = false;
+            refereeDetail.Isdeleted = false;
+            refereeDetail.Isnewlycreated = false;
+            refereeDetail.Approvalstatus = "Approved";
+            //CustomerUnitOfWork.Commit();
+
+            var dbContextTransaction = _context.Database.BeginTransaction();
+
+            try
+            {
+
+                _context.TblAccountreferee.Update(refereeDetail);
+                _context.SaveChanges();
 
                 dbContextTransaction.Commit();
 

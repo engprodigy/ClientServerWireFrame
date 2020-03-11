@@ -102,7 +102,7 @@ namespace TheCoreBanking.Customer.Data.Models
                 
 #if DEBUG
                optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
-              //  optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+               // optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 #else
                 optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 #endif
@@ -357,6 +357,16 @@ namespace TheCoreBanking.Customer.Data.Models
                     .HasColumnName("RELATIONSHIP")
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Isapproved).HasColumnName("ISAPPROVED");
+
+                entity.Property(e => e.Isdisapproved).HasColumnName("ISDISAPPROVED");
+
+                entity.Property(e => e.Approvalstatus).HasColumnName("APPROVALSTATUS");
+
+                entity.Property(e => e.Copyfileid).HasColumnName("COPYFILEID");
+
+                entity.Property(e => e.Isnewlycreated).HasColumnName("ISNEWLYCREATED");
 
                 entity.HasOne(d => d.Casaaccount)
                     .WithMany(p => p.TblAccountreferee)

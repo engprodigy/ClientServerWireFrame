@@ -279,26 +279,30 @@ function handleRefereeUpdate(self) {
 
     utilities.updateWizardHeaderReferee("#refereeUpdateModal");
     $("#refereeUpdateModal #status").text(" ");
-    $.ajax("../Account/LoadAccountReferees/" + self)
-        .then(function (response) {
-            console.log(response);
-            if (!response) {
+   
 
-            } else {
-                $("#refereeUpdateTable").bootstrapTable("load", response);
-                $("#refereeUpdateTable").bootstrapTable("hideLoading");
+        $.ajax("../Account/LoadAccountReferees/" + self)
+            .then(function (response) {
+                console.log(response);
+                if (!response) {
 
-                // show/hide form/table
-                $("#frmrefereeUpdate").closest("div.row").hide();
-                $("#refereeUpdateTable").closest("div.row").show();
-                $("#referee-toolbar").show();
-                // swap title text
-                $("#refereeUpdateTable #title").text("Account Referee(s)");
+                } else {
+                    $("#refereeUpdateTable").bootstrapTable("load", response);
+                    $("#refereeUpdateTable").bootstrapTable("hideLoading");
 
-                // Show modal
-                $("#refereeUpdateModal").modal("show");
-            }
-        });
+                    // show/hide form/table
+                    $("#frmrefereeUpdate").closest("div.row").hide();
+                    $("#refereeUpdateTable").closest("div.row").show();
+                    $("#referee-toolbar").show();
+                    // swap title text
+                    $("#refereeUpdateTable #title").text("Account Referee(s)");
+
+                    // Show modal
+                    $("#refereeUpdateModal").modal("show");
+                }
+            });
+
+   
 
 }
 
@@ -1252,39 +1256,55 @@ var utilities = {
         debugger
         var row = $("#refereeUpdateTable")
             .bootstrapTable("getRowByUniqueId", refereeid);
-        
+        if (row.approvalstatus == "Pending" || row.approvalstatus == "New Copy Sent for Approval") {
         // Populate individual form fields
-        var refereeForm = $("#frmrefereeUpdate");
-        refereeForm.find("[name=casaaccountid]").val(row.casaaccountid);
-        refereeForm.find("[name=refereeid]").val(row.refereeid);
-        refereeForm.find("[name=fullname]").val(row.fullname);
-        refereeForm.find("[name=address]").val(row.address);
-        refereeForm.find("[name=phone]").val(row.phone);
-        refereeForm.find("[name=city]").val(row.accountno);
-        refereeForm.find("[name=relationship]").val(row.relationship);
-        refereeForm.find("[name=accountname]").val(row.accountname);
-        refereeForm.find("[name=accountno]").val(row.accountno);
-        refereeForm.find("[name=bankid]").val(row.bankid).change();
-        refereeForm.find("[name=bankaddress]").val(row.bankaddress);
-        refereeForm.find("[name=datecreated]").val(row.datecreated);
-        //.find("[name=countryid]").val(row.countryid).change();
-        debugger
-        // swap out title text + hide/show buttons
-        $("#refereeUpdateModal #status").text("Edit Referee");
-        $("#frmrefereeUpdate #saveBtn").hide();
-        $("#frmrefereeUpdate #updateBtn").show();
 
-        // form-enter/table-leave animation goes here
-        $("#refereeUpdateTable").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
+            swal({
+                title: 'Update Referee',
+                text: 'Referee has an existing entry awaiting approval',
+                type: 'error',
+                allowOutsideClick: false,
+                allowEscapeKey: false
+            }).then(function () {
+                return;
             });
-        $("#frmrefereeUpdate").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
+
+        
+
+        } else {
+            var refereeForm = $("#frmrefereeUpdate");
+            refereeForm.find("[name=casaaccountid]").val(row.casaaccountid);
+            refereeForm.find("[name=refereeid]").val(row.refereeid);
+            refereeForm.find("[name=fullname]").val(row.fullname);
+            refereeForm.find("[name=address]").val(row.address);
+            refereeForm.find("[name=phone]").val(row.phone);
+            refereeForm.find("[name=city]").val(row.accountno);
+            refereeForm.find("[name=relationship]").val(row.relationship);
+            refereeForm.find("[name=accountname]").val(row.accountname);
+            refereeForm.find("[name=accountno]").val(row.accountno);
+            refereeForm.find("[name=bankid]").val(row.bankid).change();
+            refereeForm.find("[name=bankaddress]").val(row.bankaddress);
+            refereeForm.find("[name=datecreated]").val(row.datecreated);
+            //.find("[name=countryid]").val(row.countryid).change();
+            debugger
+            // swap out title text + hide/show buttons
+            $("#refereeUpdateModal #status").text("Edit Referee");
+            $("#frmrefereeUpdate #saveBtn").hide();
+            $("#frmrefereeUpdate #updateBtn").show();
+
+            // form-enter/table-leave animation goes here
+            $("#refereeUpdateTable").closest("div.row")
+                .slideToggle({
+                    duration: utilities.animDuration,
+                    queue: false
+                });
+            $("#frmrefereeUpdate").closest("div.row")
+                .slideToggle({
+                    duration: utilities.animDuration,
+                    queue: false
+                });
+
+        }
 
     },
     showRefereeTable: function () {
