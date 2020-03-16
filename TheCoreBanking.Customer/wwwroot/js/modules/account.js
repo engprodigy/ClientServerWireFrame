@@ -676,6 +676,7 @@ function initUpdate(casaaccountid) {
 
 function setDataTableEventHandlers() {
     // Customer Data Table
+    debugger
     $("#customer-data-table").on("check.bs.table", function (ev, row) {
         if (row.customerid) {
             $("#frmCustomer input[name=customerid]").val(row.customerid);
@@ -687,10 +688,12 @@ function setDataTableEventHandlers() {
             $("#frmAccount input[name=accountname]")
                 .val(fullname);
             $("#cusAccType").text(row.customeraccounttype.name);
+            $("#frmCustomer input[name=customercode]").val(row.customercode);
         }
     });
     $("#customer-data-table").on("uncheck.bs.table", function (ev, row) {
         $("#frmCustomer input[name=customerid]").val(null);
+        $("#frmCustomer input[name=customercode]").val(null);
     });
 
     // Product Data Table
@@ -974,7 +977,7 @@ function initWizard() {
                     });
 
                     debugger
-
+                    casa["productid"] = $("#frmProduct input[name=productid]").val();
                     // append models to post data
                     data.account = casa;
                     data.accountservice = accountservice;

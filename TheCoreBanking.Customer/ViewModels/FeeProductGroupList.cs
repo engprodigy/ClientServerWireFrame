@@ -12,5 +12,6 @@ namespace TheCoreBanking.Customer.ViewModels
        public string productName { get; set; }
        public string feeName { get; set; }
        public int feeId { get; set; }
-    }
+       public string approvalstatus { get; set; }
+}
 }

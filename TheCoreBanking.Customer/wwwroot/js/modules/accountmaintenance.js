@@ -22,6 +22,7 @@ var productFeeListIdOriginal = [];
 var productFeeListExtra = [];
 var productFeeListIdExtra = [];
 var approvalStatus = [];
+var approvalStatusLogOut;
 
 
 
@@ -426,6 +427,10 @@ function emailMaintenanceHandler(self) {
 function feeMaintenanceHandler(self) {
 
     debugger
+
+
+    approvalStatusLogOut = " ";
+    
     casaAccountId = self;
 
     casaRowContent = $("#data-table").bootstrapTable('getRowByUniqueId', self);
@@ -444,7 +449,7 @@ function feeMaintenanceHandler(self) {
     $("#accountFeeUpdateModal #title").text("Customer E-mail(s)");
 
     // Show modal
-    $("#accountFeeUpdateModal").modal("show");
+    
 
     var $table = $('#productMappingFeesTable');
 
@@ -463,7 +468,9 @@ function feeMaintenanceHandler(self) {
             console.log(result);
             $.each(result, function (index, value) {
 
-                console.log(value.feeId);
+                
+               // approvalStatusLogOut = value.approvalstatus;
+                //console.log(approvalStatusLogOut);
                 productFeeListId.push(value.id);
                 productFeeList.push(value.feeId);
                 productFeeListOriginal.push(value.feeId);
@@ -471,8 +478,8 @@ function feeMaintenanceHandler(self) {
                 
             });
 
-            console.log(productFeeListId);
-            console.log(productFeeList);
+            //console.log(productFeeListId);
+           // console.log(productFeeList);
             $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
            
         },
@@ -485,24 +492,74 @@ function feeMaintenanceHandler(self) {
             console.log(result);
             $.each(result, function (index, value) {
 
-                console.log(value.feeId);
+               // console.log(value.feeId);
+                approvalStatusLogOut = value.approvalstatus;
+                console.log(approvalStatusLogOut);
                 productFeeListId.push(value.id);
                 productFeeList.push(value.feeId);
                 productFeeListIdExtra.push(value.id);
                 productFeeListExtra.push(value.feeId);
             });
 
-            console.log(productFeeListId);
-            console.log(productFeeList);
+           // console.log(productFeeListId);
+           // console.log(productFeeList);
             $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
 
         },
     });
 
-   
+    setTimeout(function () {
+
+        debugger
+
+        if (approvalStatusLogOut == "New Copy Sent for Approval") {
+
+        $("#accountFeeUpdateModal" + " .ApprovalDetails")
+            /* .text(UpdateAccount.surname + " "
+                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
+                 + UpdateCustomer.customercode);*/
+            .text("New Copy Sent for Approval");
+
+        // return
+        } else if (approvalStatusLogOut == "Pending") {
+
+            $("#accountFeeUpdateModal" + " .ApprovalDetails")
+                /* .text(UpdateAccount.surname + " "
+                     + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
+                     + UpdateCustomer.customercode);*/
+                .text("Pending Approval");
+
+            // return
+        }
+
+        else {
+        $("#accountFeeUpdateModal" + " .ApprovalDetails")
+            /* .text(UpdateAccount.surname + " "
+                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
+                 + UpdateCustomer.customercode);*/
+            .text("");
+
+    }
+
+    }, 500);
+
+    setTimeout(function () {
+
+        $("#accountFeeUpdateModal").modal("show");
+
+    }, 800);
 }
 
 function  updateLinkedFees() {
+
+    debugger
+
+    if (approvalStatusLogOut == "New Copy Sent for Approval" || approvalStatusLogOut == "Pending") {
+
+        swal({ title: 'Product Fee Approval', text: 'Transaction Awaiting Approval', type: 'error' })
+
+        return
+    }
 
     debugger;
     var $table = $('#productMappingFeesTable');
@@ -518,7 +575,7 @@ function  updateLinkedFees() {
     //productFeeListExtra = [];
     //productFeeListIdExtra = [];
 
-    console.log(productFeeListExtra);
+    //console.log(productFeeListExtra);
 
     productFeeListNew = [];
     var newselectionData = [];
@@ -540,7 +597,7 @@ function  updateLinkedFees() {
 
     });*/
 
-    console.log(newselectionData);
+   // console.log(newselectionData);
 
     var counter = 0;
     // $.each(newselectionData, function (index, itemData) {
@@ -579,13 +636,10 @@ function  updateLinkedFees() {
                     PdRate: ""
                 },
                 success: function (data) {
-                   // $table.bootstrapTable('refresh');
-                  //  swal({ title: 'Add Fees to Product', text: 'CASA Fees Addition/Deletion Completed successfully!', type: 'success' }).then(function () { });
-
-                   // $('#ddlProductname').val(null).trigger('change');
+                  
                 },
                 error: function (e) {
-                 //   swal({ title: 'Fee Mapping', text: 'CASA Fees Addition/Deletion Completed successfully!', type: 'error' }).then(function () { });
+                 
 
                 }
             });
@@ -600,10 +654,13 @@ function  updateLinkedFees() {
 
     counter = 0;
     //  $.each(productFeeListNew, function (index, itemData) {
-    $.each(newselectionData, function (index, itemData) {
+        var detectforapproval = false;
+  //  setTimeout(function () {
+        $.each(newselectionData, function (index, itemData) {
         debugger;
 
-        console.log(itemData);
+          // detect wheteher to make an approval copy
+       // console.log(itemData);
 
         if (productFeeListNew.includes(itemData.pdFeesId) && productFeeListExtra.includes(itemData.pdFeesId)) {
             //  if (productFeeListId.includes(itemData) && productFeeListIdNew.includes(itemData)) {
@@ -613,8 +670,8 @@ function  updateLinkedFees() {
         }
         else if (productFeeListNew.includes(itemData.pdFeesId) && !productFeeListExtra.includes(itemData.pdFeesId)) {
             // else if (!productFeeListId.includes(itemData) && productFeeListIdNew.includes(itemData)) {
-
-            console.log("Insert Into Database");
+            //detectforapproval = true;
+            //console.log("Insert Into Database");
             $.ajax({
                 url: '../Account/AddProductFeesList',
                 type: 'POST',
@@ -634,17 +691,43 @@ function  updateLinkedFees() {
                 }
             });
 
-            console.log(itemData);
+            //console.log(itemData);
 
         } else if (!productFeeListNew.includes(itemData.pdFeesId) && productFeeListExtra.includes(itemData.pdFeesId)) {
             // } else if (productFeeListId.includes(itemData) && !productFeeListIdNew.includes(itemData)) {
 
-            console.log("Delete from Database");
-            console.log(itemData);
+           // console.log("Delete from Database");
+           // console.log(itemData);
         }
 
         counter++;
-    });
+        });
+   // }, 1500);
+
+    setTimeout(function () {
+        if (detectforapproval == false) {
+
+            $.ajax({
+                url: '../Account/AddProductFeesListForApprovalOnly',
+                type: 'POST',
+                data: {
+                    casaAccountId: casaAccountId
+                },
+                success: function (data) {
+                    // $table.bootstrapTable('refresh');
+                    //    swal({ title: 'Add Fees to Product', text: 'CASA Fees Addition/Deletion Completed successfully!', type: 'success' }).then(function () { });
+
+                    // $('#ddlProductname').val(null).trigger('change');
+                },
+                error: function (e) {
+                    //    swal({ title: 'Fee Mapping', text: 'CASA Fees Addition/Deletion encountered an error', type: 'error' }).then(function () { });
+
+                }
+            });
+
+        }
+    }, 3000);
+
 
     swal({ title: 'Add Fees to Product', text: 'CASA Fees Addition/Deletion Completed successfully!', type: 'success' }).then(function () { });
     debugger
@@ -667,10 +750,10 @@ function  updateLinkedFees() {
          type: 'GET',
          url: '../Account/GetFeeName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
          success: function (result) {
-             console.log(result);
+            // console.log(result);
              $.each(result, function (index, value) {
 
-                 console.log(value.feeId);
+               //  console.log(value.feeId);
                  productFeeListId.push(value.id);
                  productFeeList.push(value.feeId);
                  productFeeListOriginal.push(value.feeId);
@@ -678,8 +761,8 @@ function  updateLinkedFees() {
 
              });
 
-             console.log(productFeeListId);
-             console.log(productFeeList);
+           //  console.log(productFeeListId);
+           //  console.log(productFeeList);
            // $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
 
          },
@@ -689,18 +772,18 @@ function  updateLinkedFees() {
          type: 'GET',
          url: '../Account/GetFeeExtraName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
          success: function (result) {
-             console.log(result);
+            // console.log(result);
              $.each(result, function (index, value) {
 
-                 console.log(value.feeId);
+             //    console.log(value.feeId);
                  productFeeListId.push(value.id);
                  productFeeList.push(value.feeId);
                  productFeeListIdExtra.push(value.id);
                  productFeeListExtra.push(value.feeId);
              });
 
-             console.log(productFeeListId);
-             console.log(productFeeList);
+           //  console.log(productFeeListId);
+           //  console.log(productFeeList);
            //  $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
 
          },
@@ -1078,7 +1161,7 @@ var utilities = {
 
     updateWizardHeaderFeeMaintenance: function (container) {
 
-        debugger
+       // debugger
 
         $(container + " .headerAcctFeeDetails")
             /* .text(UpdateAccount.surname + " "

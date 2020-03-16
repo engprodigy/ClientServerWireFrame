@@ -27,6 +27,8 @@ namespace TheCoreBanking.Customer.Controllers
 
         private readonly TheCoreBankingCustomerContext _context = new TheCoreBankingCustomerContext();
         private readonly TheCoreBankingCustomerContext _context2 = new TheCoreBankingCustomerContext();
+        private readonly TheCoreBankingCustomerContext _context3 = new TheCoreBankingCustomerContext();
+        private readonly TheCoreBankingCustomerContext _context4 = new TheCoreBankingCustomerContext();
         private readonly TheCoreBankingFileContext _contextF = new TheCoreBankingFileContext();
 
         // TheCoreBankingCustomerContext
@@ -161,6 +163,13 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult LoadAccountsForIndexView()
         {
             var result = CustomerUnitOfWork.Accounts.GetDetailed();
+            return Json(result);
+        }
+
+        public JsonResult LoadAccountsByCasaAccountId(int id)
+        {
+            var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(c => c.Casaaccountid == id).ToList();
+
             return Json(result);
         }
 
@@ -1605,35 +1614,183 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult AddProductFeesList(int Id, int PdFeesId,int casaAccountId, string productId, string PdFeesName, bool PdRate)
         {
 
-            // var feelist= setupUnitOfWork.FeesList.GetById(Id);
+            //update approval status not changed or newly created
+
+
+            var feelist2 = _context.TblBankingProductFeesListExtraMaintenance.Where(t => t.Casaaccountid == casaAccountId
+            && t.Isapproved == true).ToList().Count();
+            
+
+
+
+
+
 
             TblBankingProductFeesListExtraMaintenance fees = new TblBankingProductFeesListExtraMaintenance();
-            // fees.PdId = id;
-            fees.PdId = int.Parse(productId);
-            fees.Casaaccountid = casaAccountId;
-            fees.PdFeesId = PdFeesId;
-            fees.PdFeesName = PdFeesName;
-            fees.PdRate = PdRate;
 
-            
-            var dbContextTransaction = _context.Database.BeginTransaction();
-
-            try
+            if (feelist2 > 0)
             {
 
-                _context.TblBankingProductFeesListExtraMaintenance.Add(fees);
-                _context.SaveChanges();
+                
+                // fees.PdId = id;
+                fees.PdId = int.Parse(productId);
+                fees.Casaaccountid = casaAccountId;
+                fees.PdFeesId = PdFeesId;
+                fees.PdFeesName = PdFeesName;
+                fees.PdRate = PdRate;
+                fees.Isdeleted = true;
+                fees.Isapproved = false;
+                fees.Approvalstatus = "Pending";
+                fees.Isnewlycreated = false;
+                fees.Deleteflag = false;
 
-                dbContextTransaction.Commit();
+
+                var dbContextTransaction2 = _context2.Database.BeginTransaction();
+
+                try
+                {
+
+                    _context2.TblBankingProductFeesListExtraMaintenance.Add(fees);
+                    _context2.SaveChanges();
+
+                    dbContextTransaction2.Commit();
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                    dbContextTransaction2.Rollback();
+                }
 
             }
-            catch(Exception e)
+            else
             {
-                Debug.WriteLine( e.ToString());
-               dbContextTransaction.Rollback();
+                
+                // fees.PdId = id;
+                fees.PdId = int.Parse(productId);
+                fees.Casaaccountid = casaAccountId;
+                fees.PdFeesId = PdFeesId;
+                fees.PdFeesName = PdFeesName;
+                fees.PdRate = PdRate;
+                fees.Isdeleted = true;
+                fees.Isapproved = false;
+                fees.Approvalstatus = "Pending";
+                fees.Isnewlycreated = true;
+                fees.Deleteflag = false;
+
+
+                var dbContextTransaction2 = _context2.Database.BeginTransaction();
+
+                try
+                {
+
+                    _context2.TblBankingProductFeesListExtraMaintenance.Add(fees);
+                    _context2.SaveChanges();
+
+                    dbContextTransaction2.Commit();
+
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                    dbContextTransaction2.Rollback();
+                }
             }
             return Json(fees.Id);
         }
+
+        public JsonResult AddProductFeesListForApprovalOnly(int casaAccountId)
+        {
+            // update copy for approval
+
+
+            var feelist2 = _context3.TblBankingProductFeesListExtraMaintenance.Where(t => t.Casaaccountid == casaAccountId && t.Isapproved == true
+             && t.Isdeleted == false && t.Deleteflag == false).ToList();
+            var dbContextTransaction3 = _context4.Database.BeginTransaction();
+            try
+            {
+
+
+                foreach (var Item in feelist2)
+                {
+
+                    Item.Approvalstatus = "New Copy Sent for Approval";
+
+
+
+
+                    _context4.TblBankingProductFeesListExtraMaintenance.Update(Item);
+                    _context4.SaveChanges();
+
+                }
+
+                dbContextTransaction3.Commit();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction3.Rollback();
+            }
+
+
+            // create new copy for approval
+
+            var feelist = _context3.TblBankingProductFeesListExtraMaintenance.Where(t => t.Casaaccountid == casaAccountId
+            && t.Isapproved == true
+             && t.Isdeleted == false && t.Deleteflag == false).ToList();
+
+
+
+            var dbContextTransaction = _context4.Database.BeginTransaction();
+            try
+            {
+
+
+                foreach (var Item in feelist)
+                {
+
+                    TblBankingProductFeesListExtraMaintenance tblBankingProductFeesListExtraMaintenance = new TblBankingProductFeesListExtraMaintenance
+                    {
+
+
+                        Casaaccountid = Item.Casaaccountid,
+                        PdId = Item.PdId,
+                        PdFeesId = Item.PdFeesId,
+                        RateValue = Item.RateValue,
+                        PdFeesName = Item.PdFeesName,
+                        PdRate = Item.PdRate,
+                        FeeValue = Item.FeeValue,
+                        AdditionStatus = Item.AdditionStatus,
+                        Isdeleted = true,
+                        Isapproved = false,
+                        Isdisapproved = false,
+                        Approvalstatus = "Pending",
+                        Copyfileid = Item.Copyfileid,
+                        Isnewlycreated = false,
+                        Deleteflag = false
+                    };
+
+
+
+
+
+                    _context4.TblBankingProductFeesListExtraMaintenance.Add(tblBankingProductFeesListExtraMaintenance);
+                    _context4.SaveChanges();
+
+                }
+
+                dbContextTransaction.Commit();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+            }
+
+            
+            return Json(true);
+        }
+
         #endregion
 
         #region Update
@@ -1868,6 +2025,7 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult DeleteProductFeesList(int PdFeesId, int Id, string productId, string PdFeesName, bool PdRate)
         {
 
+            //this is now update
             var feelist = _context.TblBankingProductFeesListExtraMaintenance.Where(p => p.Id == Id).FirstOrDefault();
 
             TblBankingProductFeesListExtraMaintenance fees = new TblBankingProductFeesListExtraMaintenance();
@@ -1880,13 +2038,20 @@ namespace TheCoreBanking.Customer.Controllers
             fees.AdditionStatus = feelist.AdditionStatus;
             fees.RateValue = feelist.RateValue;
             fees.FeeValue = feelist.FeeValue;
+            fees.Isdeleted = false;
+            fees.Isapproved = true;
+            fees.Isdisapproved = false;
+            fees.Approvalstatus = "New Copy Sent for Approval";
+            fees.Isnewlycreated = false;
+            fees.Deleteflag = true;
 
 
             var dbContextTransaction = _context2.Database.BeginTransaction();
 
             try
             {
-                _context2.TblBankingProductFeesListExtraMaintenance.Remove(fees);
+               // _context2.TblBankingProductFeesListExtraMaintenance.Remove(fees);
+                _context2.TblBankingProductFeesListExtraMaintenance.Update(fees);
                 _context2.SaveChanges();
 
                 dbContextTransaction.Commit();

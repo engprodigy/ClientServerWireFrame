@@ -99,11 +99,15 @@ namespace TheCoreBanking.Customer.Data.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                
-#if DEBUG
 
+#if DEBUG
+                 optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+              
+               // optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+               
 #else
                 optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+               
 #endif
             }
         }
@@ -608,6 +612,8 @@ namespace TheCoreBanking.Customer.Data.Models
 
                 entity.Property(e => e.Branchid).HasColumnName("BRANCHID");
 
+                entity.Property(e => e.Customercode).HasColumnName("CUSTOMERCODE");
+
                 entity.Property(e => e.Companyid).HasColumnName("COMPANYID");
 
                 entity.Property(e => e.Createdby)
@@ -731,22 +737,22 @@ namespace TheCoreBanking.Customer.Data.Models
                     .HasColumnName("TERMINALDATE")
                     .HasColumnType("date");
 
-                entity.HasOne(d => d.Accountstatus)
-                    .WithMany(p => p.TblCasa)
-                    .HasForeignKey(d => d.Accountstatusid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TBL_CASA_TBL_CASAACCOUNTSTATUS");
+                /* entity.HasOne(d => d.Accountstatus)
+                     .WithMany(p => p.TblCasa)
+                     .HasForeignKey(d => d.Accountstatusid)
+                     .OnDelete(DeleteBehavior.ClientSetNull)
+                     .HasConstraintName("FK_TBL_CASA_TBL_CASAACCOUNTSTATUS");
 
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.TblCasa)
-                    .HasForeignKey(d => d.Customerid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tbl_CASA_tbl_Customer");
+                 entity.HasOne(d => d.Customer)
+                     .WithMany(p => p.TblCasa)
+                     .HasForeignKey(d => d.Customerid)
+                     .OnDelete(DeleteBehavior.ClientSetNull)
+                     .HasConstraintName("FK_tbl_CASA_tbl_Customer");
 
-                /*  entity.HasOne(d => d.Product)
-                     .WithMany(p => p.TblCasa);
-                 .HasForeignKey(d => d.Productid)
-                 .HasConstraintName("FK_TBL_Product_tbl_Product");*/
+                   entity.HasOne(d => d.Product)
+                      .WithMany(p => p.TblCasa);
+                  .HasForeignKey(d => d.Productid)
+                  .HasConstraintName("FK_TBL_Product_tbl_Product");*/
             });
 
             modelBuilder.Entity<TblCasaaccountstatus>(entity =>
@@ -4497,6 +4503,18 @@ namespace TheCoreBanking.Customer.Data.Models
                 entity.Property(e => e.Casaaccountid).HasColumnName("CASAACCOUNTID");
 
                 entity.Property(e => e.PdFeesId).HasColumnName("pdFeesID");
+
+                entity.Property(e => e.Isapproved).HasColumnName("ISAPPROVED");
+
+                entity.Property(e => e.Isdisapproved).HasColumnName("ISDISAPPROVED");
+
+                entity.Property(e => e.Approvalstatus).HasColumnName("APPROVALSTATUS");
+
+                entity.Property(e => e.Copyfileid).HasColumnName("COPYFILEID");
+
+                entity.Property(e => e.Isnewlycreated).HasColumnName("ISNEWLYCREATED");
+
+                entity.Property(e => e.Deleteflag).HasColumnName("DELETEFLAG");
 
                 entity.Property(e => e.PdFeesName)
                     .HasColumnName("pdFeesName")

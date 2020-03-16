@@ -20,6 +20,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Approvalstatus { get; set; }
         public int? Copyfileid { get; set; }
         public bool? Isnewlycreated { get; set; }
+        public bool? Deleteflag { get; set; }
 
         public TblCasa Casaaccount { get; set; }
     }

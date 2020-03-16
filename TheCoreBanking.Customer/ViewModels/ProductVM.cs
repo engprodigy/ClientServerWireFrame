@@ -2,7 +2,7 @@
 {
     public class ProductVM
     {
-        public int ID;
+        public int Id;
         public string ProductCode;
         public string ProductName;
         public string ProductDescription;
