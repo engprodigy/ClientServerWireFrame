@@ -88,6 +88,7 @@ namespace TheCoreBanking.Customer.Data.Helpers
                 {typeof(IDesignationRepository), dbContext => new DesignationRepository(dbContext)},
                 {typeof(IAccountClosureRepository), dbContext => new AccountClosureRepository(dbContext)},
                  {typeof(IChartofAccountRepository), dbContext => new ChartofAccountRepository(dbContext)},
+                 {typeof(ICasaProductConversionTrackerRepository), dbContext => new CasaProductConversionTrackerRepository(dbContext)},
             };
         }
 

@@ -608,16 +608,141 @@ function populateUpdate(row_data) {
                 }))
             .change();
     }
-    if (row_data.tblCustomeraccountservice[0]
+
+    debugger
+   
+    var countBoolean = false;
+
+    account_form.find("[name=alertmediumid]").removeAttr("disabled");
+
+    $("#approvalStatusInd").text(" ");
+
+    if (row_data.tblCustomeraccountservice[0]) {
+
+        $.ajax(url_path + "/LoadCustomerAccountAlertMedium/" + row_data.tblCustomeraccountservice[0].id)
+            .then(function (response) {
+                var count = 0;
+                var countDisapproved = 0;
+                console.log(response);
+
+                account_form.find("[name=alertmediumid]")
+                    .val($.map(response, function (item) {
+
+                        if (item.isapproved == true && item.alertmediumid == 1 && item.isdeleted == false) {
+                                account_form.find("[name=alertmediumid]").removeAttr("disabled");
+                            $("#approvalStatusInd").text(" ");
+                            
+                                return item.alertmediumid;
+                        } 
+
+                        if (item.isapproved == true && item.alertmediumid == 2 && item.isdeleted == false) {
+                            account_form.find("[name=alertmediumid]").removeAttr("disabled");
+                            $("#approvalStatusInd").text(" ");
+                            
+                            return item.alertmediumid;
+                        } 
+
+                        if (item.isdisapproved == true && item.isapproved == false && item.alertmediumid == 1 && item.isdeleted == true) {
+                            account_form.find("[name=alertmediumid]").removeAttr("disabled");
+                            $("#approvalStatusInd").text(" ");
+                            countDisapproved++;
+                           // return item.alertmediumid;
+                        }
+
+                        if (item.isdisapproved == true && item.isapproved == false &&  item.alertmediumid == 2 && item.isdeleted == true) {
+                            account_form.find("[name=alertmediumid]").removeAttr("disabled");
+                            $("#approvalStatusInd").text(" ");
+
+                           // return item.alertmediumid;
+                            countDisapproved++;
+                        } 
+
+                        if (item.isapproved == false && item.isdisapproved == false && item.alertmediumid == 1 && item.isdeleted == true) {
+                            //account_form.find("[name=alertmediumid]").attr("disabled", "true");
+                            //$("#approvalStatusInd").text("* Pending Approval")
+                            count++;
+                        }
+
+                        if (item.isapproved == false && item.isdisapproved == false &&  item.alertmediumid == 2 && item.isdeleted == true) {
+                            //account_form.find("[name=alertmediumid]").attr("disabled", "true");
+                            //$("#approvalStatusInd").text("* Pending Approval")
+                            count++;
+                        } 
+
+
+                        }))
+                    .change();
+
+                if (count > 0) {
+                    account_form.find("[name=alertmediumid]").attr("disabled", "true");
+                    $("#approvalStatusInd").text("* Pending Approval");
+                }
+
+                if (countDisapproved > 0) {
+                   // account_form.find("[name=alertmediumid]").attr("disabled", "true");
+                    if (count > 0) {
+                        $("#approvalStatusInd").text("* Last Transaction was Disapproved");
+                    } else {
+                        $("#approvalStatusInd").text(" ");
+                        $("#approvalStatusInd").text("* Last Transaction was Disapproved");
+                    }
+                }
+
+            });
+
+    }
+    //count++;
+   
+
+    /*if (row_data.tblCustomeraccountservice[0]
         .tblCustomeraccountalertmedium.length) {
         account_form.find("[name=alertmediumid]")
             .val($.map(row_data.tblCustomeraccountservice[0]
                 .tblCustomeraccountalertmedium, function (item) {
-                    return item.alertmediumid;
+                    if (item.isapproved == true) {
+                        account_form.find("[name=alertmediumid]").removeAttr("disabled");
+                        $("#approvalStatusInd").text(" ");
+                        return item.alertmediumid;
+                    } else {
+                        account_form.find("[name=alertmediumid]").attr("disabled", "true");
+                        $("#approvalStatusInd").text("* Pending Approval");
+                    }
                 }))
             .change();
-    }
+    }*/
+
+   // $("#outer").mouseenter(function () {
+    
 }
+
+$("#frmAccountUpdate #UddlAlerts").mouseenter(function () {
+    debugger
+    $.notify({
+        icon: "now-ui-icons travel_info",
+        message: "Pending approval"
+    }, {
+        type: "danger",
+        placement: {
+            from: "top",
+            align: "right"
+        }
+    });
+});
+
+$("#frmAccountUpdate #UddlAlerts").click(function () {
+    alert("The paragraph was clicked.");
+
+    $.notify({
+        icon: "now-ui-icons travel_info",
+        message: "Pending approval"
+    }, {
+        type: "danger",
+        placement: {
+            from: "top",
+            align: "right"
+        }
+    });
+});
 
 function initUpdate(casaaccountid) {
     clear();

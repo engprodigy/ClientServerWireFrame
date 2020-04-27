@@ -91,6 +91,15 @@ body {
 #wizardModal .modal-content .modal-body {
     padding: 0;
 }
+/*#wizardModal #frmPersonalPrimary .error {
+    padding: 0;
+}*/
+
+form .error {
+
+    color: #ff0000;
+
+}
 
 .light-icon {
     color: #fff;

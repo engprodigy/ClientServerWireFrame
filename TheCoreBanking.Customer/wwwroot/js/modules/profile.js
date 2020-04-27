@@ -445,7 +445,7 @@ function initFormValidations() {
             // before validation
             return $.trim(value);
         },
-        errorPlacement: function (error, element) {
+        /*errorPlacement: function (error, element) {
             $.notify({
                 icon: "now-ui-icons travel_info",
                 message: error.text()
@@ -456,7 +456,7 @@ function initFormValidations() {
                         align: "right"
                     }
             });
-        }
+        }*/
     });
 
     $("#wizardComponent #frmGeneral, #updateWizard #frmGeneral")

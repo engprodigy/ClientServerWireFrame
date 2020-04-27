@@ -7,6 +7,6 @@ namespace TheCoreBanking.Customer.Data.Enums
 
         //SERVER = 1
        // LOCAL = 2
-       APIENDPOINT = 2
+       APIENDPOINT = 1
     }
 }

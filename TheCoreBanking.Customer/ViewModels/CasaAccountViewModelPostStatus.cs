@@ -16,5 +16,6 @@ namespace TheCoreBanking.Customer.ViewModels
         public string ProductName { get; set; }
         public int Postnostatusid { get; set; }
         public int? Approvalstatusid { get; set; }
+        public int Accountstatusid { get; set; }
     }
 }

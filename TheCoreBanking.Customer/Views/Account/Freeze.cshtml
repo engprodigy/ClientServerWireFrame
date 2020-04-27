@@ -150,14 +150,14 @@
                                     <div class="col-md-5 required">
                                         <div class="form-group">
                                             <label>Start Date</label>
-                                            <input id="freezestartDate" name="freezestartDate" class="form-control datetimepicker" required />
+                                            @*<input id="freezestartDate" name="freezestartDate" class="form-control datetimepicker" required />*@
                                         </div>
                                     </div>
 
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <label>End Date</label>
-                                            <input id="freezeendDate" name="freezeendDate" class="form-control datetimepicker" required />
+                                            @* <input id="freezeendDate" name="freezeendDate" class="form-control datetimepicker" required />*@
                                         </div>
                                     </div>
 
@@ -169,46 +169,46 @@
                                     <div class="col-md-10 required">
                                         <div class="form-group">
                                             <label>Start Date</label>
-                                            <input id="startTransactDate" name="startTransactDate" class="form-control datetimepicker" required />
-                                        </div>
-                                    </div>
+                                            @*<input id="startTransactDate" name="startTransactDate" class="form-control datetimepicker" required />*@
+                </div>
+            </div>
 
 
-                                </div>
+        </div>
 
-                                <div class="row mb-2 required" id="freezeamountdiv" name="freezeamountdiv">
-                                    <label class="col-md-2 col-form-label">Freeze Amount</label>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <input name="freezeamount" id="freezeamount" type="text"
-                                                   class="form-control" required />
+        <div class="row mb-2 required" id="freezeamountdiv" name="freezeamountdiv">
+            <label class="col-md-2 col-form-label">Freeze Amount</label>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <input name="freezeamount" id="freezeamount" type="text"
+                           class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label class="col-md-2 col-form-label">Remark</label>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <textarea name="remark" id="remark" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <label class="col-md-2 col-form-label">Additional Narration</label>
+            <div class="col-md-10">
+                <div class="form-group">
+                    <textarea name="narration" id="narration" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2 justify-content-center">
+            <div class="col-xs-12">
+                <input type="file" id="freeze-file" name="freeze-file" data-browse-label="Choose File"
+                       data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                       data-theme="fas" data-show-upload="false" data-show-remove="false"
+                       data-show-caption="false" data-drop-zone-enabled="false" class="file" />
+                @*<label class="text-center w-100">Attach Document</label>*@
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label class="col-md-2 col-form-label">Remark</label>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <textarea name="remark" id="remark" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <label class="col-md-2 col-form-label">Additional Narration</label>
-                                    <div class="col-md-10">
-                                        <div class="form-group">
-                                            <textarea name="narration" id="narration" class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-2 justify-content-center">
-                                    <div class="col-xs-12">
-                                        <input type="file" id="freeze-file" name="freeze-file" data-browse-label="Choose File"
-                                               data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
-                                               data-theme="fas" data-show-upload="false" data-show-remove="false"
-                                               data-show-caption="false" data-drop-zone-enabled="false" class="file" />
-                                        <label class="text-center w-100">Attach Document</label>
-                                    </div>
                                 </div>
                                 <div class="row mt-4 justify-content-between">
                                     <div class="col">

@@ -66,5 +66,6 @@ namespace TheCoreBanking.Customer.Data.Contracts
         IAccountClosureRepository ClosuredAccount { get; }
 
         IChartofAccountRepository Chart { get; }
+        ICasaProductConversionTrackerRepository CasaProductConversionTracker { get; }
     }
 }

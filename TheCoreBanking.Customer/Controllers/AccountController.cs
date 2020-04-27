@@ -76,12 +76,30 @@ namespace TheCoreBanking.Customer.Controllers
             return View();
         }
 
+#if DEBUG
+        //[Authorize()]
+#else
+            [Authorize()]
+            [AllowAnonymous]
+#endif
+
+        public IActionResult ReactivateDormantAcc()
+        {
+            return View();
+        }
+
         #region Fetch
 
         public JsonResult LoadAccountReferees(int id)
         {
             var result = CustomerUnitOfWork.AccountReferees
                 .GetByAccountId(id);
+            return Json(result);
+        }
+
+        public JsonResult LoadCustomerAccountAlertMedium(int id)
+        {
+            var result = CustomerUnitOfWork.AccountAlertMedia.GetByAccountServiceID(id);
             return Json(result);
         }
 
@@ -146,7 +164,8 @@ namespace TheCoreBanking.Customer.Controllers
                    ProductName = productDictionary[item.Productid.ToString()],
                    Productid = item.Productid,
                    Postnostatusid = item.Postnostatusid,
-                   Approvalstatusid = booleanValue ? 1 : 0
+                   Approvalstatusid = booleanValue ? 1 : 0,
+                   Accountstatusid = item.Accountstatusid
                 });
             }
 
@@ -171,6 +190,66 @@ namespace TheCoreBanking.Customer.Controllers
             var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(c => c.Casaaccountid == id).ToList();
 
             return Json(result);
+        }
+
+
+        public JsonResult LoadDormantAccounts()
+        {
+            var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(c => c.Accountstatusid == 3).OrderByDescending(c => c.Customerid).Take(10);
+
+            var productList = CustomerUnitOfWork.Product.GetAll();//  .OrderByDescending(p => p.Productid);
+
+            var productListCount = CustomerUnitOfWork.Product.GetAll().OrderByDescending(p => p.Productid).Count();
+
+            Dictionary<string, string> productDictionary = new Dictionary<string, string>();
+
+            // var counter = 0;
+
+            foreach (var item in productList)
+            {
+                //products[Int32.Parse(item.Productid)] = item.Productname;
+                productDictionary.Add(item.Productid, item.Productname);
+
+            }
+
+
+            CasaAccountViewModelPostStatus casaAccountViewModelPostStatus = new CasaAccountViewModelPostStatus();
+
+            var list = new List<CasaAccountViewModelPostStatus>();
+            // var result = CustomerUnitOfWork.CardTypes.GetActive();
+            foreach (var item in result)
+            {
+                var booleanValue = true;
+                try
+                {
+                    booleanValue = CustomerUnitOfWork.AccountFreeze.GetAll().Where(i => i.AccountNumber == item.Accountnumber).
+                      FirstOrDefault().IsApproved;
+                }
+                catch
+                {
+                    booleanValue = true;
+                }
+                list.Add(new CasaAccountViewModelPostStatus
+                {
+
+                    Casaaccountid = item.Casaaccountid,
+                    Accountnumber = item.Accountnumber,
+                    Accountname = item.Accountname,
+                    Customerid = item.Customerid,
+                    ProductName = productDictionary[item.Productid.ToString()],
+                    Productid = item.Productid,
+                    Postnostatusid = item.Postnostatusid,
+                    Approvalstatusid = booleanValue ? 1 : 0,
+                    Accountstatusid = item.Accountstatusid
+                });
+            }
+
+
+
+
+
+            return Json(list);
+
         }
 
 
@@ -991,9 +1070,35 @@ namespace TheCoreBanking.Customer.Controllers
             }
         }
 
+
+
+        public JsonResult CheckApprovalStatus(int id)
+        {
+            var count = CustomerUnitOfWork.CasaProductConversionTracker.GetAll().Where(c => c.Casaaccountid == id && c.Isdeleted == true).Count();
+
+            if(count > 0) { 
+
+            return Json("Pending");
+
+            }
+            else
+            {
+                var approvalStatusCount = CustomerUnitOfWork.CasaProductConversionTracker.GetAll().Where(c => c.Casaaccountid == id && c.Isdisapproved == true).
+                    Count();
+                if(approvalStatusCount > 0)
+                {
+                    return Json("Disapproved");
+                }
+                else
+                {
+                    return Json("Approved");
+                }
+                
+            }
+        }
         #endregion
 
-        #region Create
+            #region Create
 
         [HttpPost]
 
@@ -1030,6 +1135,8 @@ namespace TheCoreBanking.Customer.Controllers
                 }
             }
 
+            accountinfo.Account.Availablebalance = 0.00m;
+            accountinfo.Account.Ledgerbalance = 0.00m;
             CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
             CustomerUnitOfWork.Commit();
 
@@ -1277,11 +1384,7 @@ namespace TheCoreBanking.Customer.Controllers
             storedRefereeData.Isapproved = false;
             storedRefereeData.Isnewlycreated = false;
             storedRefereeData.Approvalstatus = "New Copy Sent for Approval";
-            //CustomerUnitOfWork.AccountReferees.Update(upload.Data);
-            //CustomerUnitOfWork.Commit();
-
-            //if (upload.Data.Isnewlycreated == false)
-            //{
+            
             var dbContextTransaction2 = _context2.Database.BeginTransaction();
             try
             {
@@ -1323,9 +1426,7 @@ namespace TheCoreBanking.Customer.Controllers
                             Isnewlycreated = false
                         };
 
-                        //db.TblMandateimages.Update(mandate);
-                        //db.SaveChanges();
-                        //return Json(mandate);
+                        
                         _context.TblAccountreferee.Add(accountreferee);
                         _context.SaveChanges();
                         dbContextTransaction.Commit();
@@ -1342,46 +1443,6 @@ namespace TheCoreBanking.Customer.Controllers
                    // return Json(false);
                 }
 
-
-
-                
-
-            //}
-            //else
-            //{
-
-            //    upload.Data.Isdeleted = false;
-            //    upload.Data.Isapproved = false;
-            //    upload.Data.Isnewlycreated = true;
-            //    upload.Data.Approvalstatus = "New Copy Sent for Approval";
-            //    CustomerUnitOfWork.AccountReferees.Update(upload.Data);
-            //    CustomerUnitOfWork.Commit();
-
-            //}
-
-
-            //int? tableId = null;
-            //using (var db = new TheCoreBankingFileContext())
-            //{
-            //    tableId = db.TblRefereedocuments.Where(i => i.Refereeid == upload.Data.Refereeid).FirstOrDefault().Id ;
-            //}
-
-            //using (var db = new TheCoreBankingFileContext())
-
-            // using (var stream = new MemoryStream())
-            //{
-            //    upload.Document.CopyTo(stream);
-            //    TblRefereedocuments refereedocument = new TblRefereedocuments
-            //    {
-            //        Id = tableId.Value,
-            //        Refereeid = upload.Data.Refereeid,
-            //        Mime = upload.Document.ContentType,
-            //        Isdeleted = false,
-            //        Filedata = stream.ToArray()
-            //    };
-            //    db.TblRefereedocuments.Update(refereedocument);
-            //    db.SaveChanges();
-            //}
 
             if (sendall)
             {
@@ -1799,7 +1860,19 @@ namespace TheCoreBanking.Customer.Controllers
         {
             CustomerUnitOfWork.Accounts.Update(accountinfo.Account);
             CustomerUnitOfWork.AccountServices.Update(accountinfo.AccountService);
-            
+
+
+            // Delete  all disapproved entry
+            var alertMediaForDelete = CustomerUnitOfWork
+                .AccountAlertMedia.GetByAccountServiceID(accountinfo.AccountService.Id).Where(d => d.Isdisapproved == true);
+
+            foreach(var deletevalue in alertMediaForDelete)
+            {
+
+                CustomerUnitOfWork.AccountAlertMedia.Delete(deletevalue);
+                
+            }
+            CustomerUnitOfWork.Commit();
             // existing values
             var bankingServices = CustomerUnitOfWork
                 .AccountBankingServices.GetByAccountServiceID(accountinfo.AccountService.Id);
@@ -1858,7 +1931,20 @@ namespace TheCoreBanking.Customer.Controllers
             }
             foreach (var item in alertMediaToDelete)
             {
-                CustomerUnitOfWork.AccountAlertMedia.Delete(item);
+                if(CustomerUnitOfWork.AccountAlertMedia.GetAll().Where(q => q.Alertmediumid == item.Alertmediumid && q.Isapproved == false && 
+                q.Customeraccountserviceid == item.Customeraccountserviceid).Count() < 1) { 
+                TblCustomeraccountalertmedium tblCustomeraccountalertmedium = new TblCustomeraccountalertmedium();
+                tblCustomeraccountalertmedium.Isapproved = false;
+                tblCustomeraccountalertmedium.Isdeleted = true;
+                tblCustomeraccountalertmedium.Isdisapproved = false;
+                tblCustomeraccountalertmedium.Approvalstatus = "Pending";
+                tblCustomeraccountalertmedium.Customeraccountserviceid = item.Customeraccountserviceid;
+                tblCustomeraccountalertmedium.Alertmediumid = item.Alertmediumid;
+                tblCustomeraccountalertmedium.Copyfileid = 2;  // for Deactivation Transaction
+
+                //CustomerUnitOfWork.AccountAlertMedia.Delete(item);
+                    CustomerUnitOfWork.AccountAlertMedia.Add(tblCustomeraccountalertmedium);
+                }
             }
             foreach (var item in StatementMediaToDelete)
             {
@@ -1890,9 +1976,15 @@ namespace TheCoreBanking.Customer.Controllers
                 CustomerUnitOfWork.AccountAlertMedia.Add(
                     new TblCustomeraccountalertmedium {
                         Alertmediumid = item,
-                        Customeraccountserviceid = accountinfo.AccountService.Id
+                        Customeraccountserviceid = accountinfo.AccountService.Id,
+                        Isdeleted = true,
+                        Isapproved = false,
+                        Isdisapproved = false,
+                        Approvalstatus = "Pending"
                     }
                 );
+
+                
             }
             CustomerUnitOfWork.Commit();
 
@@ -1946,6 +2038,53 @@ namespace TheCoreBanking.Customer.Controllers
 
         }
 
+
+
+        public JsonResult UpdateAccountMandateDisApproval(int FileId, int MandateId, string Description, string Comment, int Copyfileid)
+        {
+
+
+            //instead of delete update the original copy back approval status to delete and disapprovacolumn to flase
+            var db2 = new TheCoreBankingFileContext();
+            var mandateDetailOriginalCopy = db2.TblMandateimages.Where(f => f.Mandateid == MandateId && f.Isdeleted == false && f.Description
+             == Description && f.Fileid == Copyfileid).FirstOrDefault();
+
+            mandateDetailOriginalCopy.Approvalstatus = "Disapproved";
+            mandateDetailOriginalCopy.Isdisapproved = true;
+            mandateDetailOriginalCopy.Isapproved = false;
+            db2.Update(mandateDetailOriginalCopy);
+            db2.SaveChanges();
+
+            //Delete to be approved copy from database
+            var db = new TheCoreBankingFileContext();
+
+            var mandateDetailforDelete = db.TblMandateimages.Where(f => f.Fileid == FileId).FirstOrDefault();
+        
+            var dbContextTransaction = _contextF.Database.BeginTransaction();
+
+            try
+            {
+
+                _contextF.TblMandateimages.Remove(mandateDetailforDelete);
+                _contextF.SaveChanges();
+
+                dbContextTransaction.Commit();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+            }
+
+            return Json(true);
+
+        }
+
+
+
+
+
         public JsonResult UpdateAccountRefereeApproval(int Refereeid, string Comment, int Copyfileid)
         {
 
@@ -1990,6 +2129,145 @@ namespace TheCoreBanking.Customer.Controllers
 
             return Json(true);
 
+        }
+
+
+
+
+        public JsonResult UpdateAccountRefereeDisApproval(int Refereeid, string Comment, int Copyfileid)
+        {
+            //instead of delete update the original copy back approval status to delete and disapprovacolumn to flase
+            
+
+            try
+            {
+                var db2 = new TheCoreBankingCustomerContext();
+                var refereeDetailOriginalCopy = db2.TblAccountreferee.Where(f => f.Refereeid == Copyfileid).FirstOrDefault();
+                refereeDetailOriginalCopy.Approvalstatus = "Disapproved";
+                refereeDetailOriginalCopy.Isdisapproved = true;
+                refereeDetailOriginalCopy.Isapproved = false;
+
+                db2.Update(refereeDetailOriginalCopy);
+                db2.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+
+            }
+
+
+
+            //Delete to be approved copy from database
+            var refereeDetailforDelete = CustomerUnitOfWork.AccountReferees.GetById(Refereeid);
+            
+            var dbContextTransaction = _context.Database.BeginTransaction();
+
+            try
+            {
+
+                _context.TblAccountreferee.Remove(refereeDetailforDelete);
+                _context.SaveChanges();
+
+                dbContextTransaction.Commit();
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+            }
+
+            return Json(true);
+
+        }
+
+        public JsonResult UpdateAccountProductConversionApprovalStatus(int id, int productid)
+        {
+              var storedCasaAccountDetail =  CustomerUnitOfWork.Accounts.GetById(id);
+
+            //CustomerUnitOfWork.Commit();
+
+            // var storedRefereeData = CustomerUnitOfWork.AccountReferees.GetAll().Where(r => r.Refereeid == upload.Data.Refereeid).FirstOrDefault();
+            //var storedCasaAccountDetail = _context.TblCasaproductconversiontracker.Where(c => c.Casaaccountid == id).FirstOrDefault();
+            //  var dbContextTransaction = _context.Database.BeginTransaction();
+            // try
+            // {
+            var productConversionApprovalDetail = CustomerUnitOfWork.CasaProductConversionTracker.GetAll().Where(c => c.Casaaccountid == id).FirstOrDefault();
+            CustomerUnitOfWork.CasaProductConversionTracker.Delete(productConversionApprovalDetail);
+            CustomerUnitOfWork.Commit();
+
+
+
+           TblCasaproductconversiontracker tblCasaproductconversiontracker = new TblCasaproductconversiontracker
+            {
+                Casaaccountid = id,
+                Isdeleted = false,
+                Isapproved = true,
+                Isnewlycreated = false,
+                Approvalstatus = "New Copy Sent for Approval",
+                Newproductid = productid,
+                Oldproductid = storedCasaAccountDetail.Productid
+
+            };
+
+           // CustomerUnitOfWork.CasaProductConversionTracker.Add(tblCasaproductconversiontracker);
+            _context.TblCasaproductconversiontracker.Add(tblCasaproductconversiontracker);
+            _context.SaveChanges();
+            //    dbContextTransaction.Commit();
+            //}
+            //catch (Exception e)
+            //{
+            //    Debug.WriteLine(e.ToString());
+            //    dbContextTransaction.Rollback();
+
+            //}
+
+
+
+            TblCasaproductconversiontracker tblCasaproductconversiontracker2 = new TblCasaproductconversiontracker();
+            tblCasaproductconversiontracker2.Casaaccountid = tblCasaproductconversiontracker.Casaaccountid;
+            tblCasaproductconversiontracker2.Isdeleted = true;
+            tblCasaproductconversiontracker2.Isapproved = false;
+            tblCasaproductconversiontracker2.Isnewlycreated = false;
+            tblCasaproductconversiontracker2.Approvalstatus = "Pending";
+            tblCasaproductconversiontracker2.Copyfileid = tblCasaproductconversiontracker.Casaprodconvid;
+            tblCasaproductconversiontracker2.Newproductid = productid;
+            tblCasaproductconversiontracker2.Oldproductid = storedCasaAccountDetail.Productid;
+
+
+
+           var dbContextTransaction = _context2.Database.BeginTransaction();
+            try
+            {
+
+                _context2.TblCasaproductconversiontracker.Add(tblCasaproductconversiontracker2);
+                _context2.SaveChanges();
+                dbContextTransaction.Commit();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                dbContextTransaction.Rollback();
+
+            }
+
+           
+
+            return Json(true);
+        }
+
+        public JsonResult ReactivateAccountByCasaAccountId(int id)
+        {
+            var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(c => c.Casaaccountid == id).FirstOrDefault();
+
+            result.Accountstatusid = 1;
+
+            CustomerUnitOfWork.Accounts.Update(result);
+
+            CustomerUnitOfWork.Commit();
+
+            return Json(result);
         }
 
         #endregion

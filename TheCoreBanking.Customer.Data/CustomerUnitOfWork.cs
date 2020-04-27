@@ -67,10 +67,12 @@ namespace TheCoreBanking.Customer.Data
         public IDesignationRepository Designation { get { return GetEntityRepository<IDesignationRepository>(); } }
         public IAccountClosureRepository ClosuredAccount => GetEntityRepository<IAccountClosureRepository>();
         public IChartofAccountRepository Chart { get { return GetEntityRepository<IChartofAccountRepository>(); } }
-        public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
+        public ICasaProductConversionTrackerRepository CasaProductConversionTracker { get { return GetEntityRepository<ICasaProductConversionTrackerRepository>(); } }
+       
+    public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
         {
             repositoryProvider.DbContext = DbContext;
-            RepositoryProvider = repositoryProvider;
+            RepositoryProvider = repositoryProvider; 
         }
         
         public void Commit()

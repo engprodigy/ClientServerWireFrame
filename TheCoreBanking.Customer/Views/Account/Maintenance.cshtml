@@ -323,100 +323,106 @@
                     </h4>
                     <h5 class="headerProductConversionDetails text-primary"></h5>
                     <h5 class="headerProductConversionDetails2 text-primary"></h5>
-                    
+                    <h5 class="headerProductConversionDetails3 text-primary"></h5>
+
                 </div>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row justify-content-center">
-                        <div class="col-xs-12 w-100">
-                            <div  id="mandate-toolbar">
-                                <p class="text-primary"> SELECT NEW PRODUCT YOU WANT TO CONVERT TO BELOW: </p>
+                <form id="formProductUpdate">
+                    <input type="hidden" name="mandateid" />
+
+
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-xs-12 w-100">
+                                <div id="mandate-toolbar">
+                                    <p class="text-primary"> SELECT NEW PRODUCT YOU WANT TO CONVERT TO BELOW: </p>
+                                </div>
+                                <div class="table-responsive">
+                                    <table id="productListTable" class="data-table"
+                                           data-toggle="table" data-show-refresh="true" data-min-width="992"
+                                           data-search="true" data-show-toggle="true" data-check-on-init="true"
+                                           data-buttons-class="danger" data-unique-id="id"
+                                           data-page-list="[5,10,25,50,100,150,200,250,300]"
+                                           data-search-align="right" data-page-size="5"
+                                           data-toolbar="#mandate-toolbar" data-mobile-responsive="true"
+                                           data-pagination="true">
+                                        <thead>
+                                            <tr>
+                                                <th data-radio="true"></th>
+                                                <th data-sortable="true" data-field="productName">Product Name</th>
+                                                <th data-sortable="true" data-field="productType.pdType">Product Type</th>
+                                                @*<th data-sortable="true" data-field="productcategory.productcategoryname">Product Category</th>*@
+                                                <th data-sortable="true" data-field="productCode">Product Code</th>
+                                                <th data-sortable="true" data-field="productDescription">Description</th>
+
+
+                                                @*<th data-formatter="utilities.editMandateBtnFormatter"></th>*@
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="table-responsive">
-                                <table id="productListTable" class="data-table"
-                                       data-toggle="table" data-show-refresh="true" data-min-width="992"
-                                       data-search="true" data-show-toggle="true" data-check-on-init="true"
-                                       data-buttons-class="danger" data-unique-id="id"
-                                       data-page-list="[5,10,25,50,100,150,200,250,300]"
-                                       data-search-align="right" data-page-size="5"
-                                       data-toolbar="#mandate-toolbar" data-mobile-responsive="true"
-                                       data-pagination="true">
-                                    <thead>
-                                        <tr>
-                                            <th data-radio="true"></th>
-                                            <th data-sortable="true" data-field="productName">Product Name</th>
-                                            <th data-sortable="true" data-field="productType.pdType">Product Type</th>
-                                            @*<th data-sortable="true" data-field="productcategory.productcategoryname">Product Category</th>*@
-                                            <th data-sortable="true" data-field="productCode">Product Code</th>
-                                            <th data-sortable="true" data-field="productDescription">Description</th>
 
-
-                                            @*<th data-formatter="utilities.editMandateBtnFormatter"></th>*@
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-
-                        @*<div class="row mt-2 ">
-                                        <div class="col">
-                                            <button type="button" id="doneBtn" class="btn btn-danger btn-wd"
-                                                    onclick="utilities.showMandateTable()">
-                                                DONE
-                                            </button>
-                                        </div>
-
-                                        <div class="col" >
-                                            <button type="button" id="updateBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
-                                                    onclick="utilities.updateMandate()">
-                                                UPDATE
-                                            </button>
-                                           <button type="button" id="saveBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
-                                                    onclick="utilities.addAddress()">
-                                                SAVE
-                                            </button>
-                                        </div>
-                                    </div>*@
-
+                            @*<div class="row mt-2 ">
+                    <div class="col">
+                        <button type="button" id="doneBtn" class="btn btn-danger btn-wd"
+                                onclick="utilities.showMandateTable()">
+                            DONE
+                        </button>
                     </div>
-                    <div class="row justify-content-center">
-                         <div class="col">
-                            <div class="card shadow-none">
-                               
-                         <div class="row mt-2 justify-content-between">
+
+                    <div class="col" >
+                        <button type="button" id="updateBtn"
+                                class="btn btn-danger btn-wd pull-right"
+                                onclick="utilities.updateMandate()">
+                            UPDATE
+                        </button>
+                       <button type="button" id="saveBtn"
+                                class="btn btn-danger btn-wd pull-right"
+                                onclick="utilities.addAddress()">
+                            SAVE
+                        </button>
+                    </div>
+                </div>*@
+
+                        </div>
+                        <div class="row justify-content-center">
                             <div class="col">
-                               @* <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
+                                <div class="card shadow-none">
+
+                                    <div class="row mt-2 justify-content-between">
+                                        <div class="col">
+                                            @* <button type="button" id="doneBtn" class="btn btn-danger btn-wd pull-left"
                                         onclick="utilities.showMandateTable()">
                                     CANCEL
                                 </button>*@
-                            </div>
+                                        </div>
 
-                            <div class="col">
-                                <button type="button" id="updateBtn"
-                                        class="btn btn-danger btn-wd pull-right"
-                                        onclick="utilities.updateProduct()">
-                                    UPDATE
-                                </button>
-                                @*<button type="button" id="saveBtn"
+                                        <div class="col">
+                                            <button type="button" id="updateBtn"
+                                                    class="btn btn-danger btn-wd pull-right"
+                                                    onclick="utilities.updateProduct()">
+                                                UPDATE
+                                            </button>
+                                            @*<button type="button" id="saveBtn"
                                         class="btn btn-danger btn-wd pull-right"
                                         onclick="utilities.addAddress()">
                                     SAVE
                                 </button>*@
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
                             </div>
                         </div>
-                    
-
-
-                </div>
-            </div>
-        </div>
-                                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

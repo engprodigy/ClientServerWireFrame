@@ -23,6 +23,7 @@ var productFeeListExtra = [];
 var productFeeListIdExtra = [];
 var approvalStatus = [];
 var approvalStatusLogOut;
+var approvalstatusBoolean;
 
 
 
@@ -311,39 +312,59 @@ function productConversionHandler(self) {
 
     debugger
     casaaccountNumber = self;
+    casaAccountId = self;
     UpdateAccount = $("#data-table")
         .bootstrapTable('getRowByUniqueId', self);
 
     utilities.updateWizardHeaderProductConversion("#productConversionModal");
     utilities.updateWizardHeaderProductConversion2("#productConversionModal");
 
-   // $("#refereeUpdateModal #status").text(" ");
+    $("#formProductUpdate #updateBtn").removeAttr("disabled");
+    $.ajax("../Account/CheckApprovalStatus/" + casaAccountId
 
-   // $(container + ".headerProductConversionDetails2")
+    ).then(function (response) {
 
-     //   .text("Account Product Name: " + UpdateAccount.productid
 
-    $.ajax("../Account/LoadProducts/")
-        .then(function (response) {
-            console.log(response);
-            if (!response) {
+        debugger
 
-            } else {
-                $("#productListTable").bootstrapTable("load", response);
-                $("#productListTable").bootstrapTable("hideLoading");
 
-                // show/hide form/table
-                //$("#frmrefereeUpdate").closest("div.row").hide();
-                $("#productListTable").closest("div.row").show();
-                //$("#referee-toolbar").show();
-                // swap title text
-               // $("#productListTable #title").text("Account Referee(s)");
+        approvalstatusBoolean = response;
+        if (response == "Pending") {
+            $("#productConversionModal" + " .headerProductConversionDetails3")
+                .text("Pending Approval");
+        }
+        if (response == "Disapproved") {
+            $("#productConversionModal" + " .headerProductConversionDetails3")
+                .text("Disapproved");
+        }
+        if (response == "Approved") {
+            $("#productConversionModal" + " .headerProductConversionDetails3")
+                .text(" ");
+        }
 
-                // Show modal
-                $("#productConversionModal").modal("show");
-            }
-        });
+        $.ajax("../Account/LoadProducts/")
+            .then(function (response) {
+                console.log(response);
+                if (!response) {
 
+                } else {
+                    $("#productListTable").bootstrapTable("load", response);
+                    $("#productListTable").bootstrapTable("hideLoading");
+
+                    
+                    $("#productListTable").closest("div.row").show();
+                    
+                    $("#productConversionModal").modal("show");
+                }
+            });
+
+
+    });
+
+  
+
+    
+    approvalstatusBoolean = " ";
 
 
 }
@@ -367,62 +388,14 @@ function emailMaintenanceHandler(self) {
     // Show modal
     $("#emailUpdateModal").modal("show");
 
-   /* $.ajax("../Account/LoadEmail/")
-        .then(function (response) {
-            console.log(response);
-            if (!response) {
-
-            } else {
-               
-                $("#emailUpdateTable").bootstrapTable("load", response);
-                $("#emailUpdateTable").bootstrapTable("hideLoading");
-
-                // show/hide form/table
-                $("#frmEmailUpdate").closest("div.row").hide();
-                $("#emailUpdateTable").closest("div.row").show();
-
-                // swap title text
-                $("#emailUpdateModal #title").text("Customer E-mail(s)");
-
-                // Show modal
-                $("#emailUpdateModal").modal("show");
-            }
-        });*/
+   
 
 
 
 
 }
 
-//function approvalStatusFormatter(value) {
 
-//    debugger
-
-//    $.ajax("../Account/LoadAccountMandateMaintenanceApprovalStatus/" + value)
-//        .then(function (response) {
-
-//            $.each(response, function (index, value) {
-
-//                console.log(value);
-//                approvalStatus.push(value);
-             
-//            });
-            
-           
-        
-//        });
-
-//    console.log(approvalStatus[0])
-//    return approvalStatus[0];
-//    //if (value == 1) {
-//    //console.log(approvalStatus)
-
-    
-
-//    //} else {
-//    //    return "Pending";
-//    //}
-//}
 
 function feeMaintenanceHandler(self) {
 
@@ -589,15 +562,7 @@ function  updateLinkedFees() {
     });
 
 
-    /*$.each(selectionData, function (index, itemData) {
-
-        if (!productFeeListIdOriginal.includes(itemData.PdFeesId)) {
-            newselectionData.push(itemData);
-        }
-
-    });*/
-
-   // console.log(newselectionData);
+  
 
     var counter = 0;
     // $.each(newselectionData, function (index, itemData) {
@@ -714,10 +679,7 @@ function  updateLinkedFees() {
                     casaAccountId: casaAccountId
                 },
                 success: function (data) {
-                    // $table.bootstrapTable('refresh');
-                    //    swal({ title: 'Add Fees to Product', text: 'CASA Fees Addition/Deletion Completed successfully!', type: 'success' }).then(function () { });
-
-                    // $('#ddlProductname').val(null).trigger('change');
+                   
                 },
                 error: function (e) {
                     //    swal({ title: 'Fee Mapping', text: 'CASA Fees Addition/Deletion encountered an error', type: 'error' }).then(function () { });
@@ -761,9 +723,7 @@ function  updateLinkedFees() {
 
              });
 
-           //  console.log(productFeeListId);
-           //  console.log(productFeeList);
-           // $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
+          
 
          },
      });
@@ -782,17 +742,13 @@ function  updateLinkedFees() {
                  productFeeListExtra.push(value.feeId);
              });
 
-           //  console.log(productFeeListId);
-           //  console.log(productFeeList);
-           //  $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
+          
 
          },
      });
 
     $("#accountFeeUpdateModal").modal("hide");
-   // $table.bootstrapTable('refresh');
-   // $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
-   // $("#accountFeeUpdateModal").modal("show");
+   
     
 
 }
@@ -832,21 +788,10 @@ $('#mandateUpdateTable').on('check.bs.table', function (row, $element) {
     var bottom_row = $("#mandateImage");
 
 
-   // if ($element.length == 0) {
-   //     var address_col = $("<div class='col-sm-12 col-md-6'></div>");
-   //     address_col.append("<p>No Mandate Record Found.</p>");
-   // } else {
-   //     $.each($element, function (index, value) {
-            //console.log(value.byte);
-           // var address_col = $("<div class='col-sm-12 col-md-6'></div>");
-           // address_col.append("<p>&nbsp;</p>");
-           // address_col.append("<h6 class='detail-primary d-inline-block mb-3'>" + value.description + "</h6>");
-           // address_col.append("<p>&nbsp;</p>");
+  
             var html = [];
             html.push("<p><img src='data:" + $element.mime + ";base64," + $element.byte + " ' alt='Trulli' width='400' height='233'></p>");
-            /*html.push(value.address + ", " + value.city + ", " + value.state.statename);
-            html.push(", " + value.country.name + ".</p>");*/
-           // address_col.append(html.join(""));
+           
              bottom_row.append(html.join(""));
     //    });
    // }
@@ -886,14 +831,7 @@ var utilities = {
                     mandates = response;
                     console.log(mandates);
                 })
-           /* $.ajax("../Profile/LoadCustomerEmails/" + row.customerid)
-                .then(function (response) {
-                    emails = response;
-                }),
-            $.ajax(url_path + "/Profile/LoadCustomerPhones/" + row.customerid)
-                .then(function (response) {
-                    phones = response;
-                })*/
+          
         ).then(function () {
             var top_row = $("<div class='row'></div>");
             var bottom_row = $("<div class='row'></div>");
@@ -924,35 +862,9 @@ var utilities = {
                 });
             }
 
-           /* phone_col.append("<h6 class='detail-primary d-inline-block mb-3'>PHONE</h6>");
-            if (phones.length == 0) {
-                phone_col.append("<p>No phone record.</p>");
-            } else {
-                $.each(phones, function (index, value) {
-                    phone_col.append("<p><b>Phone</b>: " + value.phone + "</p>");
-                });
-            }
+           
 
-            email_col.append("<h6 class='detail-primary d-inline-block mb-3'>E-mail(s)</h6>");
-            if (emails.length == 0) {
-                email_col.append("<p>No e-mail record.</p>");
-            } else {
-                $.each(emails, function (index, value) {
-                    email_col.append("<p><b>E-mail</b>: " + value.email + "</p>");
-                });
-            }
-
-            bvn_col.append("<h6 class='detail-primary d-inline-block mb-3'>BVN</h6>");
-            if (bvn == null) {
-                bvn_col.append("<p>No BVN record.</p>");
-            } else {
-
-                bvn_col.append("<p><b>BVN</b>: " + bvn + "</p>");
-
-            }*/
-
-           // top_row.append(bvn_col, phone_col, email_col);
-           // bottom_row.append(address_col);
+           
             detail.empty();
             detail.append(top_row, bottom_row);
         });
@@ -980,44 +892,7 @@ var utilities = {
                 queue: false
             });
     },
-    /*deleteMandateBtnFormatter: function (val, row, index) {
-        return [
-            "<button class='btn btn-danger btn-icon' ",
-            "onclick='utilities.removeMandate(" + row.tracker + ")'>",
-            "<i class='now-ui-icons ui-1_simple-remove'>",
-            "</i></button>"
-        ].join("");
-    },
-    deleteRefereeBtnFormatter: function (val, row, index) {
-        return [
-            "<button class='btn btn-danger btn-icon' ",
-            "onclick='utilities.removeReferee(" + row.tracker + ")'>",
-            "<i class='now-ui-icons ui-1_simple-remove'>",
-            "</i></button>"
-        ].join("");
-    },
-    deleteMandateUpdateBtnFormatter: function (val, row, index) {
-        return [
-            "<button class='btn btn-danger btn-icon' ",
-            "onclick='deleteMandateUpdate(" + row.mandateid + ")'>",
-            "<i class='now-ui-icons ui-1_simple-remove'>",
-            "</i></button>"
-        ].join("");
-    },
-    deleteRefereeUpdateBtnFormatter: function (val, row, index) {
-        return [
-            "<button class='btn btn-danger btn-icon' ",
-            "onclick='deleteRefereeUpdate(" + row.refereeid + ")'>",
-            "<i class='now-ui-icons ui-1_simple-remove'>",
-            "</i></button>"
-        ].join("");
-    },
-    productNameFormatter: function (value) {
-        var name = null;
-        name = productData[value];
-        if (!name) return "-";
-        return name;
-    },*/
+   
     dropDownFormatter: function (value, row) {
         //debugger
         
@@ -1078,17 +953,7 @@ var utilities = {
         
         mandateUpdateForm.find("[name=mandateType]").text(description);
 
-        // Populate individual form fields
-        /*var addressForm = $("#frmAddressUpdate");
-        
-        addressForm.find("[name=address]").val(row.address);
-        addressForm.find("[name=addresstypeid]")
-            .val(row.addresstypeid).change();
-        addressForm.find("[name=city]").val(row.city);
-        addressForm.find("[name=stateid]")
-            .val(row.stateid).change();
-        addressForm.find("[name=countryid]")
-            .val(row.countryid).change();*/
+       
 
         // swap out title text + hide/show buttons
         $("#mandateUpdateModal #title").text("Edit Mandate");
@@ -1127,34 +992,26 @@ var utilities = {
     },
     updateWizardHeader: function (container) {
         $(container + " .headerAcctDetails")
-           /* .text(UpdateAccount.surname + " "
-                + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
-                + UpdateCustomer.customercode);*/
+           
             .text("Account Number: " + UpdateAccount.accountnumber
                 );
     },
     updateWizardHeaderReferee: function (container) {
         $(container + " .headerrefereeDetails")
-            /* .text(UpdateAccount.surname + " "
-                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
-                 + UpdateCustomer.customercode);*/
+            
             .text("Account Number: " + UpdateAccount.accountnumber
             );
     },
     updateWizardHeaderProductConversion: function (container) {
         $(container + " .headerProductConversionDetails")
-            /* .text(UpdateAccount.surname + " "
-                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
-                 + UpdateCustomer.customercode);*/
+           
             .text("Account Number: " + UpdateAccount.accountnumber
             );
     },
 
     updateWizardHeaderProductConversion2: function (container) {
         $(container + " .headerProductConversionDetails2")
-            /* .text(UpdateAccount.surname + " "
-                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
-                 + UpdateCustomer.customercode);*/
+           
             .text("Account Product Name: " + UpdateAccount.productName
             );
     },
@@ -1164,9 +1021,7 @@ var utilities = {
        // debugger
 
         $(container + " .headerAcctFeeDetails")
-            /* .text(UpdateAccount.surname + " "
-                 + (UpdateCustomer.firstname ? UpdateCustomer.firstname : '') + " - "
-                 + UpdateCustomer.customercode);*/
+           
             .text("CASA Account Number: " + casaaccountNumber
             );
     },
@@ -1251,9 +1106,7 @@ var utilities = {
                                 });
 
                             $("#frmMandateUpdate #doneBtn").show();
-                            // refresh data-table
-                           // $("#mandate-update-data-table")
-                           //     .bootstrapTable("load", response);
+                          
                             
                             swal({
                                 title: "Update Mandate",
@@ -1264,13 +1117,7 @@ var utilities = {
                             }).then(function () {
                                 
                                 
-                                // unfreeze save button
-                                //$(button).removeAttr("disabled");
-                                // Clear form + return to table
-                               // utilities.showMandateUpdateTable();
-                               // form.trigger("reset");
-                               // form.find("select").val(null)
-                               //     .trigger("change"); // for s
+                                
                             });
 
                            
@@ -1682,11 +1529,7 @@ var utilities = {
         var selectionData = $table.bootstrapTable('getAllSelections');
         
 
-        //productFeeListOriginal = [];
-        //productFeeListIdOriginal = [];
         
-        //productFeeListExtra = [];
-        //productFeeListIdExtra = [];
 
         console.log(productFeeListExtra);
 
@@ -1702,13 +1545,7 @@ var utilities = {
         });
 
        
-        /*$.each(selectionData, function (index, itemData) {
-
-            if (!productFeeListIdOriginal.includes(itemData.PdFeesId)) {
-                newselectionData.push(itemData);
-            }
-
-        });*/
+       
 
         console.log(newselectionData);
 
@@ -1732,24 +1569,7 @@ var utilities = {
 
                 console.log("Insert Into Database");
 
-                //$.ajax({
-                //    url: 'ProductMapping/AddProductFeesList',
-                //    type: 'POST',
-                //    data: {
-                //        Id: 1, PdFeesId: itemData.PdFeesId, productCode: productId, PdFeesName: itemData.PdFeesName,
-                //        PdRate: itemData.PdRate
-                //    },
-                //    success: function (data) {
-                //        $table.bootstrapTable('refresh');
-                //        swal({ title: 'Add Fees to Product', text: 'Product Fees Addition/Deletion Completed successfully!', type: 'success' }).then(function () { clearFee(); });
-                        
-                //        $('#ddlProductname').val(null).trigger('change');
-                //    },
-                //    error: function (e) {
-                //        swal({ title: 'Fee Mapping', text: 'Fee Mapping to Product encountered an error', type: 'error' }).then(function () { clearFee(); });
-                        
-                //    }
-                //});
+              
 
                 console.log(itemData);
 
@@ -1836,62 +1656,7 @@ var utilities = {
 
         debugger
 
-       /* casaRowContent = $("#data-table").bootstrapTable('getRowByUniqueId', casaAccountId);
-
-        casaaccountNumber = casaRowContent.accountnumber;
-
-        var $table = $('#productMappingFeesTable');
-
-         $table.bootstrapTable('uncheckAll');
-
-        productFeeList = [];
-        productFeeListId = [];
-        productFeeListOriginal = [];
-        productFeeListIdOriginal = [];
-        productFeeListIdExtra = [];
-        productFeeListExtra = [];
-        $.ajax({
-            type: 'GET',
-            url: '../Account/GetFeeName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
-            success: function (result) {
-                console.log(result);
-                $.each(result, function (index, value) {
-
-                    console.log(value.feeId);
-                    productFeeListId.push(value.id);
-                    productFeeList.push(value.feeId);
-                    productFeeListOriginal.push(value.feeId);
-                    productFeeListIdOriginal.push(value.id);
-
-                });
-
-                console.log(productFeeListId);
-                console.log(productFeeList);
-                $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
-
-            },
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: '../Account/GetFeeExtraName?productName=' + casaRowContent.productName + '&casaAccountId=' + casaAccountId,
-            success: function (result) {
-                console.log(result);
-                $.each(result, function (index, value) {
-
-                    console.log(value.feeId);
-                    productFeeListId.push(value.id);
-                    productFeeList.push(value.feeId);
-                    productFeeListIdExtra.push(value.id);
-                    productFeeListExtra.push(value.feeId);
-                });
-
-                console.log(productFeeListId);
-                console.log(productFeeList);
-                $table.bootstrapTable('checkBy', { field: 'pdFeesId', values: productFeeList });
-
-            },
-        });*/
+    
 
         $("#accountFeeUpdateModal").modal("hide");
 
@@ -1899,321 +1664,79 @@ var utilities = {
     updateProduct: function () {
         debugger
         var $table = $('#productListTable');
-        alert('getSelections: ' + JSON.stringify($table.bootstrapTable('getSelections')));
 
-       
 
-    },
-    /*approvalStatusFormatter: function (value) {
+        var productDetails = JSON.stringify($table.bootstrapTable('getSelections'));
 
-        debugger
+        if (!productDetails || productDetails.length == 2) {
+
+            $.notify({
+                icon: "now-ui-icons travel_info",
+                message: "Please Select A Product"
+            }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            });
+
+            return;
+        }
+
         
-        $.ajax("../Account/LoadAccountMandateMaintenanceApprovalStatus/" + value)
-            .then(function (response) {
 
-              //  if (response) {
-                    console.log(response)
-                approvalStatus = response;
 
-              //  } 
-            });
-      
-        //if (value == 1) {
-        console.log(approvalStatus)
+        if (approvalstatusBoolean == "Pending") {
 
-        return approvalStatus;
-
-        //} else {
-        //    return "Pending";
-        //}
-    },*/
-
-   /* clearWizard: function () {
-        clear();
-        $('#account-data-table').bootstrapTable('refresh', {
-            silent: true
-        });
-        // Clear data-tables' objects
-        $("#mandate-data-table").bootstrapTable("removeAll");
-        $("#referee-data-table").bootstrapTable("removeAll");
-        $('#wizardModal').modal('hide');
-        // Unfreeze finish button
-        $("#accountWizard .btn-finish").removeAttr("disabled");
-    },
-    clearUpdateWizard: function () {
-        clear();
-        $('#account-data-table').bootstrapTable('refresh', {
-            silent: true
-        });
-        // Clear update data-tables
-        $("#mandate-update-data-table").bootstrapTable("removeAll");
-        $("#referee-update-data-table").bootstrapTable("removeAll");
-        $('#wizardModal').modal("hide");
-        // Unfreeze finish button
-        $("#accountUpdateWizard .btn-finish").removeAttr("disabled");
-    },
-    showMandateForm: function () {
-        // TODO: clear mandate form (trigger reset)
-
-        // form-enter/table-leave animation
-        $("#mandate-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#frmMandate").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
+            $.notify({
+                icon: "now-ui-icons travel_info",
+                message: "Pending Approval"
+            }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
             });
 
-        // Hide wizard nav buttons
-        $("#frmMandate").closest(".card-wizard").find(".card-footer").hide();
-    },
-    showMandateUpdateForm: function () {
-        // TODO: clear mandate form (trigger reset)
-
-        // form-enter/table-leave animation
-        $("#mandate-update-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#mandate-update-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Hide wizard nav buttons
-        $("#mandate-update-form").closest(".card-wizard").find(".card-footer").hide();
-    },
-    showRefereeForm: function () {
-        // form-enter/table-leave animation
-        $("#referee-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#referee-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Hide wizard nav buttons
-        $("#referee-form").closest(".card-wizard")
-            .find(".card-footer").hide();
-    },
-    showRefereeUpdateForm: function () {
-        // form-enter/table-leave animation
-        $("#referee-update-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#referee-update-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Hide wizard nav buttons
-        $("#referee-update-form").closest(".card-wizard")
-            .find(".card-footer").hide();
-    },
-    showMandateTable: function () {
-        // form-leave/table-enter animation
-        $("#mandate-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#frmMandate").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Show wizard nav buttons
-        $("#frmMandate").closest(".card-wizard").find(".card-footer").show();
-
-        // TODO: clear mandate form (trigger reset)
-    },
-    showMandateUpdateTable: function () {
-        // form-leave/table-enter animation
-        $("#mandate-update-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#mandate-update-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Show wizard nav buttons
-        $("#mandate-update-form").closest(".card-wizard").find(".card-footer").show();
-    },
-    showRefereeTable: function () {
-        // form-leave/table-enter animation
-        $("#referee-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#referee-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Show wizard nav buttons
-        $("#referee-form").closest(".card-wizard")
-            .find(".card-footer").show();
-    },
-    showRefereeUpdateTable: function () {
-        // form-leave/table-enter animation
-        $("#referee-update-data-table").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-        $("#referee-update-form").closest("div.row")
-            .slideToggle({
-                duration: utilities.animDuration,
-                queue: false
-            });
-
-        // Show wizard nav buttons
-        $("#referee-update-form").closest(".card-wizard")
-            .find(".card-footer").show();
-    },
-    previewUpload: function (el) {
-        if (!el.files.length) {
-            $(el).parent(".btn-file").nextAll('.image-box').addClass("d-none");
             return;
         }
-        var blob = window.URL.createObjectURL(el.files[0]);
-        $(el).parent(".btn-file").nextAll('.image-box').removeClass("d-none");
-        $(el).parent(".btn-file").nextAll('.image-box')
-            .css('background-image', 'url(' + blob + ')');
-    },
-    addMandate: function () {
-        var form = $("#frmMandate");
-        if (!form.valid()) {
-            return;
-        }
+        
+        //alert('getSelections: ' + JSON.stringify($table.bootstrapTable('getSelections')));
 
-        var form_array = form.serializeArray();
+        var productDetailsArray = $table.bootstrapTable('getSelections');
 
-        // remove empty entries
-        form_array = $.map(form_array, function (item) {
-            if ($.trim(item.value).length !== 0)
-                return item;
-            return null;
-        });
+        
 
-        // flatten form
-        var form_data = {};
-        $.each(form_array, function (index, item) {
-            form_data[item.name] = item.value;
-        });
+        console.log(productDetailsArray[0].id);
 
-        var passport = form.find("input[name=mandate-passport]").get(0).files;
-        var signature = form.find("input[name=mandate-signature]").get(0).files;
-        var thumbprint = form.find("input[name=mandate-thumbprint]").get(0).files;
+        console.log("Insert Into Database");
+        $.ajax({
+            url: '../Account/UpdateAccountProductConversionApprovalStatus',
+            type: 'POST',
+            data: {
+                id: casaAccountId,
+                productid: productDetailsArray[0].id
+            },
+            success: function (data) {
+                $table.bootstrapTable('refresh');
+                swal({ title: 'Add Fees to Product', text: 'Account Product Conversion Update Completed successfully!', type: 'success' }).then(function () { });
 
-        var form_bag = new FormData();
-        if (passport.length) {
-            form_bag.append("passport", passport[0]);
-        }
-        if (signature.length) {
-            form_bag.append("signature", signature[0]);
-        }
-        if (thumbprint.length) {
-            form_bag.append("thumbprint", thumbprint[0]);
-        }
+                // $('#ddlProductname').val(null).trigger('change');
+            },
+            error: function (e) {
+                swal({ title: 'Fee Mapping', text: 'Account Product Conversion Update encountered an error', type: 'error' }).then(function () { });
 
-        // set form data, increment counter + set fake id (tracker)
-        $("#mandate-data-table")
-            .bootstrapTable(
-                "append", {
-                tracker: ++mandate_count,
-                data: form_data,
-                images: form_bag
-            });
-
-        // Clear form + return to table
-        form.trigger("reset");
-        form.find("select").val(null).trigger("change"); // for select2
-        utilities.showMandateTable();
-    },
-    addReferee: function () {
-        var form = $("#referee-form");
-        if (!form.valid()) {
-            return;
-        }
-
-        var form_array = form.serializeArray();
-
-        // remove empty entries
-        form_array = $.map(form_array, function (item) {
-            if ($.trim(item.value).length !== 0)
-                return item;
-            return null;
-        });
-
-        // flatten form
-        var form_data = {};
-        $.each(form_array, function (index, item) {
-            form_data[item.name] = item.value;
-        });
-
-        var document = form.find("input[name=referee-file]").get(0).files[0];
-        var form_bag = new FormData();
-        form_bag.append("Document", document);
-
-        // set form data, increment counter + set fake id (tracker)
-        $("#referee-data-table")
-            .bootstrapTable(
-                "append", {
-                tracker: ++referee_counter,
-                data: form_data,
-                form: form_bag
-            });
-
-        // Clear form + return to table
-        form.trigger("reset");
-        form.find("select").val(null).trigger("change"); // for select2
-        utilities.showRefereeTable();
-
-    },
-    removeMandate: function (tracker) {
-        $("#mandate-data-table")
-            .bootstrapTable("remove", {
-                field: "tracker",
-                values: [tracker]
-            });
-    },
-    removeReferee: function (tracker) {
-        $("#referee-data-table")
-            .bootstrapTable("remove", {
-                field: "tracker",
-                values: [tracker]
-            });
-    },
-    objectAppendHelper: function (item, container, append = true) {
-        if ($.trim(item.value).length !== 0) {
-            if (append) {
-                container[item.name] = item.value;
-            } else {
-                var model = {};
-                model[item.name] = item.value;
-                return model;
             }
-        }
-        return null;
-    },*/
+        });
+
+        
+
+        $("#formProductUpdate #updateBtn").attr("disabled", "disabled");
+        //$("#formProductUpdate #updateBtn").show();
+       // $("formProductUpdate #updateBtn").hide();
+
+    },
+   
 };

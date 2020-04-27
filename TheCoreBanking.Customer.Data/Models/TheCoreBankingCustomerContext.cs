@@ -21,6 +21,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public virtual DbSet<TblBusinesscategory> TblBusinesscategory { get; set; }
         public virtual DbSet<TblCasa> TblCasa { get; set; }
         public virtual DbSet<TblCasaaccountstatus> TblCasaaccountstatus { get; set; }
+        public virtual DbSet<TblCasaproductconversiontracker> TblCasaproductconversiontracker { get; set; }
         public virtual DbSet<TblCasafreeze> TblCasafreeze { get; set; }
         public virtual DbSet<TblCasapostnostatus> TblCasapostnostatus { get; set; }
         public virtual DbSet<TblCity> TblCity { get; set; }
@@ -101,12 +102,13 @@ namespace TheCoreBanking.Customer.Data.Models
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
 
 #if DEBUG
-                 optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
-              
-               // optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
-               
+                optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+
+               //optionsBuilder.UseSqlServer(@"Server=fintraksqlmmbs.database.windows.net;Database=TheCoreBankingAzure;User Id=fintrak;Password=Password20$;");
+
 #else
-                optionsBuilder.UseSqlServer(@"Server=BANKINGPLATFORM\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+               
+                 optionsBuilder.UseSqlServer(@"Server=fintraksqlmmbs.database.windows.net;Database=TheCoreBankingAzure;User Id=fintrak;Password=Password20$;");
                
 #endif
             }
@@ -4706,6 +4708,46 @@ namespace TheCoreBanking.Customer.Data.Models
                     .HasConstraintName("FK_TBL_Finance_tbl_FinanceChartOfAccount");
 
             });
+
+            modelBuilder.Entity<TblCasaproductconversiontracker>(entity =>
+            {
+                entity.ToTable("TBL_CASAPRODUCTCONVERSIONTRACKER", "Customer");
+
+                entity.HasKey(e => e.Casaprodconvid);
+
+                entity.Property(e => e.Casaprodconvid)
+                    .HasColumnName("CASAPRODCONVID");
+
+                entity.Property(e => e.Approvalstatus)
+                    .HasColumnName("APPROVALSTATUS")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Casaaccountid).HasColumnName("CASAACCOUNTID");
+
+                entity.Property(e => e.Copyfileid).HasColumnName("COPYFILEID");
+
+                entity.Property(e => e.Deleteflag).HasColumnName("DELETEFLAG");
+
+                entity.Property(e => e.Isapproved).HasColumnName("ISAPPROVED");
+
+                entity.Property(e => e.Isdeleted).HasColumnName("ISDELETED");
+
+                entity.Property(e => e.Isdisapproved).HasColumnName("ISDISAPPROVED");
+
+                entity.Property(e => e.Isnewlycreated).HasColumnName("ISNEWLYCREATED");
+
+                entity.Property(e => e.Newproductid).HasColumnName("NEWPRODUCTID");
+
+                entity.Property(e => e.Oldproductid).HasColumnName("OLDPRODUCTID");
+
+                /* entity.HasOne(d => d.Casaaccount)
+                     .WithMany(p => p.TblCasaproductconversiontracker)
+                     .HasForeignKey(d => d.Casaaccountid)
+                     .OnDelete(DeleteBehavior.ClientSetNull)
+                     .HasConstraintName("FK_TBL_CASAPRODUCTCONVERSIONTRACKER_TBL_CASA");*/
+            });
+
+
         }
     }
 }

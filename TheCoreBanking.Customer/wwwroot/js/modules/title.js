@@ -111,7 +111,7 @@ window.titleEvents = {
 function updateCustTitle() {
     swal({
         title: "Are you sure?",
-        text: "Mode of ID will be updated!",
+        text: "Customer Title will be updated!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#ff9800",

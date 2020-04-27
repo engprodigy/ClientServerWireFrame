@@ -233,5 +233,17 @@
       "renameLocals": false
     },
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/modules/accountreactivation.min.js",
+    "inputFiles": [
+      "wwwroot/js/modules/accountreactivation.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false
+    },
+    "sourceMap": false
   }
+
 ]

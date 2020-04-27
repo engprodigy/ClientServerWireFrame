@@ -11,6 +11,7 @@ namespace TheCoreBanking.Customer.Data.Models
             TblCustomeraccountservice = new HashSet<TblCustomeraccountservice>();
             TblMandate = new HashSet<TblMandate>();
             TblBankingProductFeesListExtraMaintenance = new HashSet<TblBankingProductFeesListExtraMaintenance>();
+           // TblCasaproductconversiontracker = new HashSet<TblCasaproductconversiontracker>();
         }
 
         public int Casaaccountid { get; set; }
@@ -66,5 +67,6 @@ namespace TheCoreBanking.Customer.Data.Models
         public ICollection<TblCustomeraccountservice> TblCustomeraccountservice { get; set; }
         public ICollection<TblMandate> TblMandate { get; set; }
         public ICollection<TblBankingProductFeesListExtraMaintenance> TblBankingProductFeesListExtraMaintenance { get; set; }
+        //public ICollection<TblCasaproductconversiontracker> TblCasaproductconversiontracker { get; set; }
     }
 }

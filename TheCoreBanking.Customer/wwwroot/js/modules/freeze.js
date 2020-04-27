@@ -14,6 +14,58 @@ $(document).ready(function () {
     $(".modal").perfectScrollbar();
 });
 
+
+function initFormValidations() {
+    // defaults
+    jQuery.validator.setDefaults({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        normalizer: function (value) {
+            // Trim the value of every element
+            // before validation
+            return $.trim(value);
+        },
+        errorPlacement: function (error, element) {
+            $.notify({
+                icon: "now-ui-icons travel_info",
+                message: error.text()
+            }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            });
+        }
+    });
+
+    $("#freeze-account-form").validate({
+        rules: {
+            productaccountno: {
+                digits: true,
+                maxlength: 50
+            },
+            freezeamount: {
+                digits: true,
+                maxlength: 50
+            }
+        },
+        messages: {
+            productaccountno: {
+                required: "You must select an account to proceed",
+            },
+            freezeamount: {
+                // add rules & messages for money validations (with formatting)
+                required: "Please enter amount to freeze"
+            }
+        },
+
+        ignore: false
+    });
+}
+
+
 function openModal() {
     // TODO clear form
     // show modal
@@ -69,9 +121,9 @@ function save() {
    
     var form = $("#freeze-account-form");
 
-    /*if (!form.valid()) {
+    if (!form.valid()) {
         return false;
-    }*/
+    }
 
     var valid = true;
 
@@ -472,55 +524,7 @@ function initDatePicker() {
     }
 }
 
-function initFormValidations() {
-    // defaults
-    jQuery.validator.setDefaults({
-        onfocusout: false,
-        onkeyup: false,
-        onclick: false,
-        normalizer: function (value) {
-            // Trim the value of every element
-            // before validation
-            return $.trim(value);
-        },
-        errorPlacement: function (error, element) {
-            $.notify({
-                icon: "now-ui-icons travel_info",
-                message: error.text()
-            }, {
-                    type: "danger",
-                    placement: {
-                        from: "top",
-                        align: "right"
-                    }
-                });
-        }
-    });
 
-    $("#freeze-account-form").validate({
-        rules: {
-            productaccountno: {
-                digits: true,
-                maxlength: 50
-            },
-            freezeamount: {
-                digits: true,
-                maxlength: 50
-            }
-        },
-        messages: {
-            productaccountno: {
-                required: "You must select an account to proceed",
-            },
-            freezeamount: {
-                // add rules & messages for money validations (with formatting)
-                required: "Please input amount to freeze"
-            }
-        },
-
-        ignore: false
-    });
-}
 
 function initSelectTwoConfig() {
     $.fn.select2.defaults.set("theme", "bootstrap4");
