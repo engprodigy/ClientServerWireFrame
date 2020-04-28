@@ -102,9 +102,9 @@ namespace TheCoreBanking.Customer.Data.Models
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
 
 #if DEBUG
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
+                //optionsBuilder.UseSqlServer(@"Server=DESKTOP-5VJ567N\FINTRAKSQL;Database=TheCoreBanking;User Id=sa;Password=sqluser10$;");
 
-               //optionsBuilder.UseSqlServer(@"Server=fintraksqlmmbs.database.windows.net;Database=TheCoreBankingAzure;User Id=fintrak;Password=Password20$;");
+               optionsBuilder.UseSqlServer(@"Server=fintraksqlmmbs.database.windows.net;Database=TheCoreBankingAzure;User Id=fintrak;Password=Password20$;");
 
 #else
                

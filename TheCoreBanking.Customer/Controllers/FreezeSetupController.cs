@@ -152,14 +152,14 @@ namespace TheCoreBanking.Customer.Controllers
             }
             return Json(result);
         }
-        public JsonResult UpdateFreezeReasonOperation(string FreezeReason, int rowId)
+        public JsonResult UpdateFreezeReasonOperation(string FreezeReason2, int rowId)
         {
             var result = string.Empty;
             if (ModelState.IsValid)
             {
                 var freason = CustomerUnitOfWork.Reasontype.GetAll().Where(i => i.Id == rowId).ToList().FirstOrDefault();
 
-                freason.Reason = FreezeReason;
+                freason.Reason = FreezeReason2;
                 CustomerUnitOfWork.Reasontype.Update(freason);
                 CustomerUnitOfWork.Commit();
                 result = "Successful";

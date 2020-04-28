@@ -15,13 +15,13 @@ window.freezeTypeOperationEvents = {
             $("#rowId").val(row.id)
             $('#FreezeType2').val(row.freezeType);
             if (row.active == true) {
-                $('#Active2').val(row.active);
+                //$('#Active2').val(row.active);
                 $('#Active2').prop("checked",true);
             } else {
-                $('#Active2').val(row.active);
+                //$('#Active2').val(row.active);
                 $('#Active2').prop("checked", false);
             }
-            $('#Active2:checked').val(row.active);
+            //$('#Active2:checked').val(row.active);
             $('#FreezeTypeModal').modal('show');
             $('#btnFreezeTypeUpdate').html('<i class="now-ui-icons ui-1_check"></i> Update Record');
             $('#btnSaveFreezeType').hide();
@@ -36,65 +36,75 @@ window.freezeTypeOperationEvents = {
         info = JSON.stringify(row);
         console.log(info);
         debugger;
-        $.ajax({
-            url: '../FreezeSetup/RemoveFreezeType',
-            type: 'POST',
-            data: { Id: row.id },
-            success: function (data) {
-                swal({
-                    title: "Are you sure?",
-                    text: "You are about to delete this record!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#ff9800",
-                    confirmButtonText: "Yes, proceed",
-                    cancelButtonText: "No, cancel!",
-                    showLoaderOnConfirm: true,
-                    preConfirm: function () {
-                        return new Promise(function (resolve) {
-                            setTimeout(function () {
-                                resolve();
-                            }, 4000);
-                        });
-                    }
-                }).then(function (isConfirm) {
-                    if (isConfirm) {
-
-
-
+        swal({
+            title: "Are you sure?",
+            text: "You are about to delete this record!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff9800",
+            confirmButtonText: "Yes, proceed",
+            cancelButtonText: "No, cancel!",
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve();
+                    }, 4000);
+                });
+            }
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: '../FreezeSetup/RemoveFreezeType',
+                    type: 'POST',
+                    data: { Id: row.id },
+                    success: function (data) {
                         swal("Deleted succesfully");
                         //alert('Deleted succesfully');
-                        $('#transferTable').
+                        $('#listfreezeTable').
                             bootstrapTable(
                                 'refresh', { url: '../FreezeSetup/listfreezetype' });
+                        return
 
-                        //return false;
+                    },
+
+                    error: function (e) {
+                        //alert("An exception occured!");
+                        swal("An exception occured!");
                     }
-                    else {
-                        swal("Freeze Type", "You cancelled delete freeze type.", "error");
-                    }
-                    $('#listfreezeTable').
-                        bootstrapTable(
-                            'refresh', { url: '../FreezeSetup/listfreezetype' });
                 });
-                return
 
-            },
 
-            error: function (e) {
-                //alert("An exception occured!");
-                swal("An exception occured!");
+              
+
+                //return false;
             }
+            else {
+                swal("Freeze Type", "You cancelled delete freeze type.", "error");
+            }
+           
         });
+       
     }
 };
 $(document).ready(function ($) {
-    $('#btnSaveFreezeType').hide();
-    $('#btnFreezeTypeUpdate').show();
-    $('#titleBSF1').hide();
-    $('#titleBSF2').show();
-    $('#btnFreezeTypeUpdate').on('click', function () {
-            debugger
+
+    $("#FreezeTypeModal").on('hide.bs.modal', function () {
+        $('#btnFreezeTypeUpdate').hide();
+        $('#titleBSF2').hide();
+        $('#btnSaveFreezeType').show();
+        $('#titleBSF1').show();
+        $('#FreezeType2').val("");
+    });
+   
+    $('#btnFreezeTypeUpdate').on('click', function (event) {
+       /* $('#btnSaveFreezeType').hide();
+        $('#titleBSF1').hide();
+        $('#btnFreezeTypeUpdate').show();
+        $('#titleBSF2').show();*/
+        debugger
+        event.preventDefault(); 
+
             var active = false;
             var freezeType = $('#FreezeType2').val();
             var Id = $('#rowId').val();
@@ -104,45 +114,89 @@ $(document).ready(function ($) {
                 active = false;
             // $("button[type=submit]").attr("disabled", "disabled");
 
-            $.ajax({
-                url: '../FreezeSetup/UpdateFreezeOperation',
-                type: 'POST',
-                data: { FreezeType2: freezeType, Active2: active, rowId: Id },
-                dataType: "json",
-                //headers: {
-                //    'VerificationToken': forgeryId
-                //},
-                success: function (result) {
-                    alert(result);
-                    if (result.toString !== '' && result !== null) {
-                        swal({ title: 'Freeze Type', text: 'Freeze Type updated successfully!', type: 'success' }).then(function () { clear(); });
 
-                        $('#listfreezeTable').
-                            bootstrapTable(
-                                'refresh', { url: 'FreezeSetup/listfreezetype' });
+        // $("button[Reason=submit]").attr("disabled", "disabled");
+        swal({
+            title: "Are you sure?",
+            text: "You are about to update this record!",
+            Reason: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff9800",
+            confirmButtonText: "Yes, proceed",
+            cancelButtonText: "No, cancel!",
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve();
+                    }, 1000);
+                });
+                    }
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            $.ajax({
+                                url: '../FreezeSetup/UpdateFreezeOperation',
+                                type: 'POST',
+                                data: { FreezeType2: freezeType, Active2: active, rowId: Id },
+                                dataType: "json",
+                                //headers: {
+                                //    'VerificationToken': forgeryId
+                                //},
+                                success: function (result) {
+                                    //alert(result);
+                                    if (result.toString !== '' && result !== null) {
+                                        swal({ title: 'Freeze Type', text: 'Freeze Type updated successfully!', type: 'success' }).then(function () {  });
 
-                        $("#btnFreezeTypeUpdate").removeAttr("disabled");
-                    }
-                    else {
-                        swal({ title: 'Freeze Type', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clear(); });
-                        $("#btnFreezeTypeUpdate").removeAttr("disabled");
-                    }
-                },
-                error: function (e) {
-                    swal({ title: 'Freeze Type', text: 'Freeze Type encountered an error', type: 'error' }).then(function () { clear(); });
-                    $("#btnFreezeTypeUpdate").removeAttr("disabled");
-                }
-            });
+                                        $('#listfreezeTable').
+                                            bootstrapTable(
+                                                'refresh', { url: 'FreezeSetup/listfreezetype' });
+
+                                        $("#btnFreezeTypeUpdate").removeAttr("disabled");
+                                        $('#FreezeTypeModal').modal('hide');
+                                        
+                                        $('#FreezeType2').val("");
+                                    }
+                                    else {
+                                        swal({ title: 'Freeze Type', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () {  });
+                                        $("#btnFreezeTypeUpdate").removeAttr("disabled");
+                                    }
+                                },
+                                error: function (e) {
+                                    swal({ title: 'Freeze Type', text: 'Freeze Type encountered an error', type: 'error' }).then(function () {  });
+                                    $("#btnFreezeTypeUpdate").removeAttr("disabled");
+                                }
+                            });
+
+                       }
+
+                    }, function (isRejected) {
+
+                swal("Freeze Type", "You cancelled freeze type update", "error");
+                            $('#FreezeTypeModal').modal('hide');
+                return;
+            }); 
+
+          /* */
+
+        $('#btnFreezeTypeUpdate').hide();
+        $('#titleBSF2').hide();
+        $('#btnSaveFreezeType').show();
+        $('#titleBSF1').show();
+        $('#FreezeType2').val("");
     });
 
 });
 $(document).ready(function () {
-    $('#btnSaveFreezeType').show();
+
     $('#btnFreezeTypeUpdate').hide();
-    $('#titleBSF1').show();
     $('#titleBSF2').hide();
-    $("#btnSaveFreezeType").click(function () {
+
+    $("#btnSaveFreezeType").click(function (event) {
+
         debugger
+
+        event.preventDefault(); 
+
         var active = false;
         var freezeType = $('#FreezeType2').val();
        
@@ -152,37 +206,67 @@ $(document).ready(function () {
              active = false;
         // $("button[type=submit]").attr("disabled", "disabled");
 
-        $.ajax({
-            url: '../FreezeSetup/CreateFreezeOperation',
-            type: 'POST',
-            data: {FreezeType2: freezeType, Active2: active},
-            dataType: "json",
-            //headers: {
-            //    'VerificationToken': forgeryId
-            //},
-            success: function (result) {
-                alert(result);
-                if (result.toString !== '' && result !== null) {
-                    swal({ title: 'Freeze Type', text: 'Freeze Type added successfully!', type: 'success' }).then(function () { clear(); });
-
-                    $('#listfreezeTable').
-                        bootstrapTable(
-                            'refresh', { url: 'FreezeSetup/listfreezetype' });
-
-                    $("#btnSaveFreezeType").removeAttr("disabled");
-                }
-                else {
-                    swal({ title: 'Freeze Type', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { clear(); });
-                    $("#btnSaveFreezeType").removeAttr("disabled");
-                }
-            },
-            error: function (e) {
-                swal({ title: 'Freeze Type', text: 'Freeze Type encountered an error', type: 'error' }).then(function () { clear(); });
-                $("#btnSaveFreezeType").removeAttr("disabled");
+        swal({
+            title: "Are you sure?",
+            text: "You are about to create a new freeze type!",
+            Reason: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#ff9800",
+            confirmButtonText: "Yes, proceed",
+            cancelButtonText: "No, cancel!",
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve();
+                    }, 1000);
+                });
             }
-        });
+        }).then(function (isConfirm) {
+            if (isConfirm) {
 
+                $.ajax({
+                    url: '../FreezeSetup/CreateFreezeOperation',
+                    type: 'POST',
+                    data: { FreezeType2: freezeType, Active2: active },
+                    dataType: "json",
+                    //headers: {
+                    //    'VerificationToken': forgeryId
+                    //},
+                    success: function (result) {
+                        //alert(result);
+                        if (result.toString !== '' && result !== null) {
+                            swal({ title: 'Freeze Type', text: 'Freeze Type added successfully!', type: 'success' }).then(function () {  });
 
+                            $('#listfreezeTable').
+                                bootstrapTable(
+                                    'refresh', { url: 'FreezeSetup/listfreezetype' });
+
+                            $("#btnSaveFreezeType").removeAttr("disabled");
+                            $('#FreezeTypeModal').modal('hide');
+                            $('#FreezeType2').val("");
+                        }
+                        else {
+                            swal({ title: 'Freeze Type', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () {  });
+                            $("#btnSaveFreezeType").removeAttr("disabled");
+                        }
+                    },
+                    error: function (e) {
+                        swal({ title: 'Freeze Type', text: 'Freeze Type encountered an error', type: 'error' }).then(function () {  });
+                        $("#btnSaveFreezeType").removeAttr("disabled");
+                    }
+                });
+                }
+
+                                }, function (isRejected) {
+
+                swal("Freeze Reason", "You cancelled freeze type Creation", "error");
+                $('#FreezeTypeModal').modal('hide');
+                return;
+            }); 
+       /* */
+
+        $('#FreezeType2').val("");
     })
 });
 

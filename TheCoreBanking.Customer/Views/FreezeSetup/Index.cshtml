@@ -13,23 +13,23 @@
                 </a>
             </li>
             @*<li class="nav-item justify-content-center">
-                <a class="nav-link" data-toggle="tab" href="#freezedate" role="tablist">
-                    <i class="now-ui-icons business_briefcase-24"></i>
-                    Freeze Date Type
-                </a>
-            </li>*@
+            <a class="nav-link" data-toggle="tab" href="#freezedate" role="tablist">
+                <i class="now-ui-icons business_briefcase-24"></i>
+                Freeze Date Type
+            </a>
+        </li>*@
             <li class="nav-item justify-content-center">
                 <a class="nav-link" data-toggle="tab" href="#freezereason" role="tablist">
                     <i class="now-ui-icons business_bulb-63"></i>
                     Freeze Reason
                 </a>
             </li>
-            <li class="nav-item justify-content-center">
+            @*<li class="nav-item justify-content-center">
                     <a class="nav-link" data-toggle="tab" href="#transaction" role="tablist">
                         <i class="now-ui-icons business_bulb-63"></i>
                         Freeze Transaction
                     </a>
-                </li>
+                </li>*@
         </ul>
         <div class="tab-content tab-space">
             <div class="alert alert-dismissible" data-dismiss="modal">&times;</div>
@@ -44,9 +44,9 @@
                 @Html.Partial("~/Views/FreezeSetup/_FreezeReasonList.cshtml")
             </div>
 
-            <div id="transaction" class="tab-pane">
-                @Html.Partial("~/Views/FreezeSetup/_FreezeTransaction.cshtml")
-            </div>
-        </div>
+            @*<div id="transaction" class="tab-pane">
+            @Html.Partial("~/Views/FreezeSetup/_FreezeTransaction.cshtml")
+        </div>*@
+</div>
     </div>
 </div>
