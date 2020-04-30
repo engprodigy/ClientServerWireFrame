@@ -32,8 +32,8 @@ namespace TheCoreBanking.Customer.Data.Models
         public DateTime? Actiondate { get; set; }
         public int Accountstatusid { get; set; }
         public int? Operationid { get; set; }
-        public decimal Availablebalance { get; set; }
-        public decimal Ledgerbalance { get; set; }
+        public decimal? Availablebalance { get; set; }
+        public decimal? Ledgerbalance { get; set; }
         public string Accountofficerid { get; set; }
         public int? Accountofficerdeptid { get; set; }
         public string Relationshipofficerid { get; set; }

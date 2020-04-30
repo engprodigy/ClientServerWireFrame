@@ -644,7 +644,7 @@ namespace TheCoreBanking.Customer.Controllers
         [HttpGet]
         public JsonResult LoadStaffs() {
             var list = new List<SelectTwoContent>();
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.UserEndpoint;
+            string Uri = ApiConstants.BaseApiUrlAdministration + ApiConstants.UserEndpoint;
             var Staffs = CustomerUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -831,7 +831,7 @@ namespace TheCoreBanking.Customer.Controllers
         public JsonResult ListCurrencies()
         {
             var list = new List<SelectTwoContent>();
-            string Uri = ApiConstants.BaseApiUrl + ApiConstants.CurrencyEndpoint;
+            string Uri = ApiConstants.BaseApiUrlCurrency + ApiConstants.CurrencyEndpoint;
             var Currencies = CustomerUnitOfWork.API.GetAsync(Uri).Result;
             var settings = new JsonSerializerSettings
             {
@@ -2194,12 +2194,15 @@ namespace TheCoreBanking.Customer.Controllers
             // try
             // {
             var productConversionApprovalDetail = CustomerUnitOfWork.CasaProductConversionTracker.GetAll().Where(c => c.Casaaccountid == id).FirstOrDefault();
+            
+            if(productConversionApprovalDetail != null) { 
             CustomerUnitOfWork.CasaProductConversionTracker.Delete(productConversionApprovalDetail);
             CustomerUnitOfWork.Commit();
+            }
 
 
 
-           TblCasaproductconversiontracker tblCasaproductconversiontracker = new TblCasaproductconversiontracker
+            TblCasaproductconversiontracker tblCasaproductconversiontracker = new TblCasaproductconversiontracker
             {
                 Casaaccountid = id,
                 Isdeleted = false,

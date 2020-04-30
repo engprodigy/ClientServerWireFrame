@@ -6,6 +6,20 @@ if (url_path.charAt(url_path.length - 1) == '/') {
 
 var allCustomFields;
 
+
+$(document).ready(function () {
+
+
+    //initDataTable();
+    initSelectTwoConfig();
+    initDatePicker(".datepicker");
+    initFormValidations();
+    //initWizards();
+    //$(".modal").perfectScrollbar();
+   // prepareKYCTables();
+
+});
+
 $(document).ready(function () {
     $.ajax({
         type: "GET",
@@ -2105,5 +2119,24 @@ $("#btnSubmit20").click(function () {
 
 })
     
+function initSelectTwoConfig() {
 
-           
+    $.fn.select2.defaults.set("theme", "bootstrap4");
+    $.fn.select2.defaults.set("dropdownParent", $(".card-body").first());
+    $.fn.select2.defaults.set("width", "100%");
+    $.fn.select2.defaults.set("allowClear", true);
+
+
+    $("#InputType").select2({
+        placeholder: "Select title",
+        //dropdownParent: $("#refereeUpdateModal.modal"),
+        data: [{ "id": "1", "text": "Text" },
+        { "id": "2", "text": "Checkbox" },
+            { "id": "3", "text": "date" },
+            { "id": "4", "text": "file" },
+            { "id": "5", "text": "radio" },
+            { "id": "6", "text": "Select" }]
+    });
+
+
+}

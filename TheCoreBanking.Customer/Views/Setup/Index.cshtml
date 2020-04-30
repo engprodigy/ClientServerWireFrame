@@ -54,6 +54,12 @@
                             Customer Custom Field
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#customfieldsnew" role="tablist">
+                            <i class="now-ui-icons business_bulb-63"></i>
+                            Customer Custom Field New
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-sm-12 col-md-10">
@@ -79,6 +85,9 @@
                     </div>
                     <div class="tab-pane" id="customfields">
                         @Html.Partial("_CustomerCustomFields")
+                    </div>
+                    <div class="tab-pane" id="customfieldsnew">
+                        @Html.Partial("_CustomerCustomFieldsNew")
                     </div>
                 </div>
             </div>
