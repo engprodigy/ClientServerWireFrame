@@ -1,4 +1,114 @@
-﻿
+﻿(function ($) {
+    $.fn.dynamicForm = function (options) {
+        var opts = $.extend({}, $.fn.dynamicForm.defaults, options);
+        return this.each(function () {
+            $this = $(this);
+            var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+            $(this).click(function () {
+                addFieldset(o, $(this));
+            });
+        });
+    };
+
+    function addFieldset(options, addButtonObj) {
+
+        var fieldsetEls = getImmediateSiblings(addButtonObj, 'FIELDSET'); //get all fieldset tags above the add button
+        var fieldsetElsLen = fieldsetEls.length; //get the length of above
+
+        if (!options.maxFields
+            || ((fieldsetElsLen + options.numTimes) <= options.maxFields)) {
+            var clone = fieldsetEls[0].clone(); //clone the first fieldset
+            var db = getDeleteButtonObj(options); //create its delete button
+            db.click(function () { //add delete button event
+                var parent = $(this).parent('fieldset');
+                parent.fadeOut(options.fadeDuration, function () {
+                    $(this).remove();
+                });
+                return false;
+            });
+            db.appendTo(clone); //add the delete button to the clone
+
+            clone.find(':input').each(function () { //clear the clone's fields
+                //clear the inputs
+                var type = this.type;
+                var tag = this.tagName.toLowerCase(); // normalize tag name case
+                // it's ok to reset the value attr of text inputs, password inputs, and textareas
+                if (type == 'text' || type == 'password'
+                    || tag == 'textarea')
+                    this.value = "";
+                // checkboxes and radios need to have their checked state cleared
+                // but should *not* have their 'value' changed
+                else if (type == 'checkbox' || type == 'radio')
+                    this.checked = false;
+                // select elements need to have their 'selectedIndex' property set to -1
+                // (this works for both single and multiple select elements)
+                else if (tag == 'select')
+                    this.selectedIndex = -1;
+            });
+            //renumber the existing fieldsets starting at 1
+            var count = 1;
+            jQuery.each(fieldsetEls, function () {
+                this.find(':input').each(function () {
+                    //renameField(this, 'id', count); // rename the fieldset inputs' id
+                   // renameField(this, 'name', count); // rename the fieldset inputs' name
+                });
+                count++;
+            });
+            //renumber the clones
+            for (var i = count; i < (options.numTimes + count); i++) {
+                var newClone = clone.clone(true);
+                newClone.find(':input').each(function () {
+                    //renameField(this, 'id', i); // rename the fieldset inputs' id
+                    //renameField(this, 'name', i); // rename the fieldset inputs' name
+                });
+                newClone.insertBefore(addButtonObj);
+            }
+        } else {
+            alert(options.maxFieldsMsg);
+        }
+    }
+
+    function getImmediateSiblings(source, targetNodeType) {
+
+        //expecting the targets nodes to be in a row
+        //immeditately beside the source (add button)
+        var siblings = new Array();
+        jQuery.each(source.prevAll(), function () {
+            if (this.tagName == targetNodeType) {
+                siblings.unshift($(this));
+            } else {
+                return siblings;
+            }
+        });
+        return siblings;
+    }
+
+    function renameField(obj, attr, num) {
+
+        debugger;
+
+        var a = $(obj).attr(attr).split(/_[0-9]*$/i)[0];
+        $(obj).attr(attr, a + '_' + num);
+    }
+
+    function getDeleteButtonObj(options) {
+        var html = '<div class="' + options.deleteButtonDiv + '">'
+            + '<input type="button"value="' + options.deleteButtonValue
+            + '"' + ' class="' + options.deleteButtonClass + '" />'
+            + '</div>';
+        return $(html);
+    }
+
+    $.fn.dynamicForm.defaults = {
+        numTimes: 1,
+        maxFields: false,
+        maxFieldsMsg: 'You have reached the maximum number of fields allowed',
+        fadeDuration: 'slow',
+        deleteButtonDiv: 'delete-button-div',
+        deleteButtonClass: 'delete-button',
+        deleteButtonValue: 'Delete This Fieldset'
+    };
+})(jQuery);
 var url_path = window.location.pathname;
 if (url_path.charAt(url_path.length - 1) == '/') {
     url_path = url_path.slice(0, url_path.length - 1);
@@ -12,13 +122,91 @@ $(document).ready(function () {
 
     //initDataTable();
     initSelectTwoConfig();
-    initDatePicker(".datepicker");
-    initFormValidations();
+    //initDatePicker(".datepicker");
+    //initFormValidations();
     //initWizards();
     //$(".modal").perfectScrollbar();
    // prepareKYCTables();
+   // $('#addButton1').dynamicForm();
+    $('#addButton1').dynamicForm({
+        deleteButtonDiv: 'delete-button-div',
+        deleteButtonClass: 'delete-button',
+        deleteButtonValue: 'Delete This Fieldset',
+        maxFields: false,
+        numTimes: 1,
+        fadeDuration: 'slow'
+    });
+    
 
 });
+
+function initSelectTwoConfig() {
+
+    $.fn.select2.defaults.set("theme", "bootstrap4");
+    $.fn.select2.defaults.set("dropdownParent", $(".card-body").first());
+    $.fn.select2.defaults.set("width", "100%");
+    $.fn.select2.defaults.set("allowClear", true);
+
+
+    $("#InputType").select2({
+        placeholder: "Select input type",
+        //dropdownParent: $("#refereeUpdateModal.modal"),
+        data: [{ "id": "1", "text": "Text" },
+        { "id": "2", "text": "Checkbox" },
+        { "id": "3", "text": "date" },
+        { "id": "4", "text": "file" },
+        { "id": "5", "text": "radio" },
+        { "id": "6", "text": "Select" }]
+    });
+
+
+}
+
+
+
+$("#InputType").on("select2:select", function (e) {
+
+    debugger
+    var inputid = e.params.data.id;
+    console.log(inputid);
+
+    if (inputid == 3) {
+
+        $("#selectinputconfigure").show();
+
+    } else {
+
+        $("#selectinputconfigure").hide();
+
+    }
+    /*
+    $("#Industryid").removeAttr("disabled");
+    sectorIndustries = Industries.filter(function (elem) {
+        return elem.sectorid == e.params.data.id;
+    });
+    sectorIndustries = sectorIndustries.map(function (elem) {
+        return {
+            id: elem.industryid,
+            text: elem.name
+        };
+    });
+    sectorIndustries.unshift({ id: '', text: '' });
+    $("#Industryid").select2('destroy').empty().select2({
+        placeholder: "Select industry",
+        width: "100%",
+        data: sectorIndustries
+    });*/
+
+});
+
+
+
+
+
+
+
+
+/*
 
 $(document).ready(function () {
     $.ajax({
@@ -172,6 +360,9 @@ $(document).ready(function () {
     
 
 })
+*/
+
+/*
 
     $("#btnUpdate1").click(function () {
     
@@ -273,6 +464,7 @@ $(document).ready(function () {
 
    
     //Second Submit Button and update button
+
 
 $("#btnUpdate2").click(function () {
 
@@ -2117,26 +2309,5 @@ $("#btnSubmit20").click(function () {
 
 
 
-})
+})*/
     
-function initSelectTwoConfig() {
-
-    $.fn.select2.defaults.set("theme", "bootstrap4");
-    $.fn.select2.defaults.set("dropdownParent", $(".card-body").first());
-    $.fn.select2.defaults.set("width", "100%");
-    $.fn.select2.defaults.set("allowClear", true);
-
-
-    $("#InputType").select2({
-        placeholder: "Select title",
-        //dropdownParent: $("#refereeUpdateModal.modal"),
-        data: [{ "id": "1", "text": "Text" },
-        { "id": "2", "text": "Checkbox" },
-            { "id": "3", "text": "date" },
-            { "id": "4", "text": "file" },
-            { "id": "5", "text": "radio" },
-            { "id": "6", "text": "Select" }]
-    });
-
-
-}
