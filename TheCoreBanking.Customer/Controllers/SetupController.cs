@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TheCoreBanking.Customer.Data.Contracts;
 using TheCoreBanking.Customer.Data.Models;
@@ -101,6 +102,59 @@ namespace TheCoreBanking.Customer.Controllers
             CustomerUnitOfWork.ModeOfIDs.Add(mode);
             CustomerUnitOfWork.Commit();
             return Json(mode.Id);
+        }
+
+        [HttpPost]
+        public JsonResult AddCustomField([FromBody]IEnumerable<FormContent> FormContents)
+        {
+            FormContents.Count();
+
+            TblCustomercustomfieldlist tblCustomercustomfieldlist = new TblCustomercustomfieldlist();
+
+            List<TblCustomercustomfieldoptions> listTblCustomercustomfieldoptions = new List<TblCustomercustomfieldoptions>();
+
+            foreach (var formvalue in FormContents)
+            {
+                if(formvalue.Name == "inputname")
+                {
+                    tblCustomercustomfieldlist.InputName = formvalue.Value;
+                }
+                else if(formvalue.Name == "inputlabel")
+                {
+                    tblCustomercustomfieldlist.InputLabel = formvalue.Value;
+                }
+                else if (formvalue.Name == "InputType")
+                {
+                    tblCustomercustomfieldlist.InputTypeId = Int32.Parse(formvalue.Value);
+                }
+                else
+                {
+                    TblCustomercustomfieldoptions tblCustomercustomfieldoptions = new TblCustomercustomfieldoptions();
+
+                    tblCustomercustomfieldoptions.OptionName = formvalue.Value;
+
+                    listTblCustomercustomfieldoptions.Add(tblCustomercustomfieldoptions);
+                }
+            }
+
+
+            CustomerUnitOfWork.CustomerCustomFieldList.Add(tblCustomercustomfieldlist);
+
+            CustomerUnitOfWork.Commit();
+
+
+            foreach (var fieldoptions in listTblCustomercustomfieldoptions)
+            {
+
+                fieldoptions.CustomerCustomFieldListId = tblCustomercustomfieldlist.Id;
+
+                CustomerUnitOfWork.CustomerCustomFieldOptions.Add(fieldoptions);
+
+            }
+
+            CustomerUnitOfWork.Commit();
+
+            return Json(tblCustomercustomfieldlist.Id);
         }
 
         #endregion
@@ -413,5 +467,9 @@ namespace TheCoreBanking.Customer.Controllers
 
         #endregion
 
+
+        
     }
+
+    
 }

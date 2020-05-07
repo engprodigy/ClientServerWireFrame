@@ -1,4 +1,12 @@
-﻿(function ($) {
+﻿
+var url_path = window.location.pathname;
+if (url_path.charAt(url_path.length - 1) == '/') {
+    url_path = url_path.slice(0, url_path.length - 1);
+}
+
+var inputTypeId;
+
+(function ($) {
     $.fn.dynamicForm = function (options) {
         var opts = $.extend({}, $.fn.dynamicForm.defaults, options);
         return this.each(function () {
@@ -12,7 +20,41 @@
 
     function addFieldset(options, addButtonObj) {
 
-        var fieldsetEls = getImmediateSiblings(addButtonObj, 'FIELDSET'); //get all fieldset tags above the add button
+        debugger
+
+        if (inputTypeId == 5) {
+
+            options.numTimes = 1;
+            options.maxFields = 2;
+        } else {
+
+            options.numTimes = 1;
+            options.maxFields = false;
+        }
+
+        console.log(options.maxFields);
+
+        var testVariable = $("#fieldsetracker").prevAll()
+
+        console.log(testVariable);
+
+        // var fieldsetEls = getImmediateSiblings(addButtonObj, 'FIELDSET'); //get all fieldset tags above the add button
+        //var fieldsetEls = testVariable;
+
+        var siblings = new Array();
+
+        jQuery.each($("#fieldsetracker").prevAll(), function () {
+            if (this.tagName == 'FIELDSET') {
+                siblings.unshift($(this));
+            } else {
+                return siblings;
+            }
+        });
+
+       // siblings.unshift(testVariable);
+
+        var fieldsetEls = siblings;
+
         var fieldsetElsLen = fieldsetEls.length; //get the length of above
 
         if (!options.maxFields
@@ -49,8 +91,8 @@
             var count = 1;
             jQuery.each(fieldsetEls, function () {
                 this.find(':input').each(function () {
-                    //renameField(this, 'id', count); // rename the fieldset inputs' id
-                   // renameField(this, 'name', count); // rename the fieldset inputs' name
+                    renameField(this, 'id', count); // rename the fieldset inputs' id
+                    renameField(this, 'name', count); // rename the fieldset inputs' name
                 });
                 count++;
             });
@@ -58,10 +100,12 @@
             for (var i = count; i < (options.numTimes + count); i++) {
                 var newClone = clone.clone(true);
                 newClone.find(':input').each(function () {
-                    //renameField(this, 'id', i); // rename the fieldset inputs' id
-                    //renameField(this, 'name', i); // rename the fieldset inputs' name
+                    renameField(this, 'id', i); // rename the fieldset inputs' id
+                    renameField(this, 'name', i); // rename the fieldset inputs' name
                 });
-                newClone.insertBefore(addButtonObj);
+                
+                newClone.insertBefore("#fieldsetracker");
+                //newClone.insertBefore(addButtonObj);
             }
         } else {
             alert(options.maxFieldsMsg);
@@ -94,8 +138,12 @@
     function getDeleteButtonObj(options) {
         var html = '<div class="' + options.deleteButtonDiv + '">'
             + '<input type="button"value="' + options.deleteButtonValue
-            + '"' + ' class="' + options.deleteButtonClass + '" />'
+           + '"' + ' class="' + options.deleteButtonClass + '" id="delete" name="delete" />'
             + '</div>';
+       // var html = '<div class="' + options.deleteButtonDiv + '">'
+        //    + ' < input type = "button" class="btn btn-danger btn-next btn-wd" id = "addButton1" name = "add" id="delete" name="delete"'
+        //    + 'value = "Add Extra Field" /> </div >';
+
         return $(html);
     }
 
@@ -104,15 +152,14 @@
         maxFields: false,
         maxFieldsMsg: 'You have reached the maximum number of fields allowed',
         fadeDuration: 'slow',
-        deleteButtonDiv: 'delete-button-div',
-        deleteButtonClass: 'delete-button',
-        deleteButtonValue: 'Delete This Fieldset'
+        deleteButtonDiv: 'form-group',
+        //deleteButtonDiv: 'delete-button-div',
+        //deleteButtonClass: 'delete-button',
+        deleteButtonClass: 'btn btn-danger btn-next btn-wd',
+        deleteButtonValue: 'Delete This Option Field'
     };
 })(jQuery);
-var url_path = window.location.pathname;
-if (url_path.charAt(url_path.length - 1) == '/') {
-    url_path = url_path.slice(0, url_path.length - 1);
-}
+
 
 var allCustomFields;
 
@@ -129,9 +176,11 @@ $(document).ready(function () {
    // prepareKYCTables();
    // $('#addButton1').dynamicForm();
     $('#addButton1').dynamicForm({
-        deleteButtonDiv: 'delete-button-div',
-        deleteButtonClass: 'delete-button',
-        deleteButtonValue: 'Delete This Fieldset',
+        deleteButtonDiv: 'form-group',
+        //deleteButtonDiv: 'delete-button-div',
+        //deleteButtonClass: 'delete-button',
+        deleteButtonClass: 'btn btn-danger btn-next btn-wd',
+        deleteButtonValue: 'Delete This Option Field',
         maxFields: false,
         numTimes: 1,
         fadeDuration: 'slow'
@@ -170,32 +219,137 @@ $("#InputType").on("select2:select", function (e) {
     var inputid = e.params.data.id;
     console.log(inputid);
 
-    if (inputid == 3) {
+    inputTypeId = inputid;
+
+   // $("#extrainput").val("");
+    $("#custom-input").find("[name=extrainput]").val("");
+
+    var value = $("fieldset").nextAll("#form-group").length;
+
+    //$("fieldset").nextAll("#form-group").css({ "border": "2px solid red" });
+
+    $("fieldset").nextAll("#form-group").remove();
+
+    /*if ($("fieldset").nextAll().length != 2) {
+
+        $("fieldset").nextAll().remove();
+
+    }*/  
+
+    //var value2 = $("input#extrainput").nextAll();   //.remove();
+
+    if (inputid == 2) {
 
         $("#selectinputconfigure").show();
+        $("#selectinputconfigureaddbutton").show();
+        
 
-    } else {
+    } else if (inputid == 5) {
 
-        $("#selectinputconfigure").hide();
+        $("#selectinputconfigure").show();
+        $("#selectinputconfigureaddbutton").show();
+    }
+    else if (inputid == 6) {
+
+        $("#selectinputconfigure").show();
+        $("#selectinputconfigureaddbutton").show();
 
     }
-    /*
-    $("#Industryid").removeAttr("disabled");
-    sectorIndustries = Industries.filter(function (elem) {
-        return elem.sectorid == e.params.data.id;
-    });
-    sectorIndustries = sectorIndustries.map(function (elem) {
-        return {
-            id: elem.industryid,
-            text: elem.name
-        };
-    });
-    sectorIndustries.unshift({ id: '', text: '' });
-    $("#Industryid").select2('destroy').empty().select2({
-        placeholder: "Select industry",
-        width: "100%",
-        data: sectorIndustries
-    });*/
+    else {
+
+        $("#selectinputconfigure").hide();
+        $("#selectinputconfigureaddbutton").hide();
+
+    }
+   
+
+});
+
+$("#submit").click(function (event) {
+
+    debugger
+
+    event.preventDefault(); 
+
+    var form = $("#custom-input");
+
+    console.log(form);
+
+    var frmInputValue = $(form).serializeArray();
+
+    console.log(frmInputValue);
+
+    swal({
+        title: "Are you sure?",
+        text: "Custom Field Will be added",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#34D027",
+        confirmButtonText: "Yes, continue",
+        cancelButtonText: "No, stop!",
+        cancelButtonColor: "#ff9800",
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve) {
+                setTimeout(function () {
+                    resolve();
+                }, 1000);
+            });
+        }
+    }).then(function (isConfirm) {
+        if (isConfirm) {
+            $.ajax({
+                url: '../Setup/AddCustomField',
+                type: 'POST',
+                data: JSON.stringify(frmInputValue) ,
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                //headers: {
+                //    'VerificationToken': forgeryId
+                //},
+                success: function (result) {
+                    //alert(result);
+                    if (result.toString !== '' && result !== null) {
+                        swal({ title: 'Customer Custom Field', text: 'Custom Field Type added successfully!', type: 'success' }).then(function () { });
+
+                        /*$('#listfreezeTable').
+                            bootstrapTable(
+                                'refresh', { url: 'FreezeSetup/listfreezetype' });*/
+
+                       // $("#btnFreezeTypeUpdate").removeAttr("disabled");
+                       // $('#FreezeTypeModal').modal('hide');
+
+                        //$('#extrainput').val("");
+                        $("fieldset").nextAll("#form-group").remove();
+                        $("#selectinputconfigure").hide();
+                        $("#selectinputconfigureaddbutton").hide();
+                        $('#custom-input')[0].reset();
+                        $("#InputType").val('').trigger('change');
+
+                    }
+                    else {
+                        swal({ title: 'Customer Custom Field', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { });
+                        $("#submit").removeAttr("disabled");
+                    }
+                },
+                error: function (e) {
+                    swal({ title: 'Customer Custom Field', text: 'Customer Custom Field encountered an error', type: 'error' }).then(function () { });
+                    //$("#btnFreezeTypeUpdate").removeAttr("disabled");
+                }
+            });
+
+        }
+
+    }, function (isRejected) {
+
+            swal({
+                title: "Cancel Customer Custom Field",
+                text: "Customer Custom Field Addition was Cancelled!",
+                type: "error"
+            });
+        //$('#FreezeTypeModal').modal('hide');
+        return;
+    }); 
 
 });
 

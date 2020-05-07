@@ -31,6 +31,8 @@ namespace TheCoreBanking.Customer.Data.Models
         public virtual DbSet<TblCountry> TblCountry { get; set; }
         public virtual DbSet<TblCurrency> TblCurrency { get; set; }
         public virtual DbSet<TblCustomer> TblCustomer { get; set; }
+        public virtual DbSet<TblCustomercustomfieldlist> TblCustomercustomfieldlist { get; set; }
+        public virtual DbSet<TblCustomercustomfieldoptions> TblCustomercustomfieldoptions { get; set; }
         public virtual DbSet<TblCustomeraccountalertmedium> TblCustomeraccountalertmedium { get; set; }
         public virtual DbSet<TblCustomeraccountbankingservice> TblCustomeraccountbankingservice { get; set; }
         public virtual DbSet<TblCustomeraccountkycitem> TblCustomeraccountkycitem { get; set; }
@@ -91,6 +93,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public virtual DbSet<TblAccountclosure> TblAccountclosure { get; set; }
         public virtual DbSet<TblFinanceChartOfAccount> TblFinanceChartOfAccount { get; set; }
         public virtual DbSet<TblStampcharge> TblStampcharge { get; set; }
+
 
 
 
@@ -4745,6 +4748,29 @@ namespace TheCoreBanking.Customer.Data.Models
                      .HasForeignKey(d => d.Casaaccountid)
                      .OnDelete(DeleteBehavior.ClientSetNull)
                      .HasConstraintName("FK_TBL_CASAPRODUCTCONVERSIONTRACKER_TBL_CASA");*/
+            });
+
+            modelBuilder.Entity<TblCustomercustomfieldlist>(entity =>
+            {
+                entity.ToTable("TBL_CUSTOMERCUSTOMFIELDLIST", "Customer");
+
+                entity.Property(e => e.InputLabel)
+                    .IsRequired()
+                    .HasColumnType("nvarchar(50)");
+
+                entity.Property(e => e.InputName)
+                    .IsRequired()
+                    .HasColumnType("nvarchar(50)");
+            });
+
+            modelBuilder.Entity<TblCustomercustomfieldoptions>(entity =>
+            {
+                entity.ToTable("TBL_CUSTOMERCUSTOMFIELDOPTIONS", "Customer");
+
+                entity.Property(e => e.OptionName)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
 

@@ -19,6 +19,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Accountname { get; set; }
         public int Customerid { get; set; }
         public string Customercode { get; set; }
+        public string Productcode { get; set; }
         public int Productid { get; set; }
         public int? Companyid { get; set; }
         public int? Branchid { get; set; }

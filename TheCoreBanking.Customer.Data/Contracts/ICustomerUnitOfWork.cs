@@ -67,5 +67,7 @@ namespace TheCoreBanking.Customer.Data.Contracts
 
         IChartofAccountRepository Chart { get; }
         ICasaProductConversionTrackerRepository CasaProductConversionTracker { get; }
+        ICustomerCustomFieldListRepository CustomerCustomFieldList { get; }
+        ICustomerCustomFieldOptionsRepository CustomerCustomFieldOptions { get; }
     }
 }

@@ -68,8 +68,11 @@ namespace TheCoreBanking.Customer.Data
         public IAccountClosureRepository ClosuredAccount => GetEntityRepository<IAccountClosureRepository>();
         public IChartofAccountRepository Chart { get { return GetEntityRepository<IChartofAccountRepository>(); } }
         public ICasaProductConversionTrackerRepository CasaProductConversionTracker { get { return GetEntityRepository<ICasaProductConversionTrackerRepository>(); } }
-       
-    public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
+        public ICustomerCustomFieldListRepository CustomerCustomFieldList { get { return GetEntityRepository<ICustomerCustomFieldListRepository>(); } }
+        public ICustomerCustomFieldOptionsRepository CustomerCustomFieldOptions { get { return GetEntityRepository<ICustomerCustomFieldOptionsRepository>(); } }
+
+
+        public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
         {
             repositoryProvider.DbContext = DbContext;
             RepositoryProvider = repositoryProvider; 

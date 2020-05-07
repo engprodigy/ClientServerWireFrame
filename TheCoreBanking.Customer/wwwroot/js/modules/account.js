@@ -824,7 +824,9 @@ function setDataTableEventHandlers() {
     // Product Data Table
     $("#product-data-table").on("check.bs.table", function (ev, row) {
         if (row.id) {
+            debugger
             $("#frmProduct input[name=productid]").val(row.id);
+            $("#frmProduct input[name=productcode]").val(row.productCode);
             $("#prodType").text(row.productName);
 
             // Detect current account
@@ -836,6 +838,7 @@ function setDataTableEventHandlers() {
     });
     $("#product-data-table").on("uncheck.bs.table", function (ev, row) {
         $("#frmProduct input[name=productid]").val(null);
+        $("#frmProduct input[name=productcode]").val(null);
         $("#prodType").text("-");
         iscurrentaccount = false;
     });
@@ -1103,6 +1106,7 @@ function initWizard() {
 
                     debugger
                     casa["productid"] = $("#frmProduct input[name=productid]").val();
+                    casa["productcode"] = $("#frmProduct input[name=productcode]").val();
                     // append models to post data
                     data.account = casa;
                     data.accountservice = accountservice;
