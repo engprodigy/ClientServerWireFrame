@@ -410,6 +410,18 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(custMaritalstatus.Id);
         }
 
+        [HttpPost]
+        public JsonResult DeleteCustomField([FromBody]TblCustomercustomfieldlist removeTblCustomercustomfieldlist)
+        {
+            CustomerUnitOfWork.CustomerCustomFieldList.Delete(removeTblCustomercustomfieldlist);
+           // item.Isdeleted = true;
+
+           // CustomerUnitOfWork.Titles.Update(item);
+            CustomerUnitOfWork.Commit();
+            return Json(true);
+
+        }
+
         #endregion
 
         #region Fetch

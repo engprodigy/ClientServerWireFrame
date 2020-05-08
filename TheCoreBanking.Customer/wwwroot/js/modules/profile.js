@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿/*$(document).ready(function () {
     debugger
     $.ajax({
         url: "../Profile/lstCustomFields",
@@ -258,7 +258,18 @@ function GetAllCustomFields() {
             $("#CustomName").html(response[0].caption20)
         $("#InputField").html(custom);
     }
-}
+}*/
+
+
+
+
+
+
+
+
+
+
+
 var url_path = window.location.pathname;
 if (url_path.charAt(url_path.length - 1) == '/') {
     url_path = url_path.slice(0, url_path.length - 1);
@@ -272,7 +283,92 @@ var tracker = 0;
 
 
 $(document).ready(function () {
+
+    var customInputSelect = '<div class="row mb-2">' +
+        '<label class="col-md-2 col-form-label">Category</label>' +
+        '<div class="col-md-10">' +
+        '<div class="form-group">' +
+        '<select id="customType">' +
+        '<option value="external">External</option>' +
+        '<option value="internal">Internal</option>' +
+        '</select>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+    var customInputCheckBox = '<div class="row mb-2">' +
+        '<label class="col-md-2 col-form-label">Political Exposure</label>' +
+        '<div class="col-md-10 mb-3">' +
+        '<div class="form-check pl-0">' +
+        '<label class="form-check-label">' +
+        '<input name="Ispoliticallyexposed" id="Ispoliticallyexposed"' +
+        'class="form-check-input" type="checkbox">' +
+        '<span class="form-check-sign"></span> Politically Exposed' +
+        '</label>' +
+        '</div>' +
+        '</div>' +
+        ' </div>';
+
+    var customInputText = '<div class="row mb-2">' +
+        '<label class="col-md-2 col-form-label">Credit Rating</label>' +
+        '<div class="col-md-10">' +
+        '<div class="form-group">' +
+        '<input name="Creditrating" id="Creditrating"' +
+        'type="text" class="form-control" />' +
+        ' </div>' +
+        '</div>' +
+        '</div>';
+
+           /* $("#othersPrimary").append(customInputSelect);
+            $("#othersPrimary").append(customInputCheckBox);
+            $("#othersPrimary").append(customInputText);*/
+
+    $.ajax({
+        
+        url: "../Setup/ListCustomFields",
+        type: "GET",
+        success: function (response) {
+
+            debugger
+
+            if (response != "") {
+
+                $.each(response, function (index, value) {
+
+                    console.log(value);
+                    if (value.inputTypeId == 1) {
+
+                        $("#othersPrimary").append(customInputText);
+
+                    } else if (value.inputTypeId == 2) {
+
+                        $("#othersPrimary").append(customInputCheckBox);
+
+                    } else if (value.inputTypeId == 3) {
+
+
+
+                    } else if (value.inputTypeId == 4) {
+
+
+                    } else if (value.inputTypeId == 5) {
+
+                    } else if (value.inputTypeId == 6) {
+
+                        $("#othersPrimary").append(customInputSelect);
+                       
+                    }
+                 
+                
+                })
+            
+          }
+        }
+    })
       
+    
+        // inputTypeId: 2, inputName: "Employment Month", inputLabel: "Employment Month"
+   
 
     initDataTable();
     initSelectTwoConfig();
@@ -281,6 +377,11 @@ $(document).ready(function () {
     initWizards();
     $(".modal").perfectScrollbar();
     prepareKYCTables();
+
+  
+
+    
+
 });
 
 function initDataTable() {
@@ -2165,10 +2266,10 @@ function initWizards() {
            // return false;// false;
 
             debugger
-            var form = getTabForm(tab);
+            /*var form = getTabForm(tab);
             if (!form.valid()) {
                 return false;
-            }
+            }*/
         },
 
         onTabShow: function (tab, navigation, index) {
@@ -2449,6 +2550,11 @@ function initSelectTwoConfig() {
     $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
     $.fn.select2.defaults.set("width", "100%");
     $.fn.select2.defaults.set("allowClear", true);
+
+    $("#customType").select2({
+        placeholder: "Select custom option"
+    });
+
 
     $("#ddlCategoryType, #UddlCategoryType").select2({
         placeholder: "Select customer category"

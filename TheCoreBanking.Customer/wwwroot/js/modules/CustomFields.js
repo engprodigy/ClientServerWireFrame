@@ -256,13 +256,14 @@ function initDataTable() {
                 field: "postnostatusid",
                 title: "Status",
                 sortable: true,
-            },
+            },*/
             {
                 field: null,
                 align: "center",
                 width: "5%",
-                formatter: utilities.dropDownFormatter,
-            },*/
+                formatter: utilities.deleteFormatter,
+                //formatter: utilities.editFormatter,
+            },
 
         ],
     });
@@ -551,10 +552,105 @@ var utilities = {
         
         return name;
     },
+
+    editFormatter: function (value, row, index) {
+        return [
+            '<button type="button" class="edit btn btn-sm btn-warning" title="Edit" >',
+            '<i class="now-ui-icons ui-2_settings-90"></i>',
+            '</button>'
+        ].join('');
+    },
+    deleteFormatter: function (value, row, index) {
+        return [
+            '<button type="button" class="remove btn btn-sm btn-danger" title="Delete" id="' + row.id + '" onclick="utilities.deleteCustomInput(this)">',
+            '<i class="now-ui-icons ui-1_simple-remove"></i> ',
+            '</button>'
+        ].join('');
+    },
+    deleteCustomInput: function (self) {
+
+        debugger
+        var customInputId = $("#data-table")
+            .bootstrapTable('getRowByUniqueId', self.id);
+        console.log(customInputId);
+
+        swal({
+            title: "Are you sure?",
+            text: "Custom Field Will be deleted",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#34D027",
+            confirmButtonText: "Yes, continue",
+            cancelButtonText: "No, stop!",
+            cancelButtonColor: "#ff9800",
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    setTimeout(function () {
+                        resolve();
+                    }, 1000);
+                });
+            }
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: '../Setup/DeleteCustomField',
+                    type: 'POST',
+                    data: JSON.stringify(customInputId),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    //headers: {
+                    //    'VerificationToken': forgeryId
+                    //},
+                    success: function (result) {
+                        //alert(result);
+                        if (result.toString !== '' && result !== null) {
+                            swal({ title: 'Customer Custom Field', text: 'Custom Field deleted successfully!', type: 'success' }).then(function () { });
+
+                            $('#data-table').
+                                bootstrapTable(
+                                    'refresh', { url: 'Setup/ListCustomFields' });
+
+                            // $("#btnFreezeTypeUpdate").removeAttr("disabled");
+                            // $('#FreezeTypeModal').modal('hide');
+
+                            //$('#extrainput').val("");
+                           // $("fieldset").nextAll("#form-group").remove();
+                          //  $("#selectinputconfigure").hide();
+                           // $("#selectinputconfigureaddbutton").hide();
+                          //  $('#custom-input')[0].reset();
+                          //  $("#InputType").val('').trigger('change');
+
+                        }
+                        else {
+                            swal({ title: 'Customer Custom Field', text: 'Something went wrong: </br>' + result.toString(), type: 'error' }).then(function () { });
+                            $("#submit").removeAttr("disabled");
+                        }
+                    },
+                    error: function (e) {
+                        swal({ title: 'Customer Custom Field', text: 'Customer Custom Field Deletion encountered an error', type: 'error' }).then(function () { });
+                        //$("#btnFreezeTypeUpdate").removeAttr("disabled");
+                    }
+                });
+
+            }
+
+        }, function (isRejected) {
+
+            swal({
+                title: "Cancel Customer Custom Field",
+                text: "Customer Custom Field Deletion was Cancelled!",
+                type: "error"
+            });
+            //$('#FreezeTypeModal').modal('hide');
+            return;
+        }); 
+        
+    },
 }
 
 
-
+//onclick = "utilities.populateMandateFrm()"
 
 /*
 
