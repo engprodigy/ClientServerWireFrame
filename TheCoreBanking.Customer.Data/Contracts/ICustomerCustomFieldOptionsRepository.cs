@@ -9,6 +9,7 @@ namespace TheCoreBanking.Customer.Data.Contracts
 {
     public interface ICustomerCustomFieldOptionsRepository : IRepository<TblCustomercustomfieldoptions>
     {
-       // IQueryable<TblCustomerCustomFields> ValidateCustomFields(int ID);
+        // IQueryable<TblCustomerCustomFields> ValidateCustomFields(int ID);
+        IQueryable<TblCustomercustomfieldoptions> GetOptions(int id);
     }
 }

@@ -142,6 +142,7 @@ namespace TheCoreBanking.Customer.Controllers
 
             CustomerUnitOfWork.Commit();
 
+            if(tblCustomercustomfieldlist.InputTypeId == 2 || tblCustomercustomfieldlist.InputTypeId == 5 || tblCustomercustomfieldlist.InputTypeId == 6) {
 
             foreach (var fieldoptions in listTblCustomercustomfieldoptions)
             {
@@ -153,6 +154,8 @@ namespace TheCoreBanking.Customer.Controllers
             }
 
             CustomerUnitOfWork.Commit();
+           
+            }
 
             return Json(tblCustomercustomfieldlist.Id);
         }
@@ -465,10 +468,23 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(result);
         }
 
+        public JsonResult ListCustomFields()
+        {
+            var result = CustomerUnitOfWork.CustomerCustomFieldList.GetAll();
+            return Json(result);
+        }
+
+        public JsonResult LoadCustomFieldOptions(int id)
+        {
+            var result = CustomerUnitOfWork.CustomerCustomFieldOptions.GetOptions(id);
+            return Json(result);
+        }
+        
+
         #endregion
 
 
-        
+
     }
 
     

@@ -2009,7 +2009,7 @@ function initWizards() {
             if (!form.valid()) {
                 return false;
             }
-            return true;
+            //return true;
         },
 
         onInit: function (tab, navigation, index) {
@@ -2162,7 +2162,13 @@ function initWizards() {
         },
 
         onTabClick: function (tab, navigation, index) {
-            return true;// false;
+           // return false;// false;
+
+            debugger
+            var form = getTabForm(tab);
+            if (!form.valid()) {
+                return false;
+            }
         },
 
         onTabShow: function (tab, navigation, index) {

@@ -167,10 +167,10 @@ var allCustomFields;
 $(document).ready(function () {
 
 
-    //initDataTable();
+    initDataTable();
     initSelectTwoConfig();
     //initDatePicker(".datepicker");
-    //initFormValidations();
+    initFormValidations();
     //initWizards();
     //$(".modal").perfectScrollbar();
    // prepareKYCTables();
@@ -212,6 +212,109 @@ function initSelectTwoConfig() {
 }
 
 
+function initDataTable() {
+
+    debugger
+
+    $("#data-table").bootstrapTable('showLoading');
+
+
+    $("#data-table").bootstrapTable({
+        search: true,
+        searchAlign: "right",
+        detailView: true,
+        detailFormatter: utilities.optionsDetailTableFormatter,
+        url: "../Setup/ListCustomFields",
+        // url: url_path + "/Profile/LoadCustomers",
+        showPaginationSwitch: true,
+        pagination: true,
+        mobileResponsive: true,
+        checkOnInit: true,
+        minWidth: 626,
+        toolbar: "#custom-toolbar",
+        showRefresh: true,
+        showToggle: true,
+        uniqueId: "id",
+        buttonsClass: "danger",
+        columns: [
+            {
+                field: "inputName",
+                title: "Input Name",
+                sortable: true
+            },
+            {
+                field: "inputLabel",
+                title: "Input Label",
+                sortable: true
+            }, {
+                field: "inputTypeId",
+                title: "Input Type",
+                sortable: true,
+                formatter: utilities.inputTypeFormatter
+
+            }, /*{
+                field: "postnostatusid",
+                title: "Status",
+                sortable: true,
+            },
+            {
+                field: null,
+                align: "center",
+                width: "5%",
+                formatter: utilities.dropDownFormatter,
+            },*/
+
+        ],
+    });
+    // $("#data-table").bootstrapTable("hideLoading");
+
+
+}
+
+function initFormValidations() {
+    // defaults
+    jQuery.validator.setDefaults({
+        onfocusout: false,
+        onkeyup: false,
+        onclick: false,
+        normalizer: function (value) {
+            // Trim the value of every element
+            // before validation
+            return $.trim(value);
+        },
+        errorPlacement: function (error, element) {
+            $.notify({
+                icon: "now-ui-icons travel_info",
+                message: error.text()
+            }, {
+                type: "danger",
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            });
+        }
+    });
+
+   
+
+    $("#custom-input").each(function () {
+        $(this).validate({
+            messages: {
+                inputname: {
+                    required: "Input name is required"
+                },
+                inputlabel: {
+                    required: "Input Label is required"
+                },
+                InputType: {
+                    required: "Please Select Input Type"
+                }
+            }
+        });
+    });
+
+}
 
 $("#InputType").on("select2:select", function (e) {
 
@@ -273,6 +376,10 @@ $("#submit").click(function (event) {
 
     var form = $("#custom-input");
 
+    if (!form.valid()) {
+        return false;
+    }
+
     console.log(form);
 
     var frmInputValue = $(form).serializeArray();
@@ -312,9 +419,9 @@ $("#submit").click(function (event) {
                     if (result.toString !== '' && result !== null) {
                         swal({ title: 'Customer Custom Field', text: 'Custom Field Type added successfully!', type: 'success' }).then(function () { });
 
-                        /*$('#listfreezeTable').
+                        $('#data-table').
                             bootstrapTable(
-                                'refresh', { url: 'FreezeSetup/listfreezetype' });*/
+                                'refresh', { url: 'Setup/ListCustomFields' });
 
                        // $("#btnFreezeTypeUpdate").removeAttr("disabled");
                        // $('#FreezeTypeModal').modal('hide');
@@ -355,7 +462,96 @@ $("#submit").click(function (event) {
 
 
 
+var utilities = {
 
+
+    optionsDetailTableFormatter: function (index, row, detail) {
+        detail.html("Loading...");
+        var mandates, bvn, phones = [], emails = [];
+
+        debugger
+
+        
+        $.when(
+            $.ajax("../Setup/LoadCustomFieldOptions/" + row.id)
+                .then(function (response) {
+                    mandates = response;
+                    console.log(mandates);
+                })
+
+        ).then(function () {
+            var top_row = $("<div class='row'></div>");
+            var bottom_row = $("<div class='row'></div>");
+            var bvn_col = $("<div class='col-sm-12 col-md-6'></div>");
+            var phone_col = $("<div class='col-sm-12 col-md-6'></div>");
+            var email_col = $("<div class='col-sm-12 col-md-6'></div>");
+
+            //var address_col = $("<div class='col'></div>");
+
+
+            if (mandates.length == 0 || mandates == false) {
+                var mandates_col = $("<div class='col-sm-12 col-md-6'></div>");
+                mandates_col.append("<p>No Record Available.</p>");
+                bottom_row.append(mandates_col);
+            } else {
+                $.each(mandates, function (index, value) {
+                    //console.log(value.byte);
+                    var mandates_col = $("<div class='col-sm-12 col-md-6'></div>");
+                    mandates_col.append("<p>&nbsp;</p>");
+                    mandates_col.append("<h6 class='detail-primary d-inline-block mb-3'>" + value.optionName + "</h6>");
+                    mandates_col.append("<p>&nbsp;</p>");
+                   // var html = [];
+                  //  html.push("<p><img src='data:" + value.mime + ";base64," + value.byte + " ' alt='Mandates Image' width='300' height='233'></p>");
+                    /*html.push(value.address + ", " + value.city + ", " + value.state.statename);
+                    html.push(", " + value.country.name + ".</p>");*/
+                  //  mandates_col.append(html.join(""));
+                    bottom_row.append(mandates_col);
+                });
+            }
+
+
+
+
+            detail.empty();
+            detail.append(top_row, bottom_row);
+        });
+    },
+
+    editMandateBtnFormatter: function (val, row, index) {
+        // debugger
+
+        mandateRowObject = row;
+
+        return [
+            "<button class='btn btn-warning btn-icon' ",
+            "onclick='utilities.populateMandateFrm()'>",
+            "<i class='now-ui-icons ui-2_settings-90'>",
+            "</i></button>"
+        ].join("");
+    },
+
+    inputTypeFormatter: function (value) {
+        var name = null;
+        if (value == 1) {
+            name = "Text"
+        } else if (value == 2) {
+            name = "CheckBox"
+        } else if (value == 3) {
+            name = "Date"
+        } else if (value == 4) {
+            name = "File"
+        } else if (value == 5) {
+            name = "Radio"
+        } else if (value == 6) {
+            name = "Select"
+        } else {
+            if (!name) return "-";
+        }
+       //name = productData[value];
+        
+        return name;
+    },
+}
 
 
 

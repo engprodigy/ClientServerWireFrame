@@ -8,6 +8,6 @@ namespace TheCoreBanking.Customer.Data.Repository
     {
         public CustomerCustomFieldOptionsRepository(TheCoreBankingCustomerContext context) : base(context) { }
 
-        //public IQueryable<TblBank> GetActive() => dbSet.Where(bank => bank.Active == true);
+        public IQueryable<TblCustomercustomfieldoptions> GetOptions(int id) => dbSet.Where(options => options.CustomerCustomFieldListId == id);
     }
 }

@@ -1280,7 +1280,9 @@ function initWizard() {
         },
 
         onTabClick: function (tab, navigation, index) {
-            return true;
+
+            return false;// true;
+
         },
 
         onTabShow: function (tab, navigation, index) {
