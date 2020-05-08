@@ -284,40 +284,11 @@ var tracker = 0;
 
 $(document).ready(function () {
 
-    var customInputSelect = '<div class="row mb-2">' +
-        '<label class="col-md-2 col-form-label">Category</label>' +
-        '<div class="col-md-10">' +
-        '<div class="form-group">' +
-        '<select id="customType">' +
-        '<option value="external">External</option>' +
-        '<option value="internal">Internal</option>' +
-        '</select>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
+    
 
-    var customInputCheckBox = '<div class="row mb-2">' +
-        '<label class="col-md-2 col-form-label">Political Exposure</label>' +
-        '<div class="col-md-10 mb-3">' +
-        '<div class="form-check pl-0">' +
-        '<label class="form-check-label">' +
-        '<input name="Ispoliticallyexposed" id="Ispoliticallyexposed"' +
-        'class="form-check-input" type="checkbox">' +
-        '<span class="form-check-sign"></span> Politically Exposed' +
-        '</label>' +
-        '</div>' +
-        '</div>' +
-        ' </div>';
+    
 
-    var customInputText = '<div class="row mb-2">' +
-        '<label class="col-md-2 col-form-label">Credit Rating</label>' +
-        '<div class="col-md-10">' +
-        '<div class="form-group">' +
-        '<input name="Creditrating" id="Creditrating"' +
-        'type="text" class="form-control" />' +
-        ' </div>' +
-        '</div>' +
-        '</div>';
+   
 
            /* $("#othersPrimary").append(customInputSelect);
             $("#othersPrimary").append(customInputCheckBox);
@@ -333,18 +304,74 @@ $(document).ready(function () {
 
             if (response != "") {
 
+                var count = 0;
+
                 $.each(response, function (index, value) {
+
+                    count++;
 
                     console.log(value);
                     if (value.inputTypeId == 1) {
+                        var customInputText = '<div class="row mb-2">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10">' +
+                            '<div class="form-group">' +
+                            '<input name="Creditrating" id="Creditrating"' +
+                            'type="text" class="form-control" />' +
+                            ' </div>' +
+                            '</div>' +
+                            '</div>';
 
                         $("#othersPrimary").append(customInputText);
 
                     } else if (value.inputTypeId == 2) {
+                        var customInputCheckBox = '<div class="row mb-2">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10 mb-3">' +
+                            '<div class="form-check pl-0">' +
+                            '<label class="form-check-label">' +
+                            '<input name="Ispoliticallyexposed" id="Ispoliticallyexposed"' +
+                            'class="form-check-input" type="checkbox">' +
+                            '<span class="form-check-sign"></span> Politically Exposed' +
+                            '</label>' +
+                            '</div>' +
+                            '</div>' +
+                            ' </div>';
 
                         $("#othersPrimary").append(customInputCheckBox);
 
                     } else if (value.inputTypeId == 3) {
+                        
+                        var customInputDate = '<div class="row mb-2 ">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10 ">' +
+                            '<div class="form-group">' +
+                            '<input name="Dateofbirth" id="Dateofbirth"' +
+                            ' type="text" class="form-control datepickercustom" />' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        $("#othersPrimary").append(customInputDate);
+
+                        //initDatePicker(".datepickercustom");
+
+                        if ($(".datepickercustom").length != 0) {
+                            $(".datepickercustom").datetimepicker({
+                                format: "Do MMM YYYY",
+                                //format: "YYYY-MM-DD",
+                                icons: {
+                                    time: "now-ui-icons tech_watch-time",
+                                    date: "now-ui-icons ui-1_calendar-60",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: "now-ui-icons arrows-1_minimal-left",
+                                    next: "now-ui-icons arrows-1_minimal-right",
+                                    today: "fa fa-screenshot",
+                                    clear: "fa fa-trash",
+                                    close: "fa fa-remove"
+                                }
+                            });
+                        }
 
 
 
@@ -355,7 +382,35 @@ $(document).ready(function () {
 
                     } else if (value.inputTypeId == 6) {
 
+                        var customInputSelect = '<div class="row mb-2">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10">' +
+                            '<div class="form-group">' +
+                            '<select id="customType' + count + '">' +
+                            '<option value="external">External</option>' +
+                            '<option value="internal">Internal</option>' +
+                            '</select>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+
+                        $.fn.select2.defaults.set("theme", "bootstrap4");
+                        $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+                        $.fn.select2.defaults.set("width", "100%");
+                        $.fn.select2.defaults.set("allowClear", true);
+
+                        /*$("#customType").select2({
+                            placeholder: "Select custom option"
+                        });*/
+                        
+
                         $("#othersPrimary").append(customInputSelect);
+
+                        $("#customType" + count ).select2({
+                            placeholder: "Select Options",
+                            allowClear: true,
+                            //   data: data
+                        }); 
                        
                     }
                  
