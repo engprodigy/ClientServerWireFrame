@@ -156,6 +156,77 @@ $(document).ready(function () {
 
                     } else if (value.inputTypeId == 5) {
 
+
+
+                        
+                        $.ajax({
+                            type: "GET",
+                            url: "../Setup/LoadCustomFieldOptions",
+                            data: { id: value.id },
+                            dataType: "json",
+                            statusCode: {
+                                404: function () {
+                                    alert('page not found');
+                                }
+                            },
+                            success: handleData
+                            //function (result) {
+                            //  data1.push(result);
+                            //myFunction()
+                            // }
+                        });
+                        function handleData(data) {
+
+                            var customInputRadio = '<div class="row mb-4" id="ShowCashCheque" >';
+                            customInputRadio += '<div class="col-xs-12 col-md-3 mt-1">';
+                            customInputRadio += '<label>' + value.inputLabel + '</label>';
+                            customInputRadio += '</div>';
+                            customInputRadio += '<div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">';
+                           
+                            var optionName = value.inputName;
+
+                            $.each(data, function (index, value) {
+
+                               /* customInputRadio += '<div class="radio-item">';
+
+                            customInputRadio += '<input type="radio" name="cash"';
+                            customInputRadio += ' id="cheque"  value="cheque" required>';
+                            customInputRadio += ' <label for="cheque">';
+                            customInputRadio += '  <span class="form-check-sign"></span> Cheque</label>';
+                                                                                    
+                            customInputRadio += '  </div>';*/
+                               
+
+                                customInputRadio += '<div class="radio-item">';
+
+                                customInputRadio += '<input type="radio" name="' + optionName + '"';
+                                customInputRadio += 'id="' + value.optionName + '" value="' + value.optionName + '" >';
+                                customInputRadio += '   <label for="' + value.optionName + '">';
+                                customInputRadio += ' <span class="form-check-sign"></span> ' + value.optionName + '';
+                                customInputRadio += '  </label>';
+                                customInputRadio += ' </div>';
+
+
+                            });
+
+                            
+                           /* customInputRadio += '<div class="radio-item">';
+
+                            customInputRadio += '<input type="radio" name="cash"';
+                            customInputRadio += ' id="cheque"  value="cheque" required>';
+                            customInputRadio += ' <label for="cheque">';
+                            customInputRadio += '  <span class="form-check-sign"></span> Cheque</label>';
+                                                                                    
+                            customInputRadio += '  </div>';*/
+                            customInputRadio += ' </div>';
+                            customInputRadio += ' </div>';
+
+                            $("#othersPrimary").append(customInputRadio);
+                           
+                           
+                        }
+                        
+
                     } else if (value.inputTypeId == 6) {
 
                        
