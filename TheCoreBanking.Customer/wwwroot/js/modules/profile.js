@@ -76,7 +76,8 @@ $(document).ready(function () {
                             '</div>' +
                             '</div>';
 
-                        $("#othersPrimary").append(customInputText);
+                       // $("#othersPrimary").append(customInputText);
+                        $("#frmOthers").append(customInputText);
 
                     } else if (value.inputTypeId == 2) {
                         
@@ -104,7 +105,7 @@ $(document).ready(function () {
 
                             customInputCheckBox += '</div>';
 
-                            $("#othersPrimary").append(customInputCheckBox);
+                            $("#frmOthers").append(customInputCheckBox);
 
                         });
 
@@ -127,7 +128,7 @@ $(document).ready(function () {
                             '</div>' +
                             '</div>' +
                             '</div>';
-                        $("#othersPrimary").append(customInputDate);
+                        $("#frmOthers").append(customInputDate);
 
                         //initDatePicker(".datepickercustom");
 
@@ -221,7 +222,7 @@ $(document).ready(function () {
                             customInputRadio += ' </div>';
                             customInputRadio += ' </div>';
 
-                            $("#othersPrimary").append(customInputRadio);
+                            $("#frmOthers").append(customInputRadio);
                            
                            
                         }
@@ -286,7 +287,7 @@ $(document).ready(function () {
                             customInputSelect += '</div>';
                             customInputSelect += '</div>';
 
-                            $("#othersPrimary").append(customInputSelect);
+                            $("#frmOthers").append(customInputSelect);
 
 
                             $.fn.select2.defaults.set("theme", "bootstrap4");
@@ -2210,10 +2211,10 @@ function initWizards() {
            // return false;// false;
 
             debugger
-            /*var form = getTabForm(tab);
+            var form = getTabForm(tab);
             if (!form.valid()) {
                 return false;
-            }*/
+            }
         },
 
         onTabShow: function (tab, navigation, index) {
