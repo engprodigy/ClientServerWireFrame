@@ -1,266 +1,4 @@
-﻿/*$(document).ready(function () {
-    debugger
-    $.ajax({
-        url: "../Profile/lstCustomFields",
-        type: "GET",
-        success: function (response) {
-            debugger
-            if (response != "") {
-                $("#InputField").empty();
-                $("#InputField").css("list-style-type", "none");
-                $.each(response, function (index, value) {
-                    if (response[0].caption1 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption1 +"</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                       
-                    }
-                    if (response[0].caption2 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption2 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption3 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption3 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption4 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption4 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption5 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption5 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption6 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption6 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption7 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption7 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption8 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption8 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption9 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption9 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption10 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption10 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    //Eleven to twenty
-                    if (response[0].caption11 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption11 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-
-                    }
-                    if (response[0].caption12 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption12 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption13 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption13 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption14 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption14 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption15 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption15 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption16 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption16 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption17 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption17 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption18 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption18 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption19 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption19 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                    if (response[0].caption20 != null) {
-                        $("#InputField").append("<label id='CustomName1'>" + value.caption20 + "</label><li>" + "<input type='text' class='form-control' id='Caption'>" + "</li>");
-                    }
-                })
-            }
-        }
-    })
-})
-function GetAllCustomFields() {
-    if (response[0].caption1 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption1">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption1)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption2 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption2">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption2)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption3 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption3">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption3)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption4 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption4">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption4)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption5 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption5">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption5)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption6 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption6">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption6)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption7 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption7">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption7)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption8 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption8">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption8)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption9 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption9">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption9)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption10 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption10">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption10)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption11 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption11">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption11)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption12 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption12">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption12)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption13 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption13">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption13)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption14 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption14">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption14)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption15 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption15">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption15)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption16 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption16">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption16)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption17 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption17">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption17)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption18 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption18">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption18)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption19 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption19">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption19)
-        $("#InputField").html(custom);
-    }
-    if (response[0].caption20 != null) {
-        var custom = '<div class="col-md-10">' +
-            '<div class="form-group">' +
-            '<input type="text" id="Caption20">' +
-            '</div>' +
-            '</div>' +
-            $("#CustomName").html(response[0].caption20)
-        $("#InputField").html(custom);
-    }
-}*/
-
-
+﻿
 
 
 
@@ -280,14 +18,30 @@ var AddressTypes;
 var LGAs = [];
 var Industries = [];
 var tracker = 0;
+var data1 = [];
 
 
 $(document).ready(function () {
 
     
+    function initializeSelect2(selectElementObj) {
+       /* selectElementObj.select2({
+            width: "80%",
+            tags: true
+        });*/
+        /*$.fn.select2.defaults.set("theme", "bootstrap4");
+        $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+        $.fn.select2.defaults.set("width", "100%");
+        $.fn.select2.defaults.set("allowClear", true);
 
+        selectElementObj.select2({
+            placeholder: "Select Options",
+            allowClear: true,
+            //   data: data
+        }); */
+    }
     
-
+    
    
 
            /* $("#othersPrimary").append(customInputSelect);
@@ -316,7 +70,7 @@ $(document).ready(function () {
                             '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
                             '<div class="col-md-10">' +
                             '<div class="form-group">' +
-                            '<input name="Creditrating" id="Creditrating"' +
+                            '<input name="customInputText' + count + '" id="customInputText' + count + '"' +
                             'type="text" class="form-control" />' +
                             ' </div>' +
                             '</div>' +
@@ -325,20 +79,42 @@ $(document).ready(function () {
                         $("#othersPrimary").append(customInputText);
 
                     } else if (value.inputTypeId == 2) {
-                        var customInputCheckBox = '<div class="row mb-2">' +
-                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
-                            '<div class="col-md-10 mb-3">' +
-                            '<div class="form-check pl-0">' +
-                            '<label class="form-check-label">' +
-                            '<input name="Ispoliticallyexposed" id="Ispoliticallyexposed"' +
-                            'class="form-check-input" type="checkbox">' +
-                            '<span class="form-check-sign"></span> Politically Exposed' +
-                            '</label>' +
-                            '</div>' +
-                            '</div>' +
-                            ' </div>';
+                        
 
-                        $("#othersPrimary").append(customInputCheckBox);
+                        $.get('../Setup/LoadCustomFieldOptions', { id: value.id }, function (result) {
+
+                            var customInputCheckBox = '<div class="row mb-2">' +
+                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>';
+
+                            $.each(result, function (index, value) {
+
+                                
+                                customInputCheckBox += '<div class="col-md-3 mb-3">';
+                                customInputCheckBox += '<div class="form-check pl-0">';
+                                customInputCheckBox += '<label class="form-check-label">';
+                                customInputCheckBox += '<input name="customInputCheckBox' + count + value.id + '" id="customInputCheckBox' + count + value.id + '"';
+                                customInputCheckBox += 'class="form-check-input" type="checkbox">';
+                                customInputCheckBox += '<span class="form-check-sign"></span> ' + value.optionName + '';
+                                customInputCheckBox += '</label>';
+                                customInputCheckBox += '</div>';
+                                customInputCheckBox += '</div>';
+                                console.log(value);
+
+                            });
+
+                            customInputCheckBox += '</div>';
+
+                            $("#othersPrimary").append(customInputCheckBox);
+
+                        });
+
+                        for (var i = 0; i < 3; i++) {
+
+                           
+                        }
+                        
+                          
+                       
 
                     } else if (value.inputTypeId == 3) {
                         
@@ -346,7 +122,7 @@ $(document).ready(function () {
                             '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
                             '<div class="col-md-10 ">' +
                             '<div class="form-group">' +
-                            '<input name="Dateofbirth" id="Dateofbirth"' +
+                            '<input name="DateType' + count + '" id="DateType' + count + '"' +
                             ' type="text" class="form-control datepickercustom" />' +
                             '</div>' +
                             '</div>' +
@@ -382,36 +158,78 @@ $(document).ready(function () {
 
                     } else if (value.inputTypeId == 6) {
 
-                        var customInputSelect = '<div class="row mb-2">' +
-                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
-                            '<div class="col-md-10">' +
-                            '<div class="form-group">' +
-                            '<select id="customType' + count + '">' +
-                            '<option value="external">External</option>' +
-                            '<option value="internal">Internal</option>' +
-                            '</select>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>';
-
-                        $.fn.select2.defaults.set("theme", "bootstrap4");
-                        $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
-                        $.fn.select2.defaults.set("width", "100%");
-                        $.fn.select2.defaults.set("allowClear", true);
-
-                        /*$("#customType").select2({
-                            placeholder: "Select custom option"
-                        });*/
-                        
-
-                        $("#othersPrimary").append(customInputSelect);
-
-                        $("#customType" + count ).select2({
-                            placeholder: "Select Options",
-                            allowClear: true,
-                            //   data: data
-                        }); 
                        
+
+                      
+
+                          
+                           
+
+                      //  data1 = value.inputLabel;
+
+                       // console.log(data1);
+
+                       
+                        //  customInputSelect += '<option value="' + count + value.id + '">' + value.optionName + '</option>'
+                        $.ajax({
+                            type: "GET",
+                            url: "../Setup/LoadCustomFieldOptions",
+                            data: { id: value.id },
+                            dataType: "json",
+                            statusCode: {
+                                404: function () {
+                                    alert('page not found');
+                                }
+                            },
+                            success: handleData
+                                //function (result) {
+                              //  data1.push(result);
+                                //myFunction()
+                           // }
+                        });
+                        
+                        function handleData(data) {
+
+
+                            var customInputSelect = '<div class="row mb-2">' +
+                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                                '<div class="col-md-10">' +
+                                '<div class="form-group">' +
+                                '<select id="customType' + count + value.id + '">';
+
+                           // customInputSelect += '<option value="default"> Select' + value.inputLabel + '</option>'
+
+                            $.each(data, function (index, value) {
+
+                                customInputSelect += '<option value="' + count + value.id + '">' + value.optionName + '</option>'
+
+
+                            }); 
+
+                           
+                            data1.push(data)
+                            console.log(data1);
+                            //do some stuff
+                            customInputSelect += '</select>';
+                            customInputSelect += '</div>';
+                            customInputSelect += '</div>';
+                            customInputSelect += '</div>';
+
+                            $("#othersPrimary").append(customInputSelect);
+
+
+                            $.fn.select2.defaults.set("theme", "bootstrap4");
+                            $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+                            $.fn.select2.defaults.set("width", "100%");
+                            $.fn.select2.defaults.set("allowClear", true);
+
+
+                            $("#customType" + count + value.id).select2({
+                                placeholder: "Select Options",
+                                allowClear: true,
+                            });
+                        }
+                                               
                     }
                  
                 
@@ -421,7 +239,7 @@ $(document).ready(function () {
         }
     })
       
-    
+   // console.log(data1);
         // inputTypeId: 2, inputName: "Employment Month", inputLabel: "Employment Month"
    
 
