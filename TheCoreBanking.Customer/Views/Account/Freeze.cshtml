@@ -205,15 +205,15 @@
             <div class="col-xs-12">
                 <input type="file" id="freeze-file" name="freeze-file" data-browse-label="Choose File"
                        data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
-                       data-theme="fas" data-show-upload="false" data-show-remove="false"
+                        data-show-upload="false" data-show-remove="false" data-max-file-size="10000" data-max-file-preview-size="400"
                        data-show-caption="false" data-drop-zone-enabled="false" class="file" />
-                @*<label class="text-center w-100">Attach Document</label>*@
+                <label class="text-center w-100" style="color:red">* Max file size 10mb</label>
                                         </div>
                                 </div>
                                 <div class="row mt-4 justify-content-between">
                                     <div class="col">
                                         <button class="btn btn-danger btn-wd pull-left" type="button"
-                                                onclick="clear()">
+                                                onclick="clearFreezeForm()">
                                             Clear
                                         </button>
                                     </div>

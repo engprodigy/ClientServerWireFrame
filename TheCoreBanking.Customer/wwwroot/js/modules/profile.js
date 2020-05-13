@@ -315,7 +315,14 @@ $(document).ready(function () {
     $(".card").perfectScrollbar();
     prepareKYCTables();
 
-  
+    $("#UpdateUploadFile").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
 
     
 
@@ -1188,7 +1195,8 @@ function initFormValidations() {
                         digits: true
                     },
                     Bvn: {
-                        maxlength: 50,
+                        maxlength: 11,
+                        minlength: 11,
                         digits: true
                     }
                 },
@@ -1197,6 +1205,7 @@ function initFormValidations() {
                         maxlength: jQuery.validator.format("Bank address cannot exceed {0} characters")
                     },
                     Bankaccountnumber: {
+                        required: "Bank Account Number is required",
                         digits: "Account number can only contain digits",
                         maxlength: jQuery.validator.format("Account no. cannot exceed {0} characters")
                     },
@@ -1316,7 +1325,7 @@ function openModal(e) {
                     moment().subtract(18, "years")
                 );
             }
-
+            debugger
             console.log(selectedTab);
             selectedTab = [];
             selectedTab.push("li.nav-item.personalPrimary");
@@ -1356,7 +1365,7 @@ function openModal(e) {
 
             $("#wizardComponent #Institutiontypeid").removeAttr("disabled");
             $("#wizardComponent .institution-hide").show();
-            
+            selectedTab = [];
             selectedTab.push("li.nav-item.general");
             selectedTab.push("li.nav-item.kyc");
             selectedTab.push("li.nav-item.officialSecondary");
@@ -2124,7 +2133,7 @@ function initWizards() {
 
 
 
-            selectedTab = [];
+           // selectedTab = [];
 
             var tabs = $("#wizardComponent " + "#frmPersonalPrimary");
 

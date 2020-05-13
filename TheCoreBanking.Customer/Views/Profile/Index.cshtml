@@ -1096,6 +1096,7 @@
                                                            data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
                                                            data-theme="fas" data-show-upload="false" data-show-remove="false"
                                                            data-show-caption="false" data-drop-zone-enabled="false" />
+                                                    <label class="text-center w-100" style="color:red">* Max file size 10mb</label>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -2645,7 +2646,14 @@
                                                     <input type="file" id="UpdateUploadFile" class="file" data-browse-label="Choose File"
                                                            data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
                                                            data-theme="fas" data-show-upload="false" data-show-remove="false"
+                                                           data-max-file-size="10000" data-max-file-preview-size="400"
                                                            data-show-caption="false" data-drop-zone-enabled="false" />
+
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <label class="text-center w-100" style="color:red">* Max file size 10mb</label>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -2657,103 +2665,103 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-7 col-xs-12 pt-3">
-                                            
-                                            <table id="kycupload-update-data-table" data-toggle="table"
-                                                   data-search-align="right" data-search="true" class="data-table"
-                                                   data-buttons-class="danger" data-show-refresh="true"
-                                                   data-pagination="true" data-unique-id="id"
-                                                   data-show-pagination-switch="true">
-                                                <thead>
-                                                    <tr>
-                                                        <th data-field="title"
-                                                            data-sortable="true">Title</th>
-                                                        <th data-align="center" data-width="5%"
-                                                            data-formatter="utilities.viewUploadFormatter"></th>
-                                                        <th data-align="center" data-width="5%"
-                                                            data-formatter="utilities.deleteKYCUpdateFormatter"></th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
+                                                <div class="col-sm-7 col-xs-12 pt-3">
+
+                                                    <table id="kycupload-update-data-table" data-toggle="table"
+                                                           data-search-align="right" data-search="true" class="data-table"
+                                                           data-buttons-class="danger" data-show-refresh="true"
+                                                           data-pagination="true" data-unique-id="id"
+                                                           data-show-pagination-switch="true">
+                                                        <thead>
+                                                            <tr>
+                                                                <th data-field="title"
+                                                                    data-sortable="true">Title</th>
+                                                                <th data-align="center" data-width="5%"
+                                                                    data-formatter="utilities.viewUploadFormatter"></th>
+                                                                <th data-align="center" data-width="5%"
+                                                                    data-formatter="utilities.deleteKYCUpdateFormatter"></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <form id="frmKyc">
+                                                <div class="table-responsive">
+                                                    <table id="KYCMinor" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <table id="KYCIndividual" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <table id="KYCJoint" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <table id="KYCCorporate" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <table id="KYCEstate" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                    <table id="KYCUnincorporated" class="table">
+                                                        <thead class="text-primary">
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Requirement</th>
+                                                                <th>Mandatory</th>
+                                                                <th>Date</th>
+                                                                <th width="15%"></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div>
-                                    <form id="frmKyc">
-                                        <div class="table-responsive">
-                                            <table id="KYCMinor" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                            <table id="KYCIndividual" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                            <table id="KYCJoint" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                            <table id="KYCCorporate" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                            <table id="KYCEstate" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                            <table id="KYCUnincorporated" class="table">
-                                                <thead class="text-primary">
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Requirement</th>
-                                                        <th>Mandatory</th>
-                                                        <th>Date</th>
-                                                        <th width="15%"></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                         <div class="card-footer">

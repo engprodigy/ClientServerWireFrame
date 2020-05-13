@@ -23,6 +23,40 @@ $(document).ready(function () {
     //$(".modal").perfectScrollbar();
     $(".card").perfectScrollbar();
     //$('.modal').perfectScrollbar('update');
+    
+    $("[name=mandate-passport]").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
+    $("[name=mandate-signature]").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
+    $("[name=mandate-thumbprint]").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
+
+    $("[name=referee-file]").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
 });
 
 function openModal() {

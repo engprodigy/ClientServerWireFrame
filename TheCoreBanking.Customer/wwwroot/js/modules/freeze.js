@@ -12,6 +12,15 @@ $(document).ready(function () {
     initSelectTwoConfig();
     initFormValidations();
     $(".modal").perfectScrollbar();
+
+    $("#freeze-file").fileinput({
+        theme: "fa",
+        //hideThumbnailContent: true, // hide image, pdf, text or other content in the thumbnail preview
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        msgSizeTooLarge: 'File  "{name}"  (<b> { size } KB</b >) exceeds maximum allowed upload size of < b > { maxSize } KB</b >.Please retry your upload!',
+        msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
+        msgFilePreviewAborted: 'File preview aborted for "{name}"',
+    });
 });
 
 
@@ -72,8 +81,18 @@ function openModal() {
     $('#freeze-account-modal').modal('show');
 }
 
-function clear() {
+function clearFreezeForm() {
     // TODO Clear file upload field
+
+    debugger
+    $('#productaccountno').val(null).trigger("change");
+    $('#freezetype').val(null).trigger("change");
+    $('#freezereason').val(null).trigger("change");
+    $('#freezeReasonOthers').val(null).trigger("change");
+    $('#freezedatetype').val(null).trigger("change");
+    $("#freezedatediv").modal("hide");
+    
+    $('.datetimepicker').val('');
     $("#freeze-account-form select").val(null)
         .trigger("select2:unselect");
     $("#freeze-account-form").trigger("reset");
