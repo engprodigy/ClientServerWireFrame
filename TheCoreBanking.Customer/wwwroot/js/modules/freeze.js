@@ -555,6 +555,9 @@ function initSelectTwoConfig() {
 
             $('#freezedatetype').prop('disabled', false);
 
+            $('#freezeamount').prop('required', false);  //$("input").prop('required',true);
+
+
         } else if ($("#freezetype").val() == 3) {
 
             $("#freezeamountdiv").show();
@@ -562,12 +565,15 @@ function initSelectTwoConfig() {
             $('#freezedatetype').prop('disabled', true);
 
             $("#freezedatediv").hide();
+
+            $('#freezeamount').prop('required', true);
         }
 
 
         else {
             $('#freezedatetype').prop('disabled', false);
             $("#freezeamountdiv").show();
+            $('#freezeamount').prop('required', true);
         }
 
     });

@@ -1,14 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-var url_path = window.location.pathname;
+﻿var url_path = window.location.pathname;
 if (url_path.charAt(url_path.length - 1) == '/') {
     url_path = url_path.slice(0, url_path.length - 1);
 }
@@ -19,6 +9,7 @@ var LGAs = [];
 var Industries = [];
 var tracker = 0;
 var data1 = [];
+var selectedTab = [];
 
 
 $(document).ready(function () {
@@ -320,7 +311,8 @@ $(document).ready(function () {
     initDatePicker(".datepicker");
     initFormValidations();
     initWizards();
-    $(".modal").perfectScrollbar();
+   // $(".modal").perfectScrollbar();
+    $(".card").perfectScrollbar();
     prepareKYCTables();
 
   
@@ -328,6 +320,8 @@ $(document).ready(function () {
     
 
 });
+
+$('.modal').modal('handleUpdate');
 
 function initDataTable() {
     
@@ -491,7 +485,7 @@ function initFormValidations() {
             // before validation
             return $.trim(value);
         },
-        /*errorPlacement: function (error, element) {
+        errorPlacement: function (error, element) {
             $.notify({
                 icon: "now-ui-icons travel_info",
                 message: error.text()
@@ -502,7 +496,7 @@ function initFormValidations() {
                         align: "right"
                     }
             });
-        }*/
+        }
     });
 
     $("#wizardComponent #frmGeneral, #updateWizard #frmGeneral")
@@ -632,7 +626,8 @@ function initFormValidations() {
                     },
                     Bvn: {
                         digits: true,
-                        maxlength: 20
+                        maxlength: 11,
+                        minlength:11
                     },
                     Nokrelationship: {
                         maxlength: 50
@@ -866,7 +861,8 @@ function initFormValidations() {
                     },
                     Bvn: {
                         digits: true,
-                        maxlength: 20
+                        maxlength: 11,
+                        minlength: 11
                     },
                     Nokrelationship: {
                         maxlength: 50
@@ -990,6 +986,10 @@ function initFormValidations() {
                     
                     Nokrelationship: {
                         maxlength: jQuery.validator.format("Next of Kin's relationship cannot exceed {0} characters")
+                    }, Bvn: {
+                        required: "BVN is required",
+                        digits: "BVN can contain only digits",
+                        maxlength: jQuery.validator.format("BVN cannot exceed {0} characters")
                     }
                 },
                 ignore: false
@@ -1183,7 +1183,8 @@ function initFormValidations() {
                         maxlength: 200
                     },
                     Bankaccountnumber: {
-                        maxlength: 100,
+                        maxlength: 10,
+                        minlength:10,
                         digits: true
                     },
                     Bvn: {
@@ -1315,6 +1316,16 @@ function openModal(e) {
                     moment().subtract(18, "years")
                 );
             }
+
+            console.log(selectedTab);
+            selectedTab = [];
+            selectedTab.push("li.nav-item.personalPrimary");
+            selectedTab.push("li.nav-item.general");
+            selectedTab.push("li.nav-item.kyc");
+            selectedTab.push("li.nav-item.officialPrimary");
+            selectedTab.push("li.nav-item.bank");
+
+
             break;
         case "estate":
         case "joint":
@@ -1327,6 +1338,12 @@ function openModal(e) {
 
             $("#wizardComponent #Institutiontypeid").removeAttr("disabled");
             $("#wizardComponent .institution-hide").show();
+            selectedTab = [];
+            selectedTab.push("li.nav-item.personalSecondary");
+            selectedTab.push("li.nav-item.general");
+            selectedTab.push("li.nav-item.kyc");
+            selectedTab.push("li.nav-item.bank");
+            
             break;
         case "unincorporated":
         case "corporate":
@@ -1339,6 +1356,11 @@ function openModal(e) {
 
             $("#wizardComponent #Institutiontypeid").removeAttr("disabled");
             $("#wizardComponent .institution-hide").show();
+            
+            selectedTab.push("li.nav-item.general");
+            selectedTab.push("li.nav-item.kyc");
+            selectedTab.push("li.nav-item.officialSecondary");
+            selectedTab.push("li.nav-item.bank");
             break;
     };
 
@@ -2051,6 +2073,8 @@ function initWizards() {
         'finishSelector' : '.btn-finish',
 
         onNext: function (tab, navigation, index) {
+
+           
             var form = getTabForm(tab);
             if (!form.valid()) {
                 return false;
@@ -2067,9 +2091,40 @@ function initWizards() {
             // Get and validate last form
             var form = getTabForm(tab);
 
-            if (!form.valid()) {
+            /*if (!form.valid()) {
+                return false;
+            }*/
+
+            debugger
+            console.log(selectedTab);
+            var toReturn = false;
+            $.each(selectedTab, function (index, value) {
+
+                console.log(value);
+                var form = getTabForm(value);
+                if (!form.valid()) {
+                    toReturn = true;
+                    return false;
+                }
+            })
+
+            if (toReturn) {
                 return false;
             }
+            /*var form2 = getTabForm("li.nav-item.personalPrimary");
+            var form3 = getTabForm("li.nav-item.general")
+
+            if (!form2.valid()) {
+                return false;
+            }
+
+            if (!form3.valid()) {
+                return false;
+            }*/
+
+
+
+            selectedTab = [];
 
             var tabs = $("#wizardComponent " + "#frmPersonalPrimary");
 
@@ -2209,6 +2264,8 @@ function initWizards() {
 
         onTabClick: function (tab, navigation, index) {
            // return false;// false;
+
+            //selectedTab.push(tab);
 
             debugger
             var form = getTabForm(tab);
@@ -2671,6 +2728,10 @@ function initSelectTwoConfig() {
     });
     $("#Stateoforiginid").on("select2:select", function (e) {
         $("#Stateoriginlgaid").removeAttr("disabled");
+
+        debugger
+        console.log(e.params.data.text);
+
         stateLGA = LGAs.filter(function (elem) {
             return elem.state == e.params.data.text;
         });
@@ -2736,6 +2797,9 @@ function initSelectTwoConfig() {
     // Update Event Listeners
     $("#UStateoforiginid").on("select2:select", function (e) {
         $("#UStateoriginlgaid").removeAttr("disabled");
+
+        console.log(e.params.data.text);
+
         stateLGA = LGAs.filter(function (elem) {
             return elem.state == e.params.data.text;
         });

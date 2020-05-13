@@ -216,6 +216,10 @@ function initDataTable() {
 
     debugger
 
+    var logText = url_path + "/Profile/LoadCustomers";
+
+    console.log(url_path);
+
     $("#data-table").bootstrapTable('showLoading');
 
 

@@ -88,6 +88,19 @@
             display: block;
             background: red;
         }
+
+        .modal-dialog,
+.modal-content {
+    /* 80% of window height */
+   /* height: 80%;*/
+}
+
+    .modal-body {
+        /* 100% = dialog height, 120px = header + footer 
+        max-height: calc(100% - 120px);*/
+       
+      //  overflow-y: scroll;
+    }
 </style>
 
 <div class="card" id="customer-card">
@@ -167,12 +180,14 @@
                                             KYC
                                         </a>
                                     </li>
+                                    @* tab 4*@
                                     <li class="nav-item officialPrimary">
                                         <a class="nav-link" href="#officialPrimary" data-toggle="tab">
                                             <i class="now-ui-icons business_briefcase-24"></i>
                                             Official
                                         </a>
                                     </li>
+                                    @* tab 5*@
                                     <li class="nav-item officialSecondary">
                                         <a class="nav-link" href="#officialSecondary" data-toggle="tab">
                                             <i class="now-ui-icons business_briefcase-24"></i>
@@ -1545,7 +1560,7 @@
                                             <div class="col-md-10">
                                                 <div class="form-group">
                                                     <input id="Bankaccountnumber" name="Bankaccountnumber"
-                                                           type="text" class="form-control" />
+                                                           type="text" class="form-control" required />
                                                 </div>
                                             </div>
                                         </div>

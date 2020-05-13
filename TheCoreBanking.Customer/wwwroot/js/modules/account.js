@@ -20,7 +20,9 @@ $(document).ready(function () {
     initSelectTwoConfig();
     initFormValidations();
     initWizard();
-    $(".modal").perfectScrollbar();
+    //$(".modal").perfectScrollbar();
+    $(".card").perfectScrollbar();
+    //$('.modal').perfectScrollbar('update');
 });
 
 function openModal() {
@@ -896,8 +898,8 @@ function initFormValidations() {
         }, ignore: false
     });
 
-    if (!window.location.href == "http://localhost:1659/Account")
-    { 
+   // if (!window.location.href == "http://localhost:1659/Account")
+   // { 
     $("#frmProduct").validate({
         messages: {
             productid: {
@@ -906,7 +908,7 @@ function initFormValidations() {
         },
         ignore: false
     });
-    }
+  //  }
 
     $("#frmAccount, #frmAccountUpdate").each(function () {
         $(this).validate({
@@ -981,10 +983,14 @@ function initWizard() {
         'finishSelector': '.btn-finish',
 
         onNext: function (tab, navigation, index) {
+            debugger
+            $('.modal').modal('handleUpdate');
             var form = getTabForm(tab);
             if (!form.valid()) {
                 return false;
             }
+
+            
         },
 
         onInit: function (tab, navigation, index) {
@@ -993,6 +999,43 @@ function initWizard() {
         },
 
         onFinish: function (tab, navigation, index) {
+
+            debugger
+
+            var form2 = getTabForm("li.nav-item.frmCustomer");
+
+            if (!form2.valid()) {
+                return false;
+            }
+
+
+            var form3 = getTabForm("li.nav-item.frmProduct");
+
+
+            if (!form3.valid()) {
+                return false;
+            }
+
+            var form4 = getTabForm("li.nav-item.frmAccount");
+
+            if (!form4.valid()) {
+                return false;
+            }
+
+            var form5 = getTabForm("li.nav-item.frmReferee");
+
+            if (!form5.valid()) {
+                return false;
+            }
+
+            var form6 = getTabForm("li.nav-item.frmMandate");
+
+            if (!form6.valid()) {
+                return false;
+            }
+
+
+       
             swal({
                 title: "Are you sure?",
                 text: "Account data will be submitted",
@@ -1122,10 +1165,15 @@ function initWizard() {
         },
 
         onTabClick: function (tab, navigation, index) {
-            return false;
+            var form = getTabForm(tab);
+            if (!form.valid()) {
+                return false;
+            }
+
         },
 
         onTabShow: function (tab, navigation, index) {
+            $('.modal').modal('handleUpdate');
             var navLength = $(navigation).find("li:not(.d-none)").length;
 
             var wizard = navigation.closest('.card-wizard');
@@ -1281,7 +1329,11 @@ function initWizard() {
 
         onTabClick: function (tab, navigation, index) {
 
-            return false;// true;
+            //return false;// true;
+            var form = getTabForm(tab);
+            if (!form.valid()) {
+                return false;
+            }
 
         },
 
