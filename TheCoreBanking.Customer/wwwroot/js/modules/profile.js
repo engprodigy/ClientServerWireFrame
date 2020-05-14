@@ -324,6 +324,7 @@ $(document).ready(function () {
         msgFilePreviewAborted: 'File preview aborted for "{name}"',
     });
 
+
     
 
 });
@@ -2648,7 +2649,7 @@ function initSelectTwoConfig() {
         });
     $.ajax(url_path + "/Profile/LoadCountries")
         .then(function (response) {
-            $("#ddlCountry, #UddlCountry, #sDdlCountry, #UsDdlCountry, #Workcountry, #UWorkcountry, #ssDdlCountry, #UssDdlCountry")
+            $("#ddlCountry, #NationalityCr, #NationalityU, #UddlCountry, #sDdlCountry, #UsDdlCountry, #Workcountry, #UWorkcountry, #ssDdlCountry, #UssDdlCountry")
                 .select2({
                     placeholder: "Select country",
                     data: response

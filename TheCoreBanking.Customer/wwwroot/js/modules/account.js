@@ -57,6 +57,8 @@ $(document).ready(function () {
         msgInvalidFileExtension: 'Invalid extension for file. Only { extensions } files are supported.',
         msgFilePreviewAborted: 'File preview aborted for "{name}"',
     });
+
+    
 });
 
 function openModal() {
@@ -1452,13 +1454,7 @@ function initSelectTwoConfig() {
                 data: response
             });
         });
-    $.ajax(url_path + "/LoadAccountCardTypes")
-        .then(function (response) {
-            $("#ddlCardType, #UddlCardType").select2({
-                placeholder: "Select card type",
-                data: response
-            });
-        });
+   
     $.ajax(url_path + "/LoadDepartments")
         .then(function (response) {
             departments = response;
@@ -1474,18 +1470,26 @@ function initSelectTwoConfig() {
                 data: response
             });
         });
+    $.ajax(url_path + "/LoadAccountCardTypes")
+        .then(function (response) {
+            $("#ddlCardType, #UddlCardType").select2({
+                placeholder: "Select card type",
+                data: response
+            });
+        });
     $.ajax(url_path + "/LoadBankingServices")
         .then(function (response) {
             $("#ddlBankingSrvces, #UddlBankingSrvces").select2({
-                placeholder: "Select service(s)",
+                placeholder: "Select",
                 data: response,
                 allowClear: false
             });
         });
+
     $.ajax(url_path + "/LoadAlertMedia")
         .then(function (response) {
-            $("#ddlAlerts, #UddlAlerts").select2({
-                placeholder: "Select alert media",
+            $("#ddlAlerts, #UddlAlerts").select2({   
+                placeholder: "Select",
                 data: response,
                 allowClear: false
             });
@@ -1493,11 +1497,12 @@ function initSelectTwoConfig() {
     $.ajax(url_path + "/LoadStatementMedia")
         .then(function (response) {
             $("#ddlStmntMedia, #UddlStmntMedia").select2({
-                placeholder: "Select statement media",
+                placeholder: "Select",
                 data: response,
                 allowClear: false
             });
         });
+    
     $.ajax(url_path + "/LoadStatementFrequencies")
         .then(function (response) {
             $("#ddlStmntFreq, #UddlStmntFreq").select2({

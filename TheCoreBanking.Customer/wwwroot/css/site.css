@@ -233,15 +233,17 @@ form .error {
 
 /*.select2-container .select2-selection--single .select2-selection__rendered {
     display: inline;
-}*/
-
-.select2-container--bootstrap4 .select2-selection--multiple
-.select2-search--inline .select2-search__field,
-.select2-container--bootstrap4 .select2-selection--multiple 
-.select2-selection__rendered {
-    padding-left: 0;
-    width: 100% !important;
 }
+*/
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__rendered
+.select2-search--inline .select2-search__field {
+
+    width: 578.328px;
+}
+
+/*input.select2-search__field {
+    width: 578.328px;
+}*/
 
 .select2-container .select2-search--inline {
     display: contents;
@@ -250,14 +252,18 @@ form .error {
 .select2-container--bootstrap4 .select2-selection--multiple
 .select2-selection__rendered {
     padding-top: .6rem;
+    padding-left: 0;
+    /* padding-top: 0 5px;*/
 }
 
-.select2-container--bootstrap4 .select2-selection--multiple 
+.select2-container--bootstrap4 .select2-selection--multiple
 .select2-selection__choice {
-    padding: 0.35rem 0.5rem;
+     padding: 0.35rem 0.5rem;
+     /*padding: 3px 5px;*/
 }
 
-.select2-container--bootstrap4 .select2-selection--multiple 
+
+.select2-container--bootstrap4 .select2-selection--multiple
 .select2-selection__clear {
     margin-top: 0;
 }
@@ -333,3 +339,4 @@ img.no-radius {
 .form-check .form-check-label {
     position: initial;
 }
+

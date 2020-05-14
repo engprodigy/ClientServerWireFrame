@@ -156,24 +156,28 @@
                             </h3>
                             <div class="wizard-navigation">
                                 <ul class="row justify-content-around">
+                                    @* tab 0*@
                                     <li class="nav-item personalPrimary">
                                         <a class="nav-link" href="#personalPrimary" data-toggle="tab">
                                             <i class="now-ui-icons users_circle-08"></i>
                                             Personal
                                         </a>
                                     </li>
+                                    @* tab 1*@
                                     <li class="nav-item personalSecondary">
                                         <a class="nav-link" href="#personalSecondary" data-toggle="tab">
                                             <i class="now-ui-icons users_circle-08"></i>
                                             Personal
                                         </a>
                                     </li>
+                                    @* tab 2*@
                                     <li class="nav-item general">
                                         <a class="nav-link" href="#general" data-toggle="tab">
                                             <i class="now-ui-icons business_bulb-63"></i>
                                             General
                                         </a>
                                     </li>
+                                    @* tab 3*@
                                     <li class="nav-item kyc">
                                         <a class="nav-link" href="#kyc" data-toggle="tab">
                                             <i class="now-ui-icons files_box"></i>
@@ -194,12 +198,14 @@
                                             Official
                                         </a>
                                     </li>
+                                    @* tab 6*@
                                     <li class="nav-item othersPrimary">
                                         <a class="nav-link" href="#othersPrimary" data-toggle="tab">
                                             <i class="now-ui-icons business_badge"></i>
                                             Others
                                         </a>
                                     </li>
+                                    @* tab 7*@
                                     <li class="nav-item bank">
                                         <a class="nav-link" href="#bank" data-toggle="tab">
                                             <i class="now-ui-icons business_bank"></i>
@@ -320,12 +326,24 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @* <div class="row mb-2 col-xs-12 col-lg-6 required">
+                      <label class="col-md-4 col-form-label">Nationality</label>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <input name="Nationality" id="Nationality" required
+                           type="text" class="form-control" />
+                </div>
+            </div>
+        </div>*@
                                                             <div class="row mb-2 col-xs-12 col-lg-6 required">
-                                                                <label class="col-md-4 col-form-label">Nationality</label>
+                                                                <label class="col-md-4 col-form-label">Citizen Of...</label>
+
                                                                 <div class="col-md-8">
                                                                     <div class="form-group">
-                                                                        <input name="Nationality" id="Nationality" required
-                                                                               type="text" class="form-control" />
+                                                                        <select id="NationalityCr" name="Nationality" required>
+                                                                            <option></option>
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1856,7 +1874,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row mb-2 col-xs-12 col-lg-6 required">
+                                                                @*<div class="row mb-2 col-xs-12 col-lg-6 required">
                                                                     <label class="col-md-4 col-form-label">Nationality</label>
                                                                     <div class="col-md-8">
                                                                         <div class="form-group">
@@ -1864,7 +1882,18 @@
                                                                                    type="text" class="form-control" />
                                                                         </div>
                                                                     </div>
+                                                                </div>*@
+                                                                    <div class="row mb-2 col-xs-12 col-lg-6 required">
+                                                                <label class="col-md-4 col-form-label">Citizen Of...</label>
+
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select id="NationalityU" name="Nationality" required>
+                                                                            <option></option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
+                                                            </div>
                                                                 <div class="row mb-2 col-xs-12 col-lg-6">
                                                                     <label class="col-md-4 col-form-label">State of Origin</label>
                                                                     <div class="col-md-8">
