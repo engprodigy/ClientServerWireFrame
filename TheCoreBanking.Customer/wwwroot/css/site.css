@@ -340,3 +340,12 @@ img.no-radius {
     position: initial;
 }
 
+
+/*.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    height: 600px;
+    overflow-y: auto;
+}*/

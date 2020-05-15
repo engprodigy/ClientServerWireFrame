@@ -13,299 +13,57 @@ var selectedTab = [];
 
 
 $(document).ready(function () {
+          
 
-    
-    function initializeSelect2(selectElementObj) {
-       /* selectElementObj.select2({
-            width: "80%",
-            tags: true
-        });*/
-        /*$.fn.select2.defaults.set("theme", "bootstrap4");
-        $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
-        $.fn.select2.defaults.set("width", "100%");
-        $.fn.select2.defaults.set("allowClear", true);
-
-        selectElementObj.select2({
-            placeholder: "Select Options",
-            allowClear: true,
-            //   data: data
-        }); */
+    var dataToEncrypt = {
+        identification_type: "credit",
+        identification_first_name: "BELLO",
+        identification_last_name: "SEGUN",
+        identification_middle_name: "KOLADE",
+        identification_bvn: "22176456519",
+        identification_dob: "1983-03-11",
+        identification_phone_numbers: ["08034105274", "08181373329"]
     }
-    
-    
+   // 
+   // var person = { firstName: "John", lastName: "Doe", age: 50, eyeColor: "blue" }
+    debugger
+
+    console.log(JSON.stringify(dataToEncrypt));
+    var encrypted = encrypt(JSON.stringify(dataToEncrypt));
+
    
 
-           /* $("#othersPrimary").append(customInputSelect);
-            $("#othersPrimary").append(customInputCheckBox);
-            $("#othersPrimary").append(customInputText);*/
+    console.log(encrypted);
 
-    $.ajax({
+   /* $.ajax({
+        type: "POST",
+        url: "https://carbonivs.co/api/verify",
+        data: { "key":"a9231840-953b-11ea-9302-0b42f4931873", "data": encrypted },
+        dataType: "jsonp",
+        contentType: 'application/json',
+        statusCode: {
+            404: function () {
+                alert('page not found');
+            }
+        },
+        success: handleData
+    });
+    function handleData(data) {
+
+        console.log(data);
         
-        url: "../Setup/ListCustomFields",
-        type: "GET",
-        success: function (response) {
 
-            debugger
-
-            if (response != "") {
-
-                var count = 0;
-
-                $.each(response, function (index, value) {
-
-                    count++;
-
-                    console.log(value);
-                    if (value.inputTypeId == 1) {
-                        var customInputText = '<div class="row mb-2">' +
-                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
-                            '<div class="col-md-10">' +
-                            '<div class="form-group">' +
-                            '<input name="customInputText' + count + '" id="customInputText' + count + '"' +
-                            'type="text" class="form-control" />' +
-                            ' </div>' +
-                            '</div>' +
-                            '</div>';
-
-                       // $("#othersPrimary").append(customInputText);
-                        $("#frmOthers").append(customInputText);
-
-                    } else if (value.inputTypeId == 2) {
-                        
-
-                        $.get('../Setup/LoadCustomFieldOptions', { id: value.id }, function (result) {
-
-                            var customInputCheckBox = '<div class="row mb-2">' +
-                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>';
-
-                            $.each(result, function (index, value) {
-
-                                
-                                customInputCheckBox += '<div class="col-md-3 mb-3">';
-                                customInputCheckBox += '<div class="form-check pl-0">';
-                                customInputCheckBox += '<label class="form-check-label">';
-                                customInputCheckBox += '<input name="customInputCheckBox' + count + value.id + '" id="customInputCheckBox' + count + value.id + '"';
-                                customInputCheckBox += 'class="form-check-input" type="checkbox">';
-                                customInputCheckBox += '<span class="form-check-sign"></span> ' + value.optionName + '';
-                                customInputCheckBox += '</label>';
-                                customInputCheckBox += '</div>';
-                                customInputCheckBox += '</div>';
-                                console.log(value);
-
-                            });
-
-                            customInputCheckBox += '</div>';
-
-                            $("#frmOthers").append(customInputCheckBox);
-
-                        });
-
-                        for (var i = 0; i < 3; i++) {
-
-                           
-                        }
-                        
-                          
-                       
-
-                    } else if (value.inputTypeId == 3) {
-                        
-                        var customInputDate = '<div class="row mb-2 ">' +
-                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
-                            '<div class="col-md-10 ">' +
-                            '<div class="form-group">' +
-                            '<input name="DateType' + count + '" id="DateType' + count + '"' +
-                            ' type="text" class="form-control datepickercustom" />' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>';
-                        $("#frmOthers").append(customInputDate);
-
-                        //initDatePicker(".datepickercustom");
-
-                        if ($(".datepickercustom").length != 0) {
-                            $(".datepickercustom").datetimepicker({
-                                format: "Do MMM YYYY",
-                                //format: "YYYY-MM-DD",
-                                icons: {
-                                    time: "now-ui-icons tech_watch-time",
-                                    date: "now-ui-icons ui-1_calendar-60",
-                                    up: "fa fa-chevron-up",
-                                    down: "fa fa-chevron-down",
-                                    previous: "now-ui-icons arrows-1_minimal-left",
-                                    next: "now-ui-icons arrows-1_minimal-right",
-                                    today: "fa fa-screenshot",
-                                    clear: "fa fa-trash",
-                                    close: "fa fa-remove"
-                                }
-                            });
-                        }
+        $.each(data, function (index, value) {
+           
 
 
+        });     
 
-                    } else if (value.inputTypeId == 4) {
-
-
-                    } else if (value.inputTypeId == 5) {
+    }*/
 
 
-
-                        
-                        $.ajax({
-                            type: "GET",
-                            url: "../Setup/LoadCustomFieldOptions",
-                            data: { id: value.id },
-                            dataType: "json",
-                            statusCode: {
-                                404: function () {
-                                    alert('page not found');
-                                }
-                            },
-                            success: handleData
-                            //function (result) {
-                            //  data1.push(result);
-                            //myFunction()
-                            // }
-                        });
-                        function handleData(data) {
-
-                            var customInputRadio = '<div class="row mb-4" id="ShowCashCheque" >';
-                            customInputRadio += '<div class="col-xs-12 col-md-3 mt-1">';
-                            customInputRadio += '<label>' + value.inputLabel + '</label>';
-                            customInputRadio += '</div>';
-                            customInputRadio += '<div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">';
-                           
-                            var optionName = value.inputName;
-
-                            $.each(data, function (index, value) {
-
-                               /* customInputRadio += '<div class="radio-item">';
-
-                            customInputRadio += '<input type="radio" name="cash"';
-                            customInputRadio += ' id="cheque"  value="cheque" required>';
-                            customInputRadio += ' <label for="cheque">';
-                            customInputRadio += '  <span class="form-check-sign"></span> Cheque</label>';
-                                                                                    
-                            customInputRadio += '  </div>';*/
-                               
-
-                                customInputRadio += '<div class="radio-item">';
-
-                                customInputRadio += '<input type="radio" name="' + optionName + '"';
-                                customInputRadio += 'id="' + value.optionName + '" value="' + value.optionName + '" >';
-                                customInputRadio += '   <label for="' + value.optionName + '">';
-                                customInputRadio += ' <span class="form-check-sign"></span> ' + value.optionName + '';
-                                customInputRadio += '  </label>';
-                                customInputRadio += ' </div>';
-
-
-                            });
-
-                            
-                           /* customInputRadio += '<div class="radio-item">';
-
-                            customInputRadio += '<input type="radio" name="cash"';
-                            customInputRadio += ' id="cheque"  value="cheque" required>';
-                            customInputRadio += ' <label for="cheque">';
-                            customInputRadio += '  <span class="form-check-sign"></span> Cheque</label>';
-                                                                                    
-                            customInputRadio += '  </div>';*/
-                            customInputRadio += ' </div>';
-                            customInputRadio += ' </div>';
-
-                            $("#frmOthers").append(customInputRadio);
-                           
-                           
-                        }
-                        
-
-                    } else if (value.inputTypeId == 6) {
-
-                       
-
-                      
-
-                          
-                           
-
-                      //  data1 = value.inputLabel;
-
-                       // console.log(data1);
-
-                       
-                        //  customInputSelect += '<option value="' + count + value.id + '">' + value.optionName + '</option>'
-                        $.ajax({
-                            type: "GET",
-                            url: "../Setup/LoadCustomFieldOptions",
-                            data: { id: value.id },
-                            dataType: "json",
-                            statusCode: {
-                                404: function () {
-                                    alert('page not found');
-                                }
-                            },
-                            success: handleData
-                                //function (result) {
-                              //  data1.push(result);
-                                //myFunction()
-                           // }
-                        });
-                        
-                        function handleData(data) {
-
-
-                            var customInputSelect = '<div class="row mb-2">' +
-                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
-                                '<div class="col-md-10">' +
-                                '<div class="form-group">' +
-                                '<select id="customType' + count + value.id + '">';
-
-                           // customInputSelect += '<option value="default"> Select' + value.inputLabel + '</option>'
-
-                            $.each(data, function (index, value) {
-
-                                customInputSelect += '<option value="' + count + value.id + '">' + value.optionName + '</option>'
-
-
-                            }); 
-
-                           
-                            data1.push(data)
-                            console.log(data1);
-                            //do some stuff
-                            customInputSelect += '</select>';
-                            customInputSelect += '</div>';
-                            customInputSelect += '</div>';
-                            customInputSelect += '</div>';
-
-                            $("#frmOthers").append(customInputSelect);
-
-
-                            $.fn.select2.defaults.set("theme", "bootstrap4");
-                            $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
-                            $.fn.select2.defaults.set("width", "100%");
-                            $.fn.select2.defaults.set("allowClear", true);
-
-
-                            $("#customType" + count + value.id).select2({
-                                placeholder: "Select Options",
-                                allowClear: true,
-                            });
-                        }
-                                               
-                    }
-                 
-                
-                })
-            
-          }
-        }
-    })
-      
-   // console.log(data1);
-        // inputTypeId: 2, inputName: "Employment Month", inputLabel: "Employment Month"
-   
-
+    
+    initCustomField();
     initDataTable();
     initSelectTwoConfig();
     initDatePicker(".datepicker");
@@ -330,6 +88,14 @@ $(document).ready(function () {
 });
 
 $('.modal').modal('handleUpdate');
+
+function encrypt(dataToEncrypt) {
+
+    //var encrypted = CryptoJS.AES.encrypt(dataToEncrypt, "8673ab25e0583c703c578c6dd2746173");
+    var encrypted = sjcl.encrypt("8673ab25e0583c703c578c6dd2746173", dataToEncrypt);
+
+    return encrypted;
+}
 
 function initDataTable() {
     
@@ -410,6 +176,227 @@ function initDataTable() {
         ],
     });
    // $("#data-table").bootstrapTable("hideLoading");
+}
+
+function initCustomField() {
+
+    $.ajax({
+
+        url: "../Setup/ListCustomFields",
+        type: "GET",
+        success: function (response) {
+
+           
+
+            if (response != "") {
+
+                var count = 0;
+
+                $.each(response, function (index, value) {
+
+                    count++;
+
+                    console.log(value);
+                    if (value.inputTypeId == 1) {
+                        var customInputText = '<div class="row mb-2">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10">' +
+                            '<div class="form-group">' +
+                            '<input name="customInputText' + count + '" id="customInputText' + count + '"' +
+                            'type="text" class="form-control" />' +
+                            ' </div>' +
+                            '</div>' +
+                            '</div>';
+
+                        // $("#othersPrimary").append(customInputText);
+                        $("#frmOthers").append(customInputText);
+
+                    } else if (value.inputTypeId == 2) {
+
+
+                        $.get('../Setup/LoadCustomFieldOptions', { id: value.id }, function (result) {
+
+                            var customInputCheckBox = '<div class="row mb-2">' +
+                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>';
+
+                            $.each(result, function (index, value) {
+
+
+                                customInputCheckBox += '<div class="col-md-3 mb-3">';
+                                customInputCheckBox += '<div class="form-check pl-0">';
+                                customInputCheckBox += '<label class="form-check-label">';
+                                customInputCheckBox += '<input name="customInputCheckBox' + count + value.id + '" id="customInputCheckBox' + count + value.id + '"';
+                                customInputCheckBox += 'class="form-check-input" type="checkbox">';
+                                customInputCheckBox += '<span class="form-check-sign"></span> ' + value.optionName + '';
+                                customInputCheckBox += '</label>';
+                                customInputCheckBox += '</div>';
+                                customInputCheckBox += '</div>';
+                                console.log(value);
+
+                            });
+
+                            customInputCheckBox += '</div>';
+
+                            $("#frmOthers").append(customInputCheckBox);
+
+                        });
+
+                        for (var i = 0; i < 3; i++) {
+
+
+                        }
+
+                    } else if (value.inputTypeId == 3) {
+
+                        var customInputDate = '<div class="row mb-2 ">' +
+                            '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                            '<div class="col-md-10 ">' +
+                            '<div class="form-group">' +
+                            '<input name="DateType' + count + '" id="DateType' + count + '"' +
+                            ' type="text" class="form-control datepickercustom" />' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                        $("#frmOthers").append(customInputDate);
+
+                        //initDatePicker(".datepickercustom");
+
+                        if ($(".datepickercustom").length != 0) {
+                            $(".datepickercustom").datetimepicker({
+                                format: "Do MMM YYYY",
+                                //format: "YYYY-MM-DD",
+                                icons: {
+                                    time: "now-ui-icons tech_watch-time",
+                                    date: "now-ui-icons ui-1_calendar-60",
+                                    up: "fa fa-chevron-up",
+                                    down: "fa fa-chevron-down",
+                                    previous: "now-ui-icons arrows-1_minimal-left",
+                                    next: "now-ui-icons arrows-1_minimal-right",
+                                    today: "fa fa-screenshot",
+                                    clear: "fa fa-trash",
+                                    close: "fa fa-remove"
+                                }
+                            });
+                        }
+
+
+
+                    } else if (value.inputTypeId == 4) {
+
+
+                    } else if (value.inputTypeId == 5) {
+
+
+
+
+                        $.ajax({
+                            type: "GET",
+                            url: "../Setup/LoadCustomFieldOptions",
+                            data: { id: value.id },
+                            dataType: "json",
+                            statusCode: {
+                                404: function () {
+                                    alert('page not found');
+                                }
+                            },
+                            success: handleData
+                        });
+                        function handleData(data) {
+
+                            var customInputRadio = '<div class="row mb-4" id="ShowCashCheque" >';
+                            customInputRadio += '<div class="col-xs-12 col-md-3 mt-1">';
+                            customInputRadio += '<label>' + value.inputLabel + '</label>';
+                            customInputRadio += '</div>';
+                            customInputRadio += '<div class="col-xs-12 col-md-6 d-flex flex-row justify-content-between">';
+
+                            var optionName = value.inputName;
+
+                            $.each(data, function (index, value) {
+                                customInputRadio += '<div class="radio-item">';
+
+                                customInputRadio += '<input type="radio" name="' + optionName + '"';
+                                customInputRadio += 'id="' + value.optionName + '" value="' + value.optionName + '" >';
+                                customInputRadio += '   <label for="' + value.optionName + '">';
+                                customInputRadio += ' <span class="form-check-sign"></span> ' + value.optionName + '';
+                                customInputRadio += '  </label>';
+                                customInputRadio += ' </div>';
+
+
+                            });
+
+                            customInputRadio += ' </div>';
+                            customInputRadio += ' </div>';
+
+                            $("#frmOthers").append(customInputRadio);
+
+
+                        }
+
+
+                    } else if (value.inputTypeId == 6) {
+
+                        $.ajax({
+                            type: "GET",
+                            url: "../Setup/LoadCustomFieldOptions",
+                            data: { id: value.id },
+                            dataType: "json",
+                            statusCode: {
+                                404: function () {
+                                    alert('page not found');
+                                }
+                            },
+                            success: handleData
+                        });
+
+                        function handleData(data) {
+
+
+                            var customInputSelect = '<div class="row mb-2">' +
+                                '<label class="col-md-2 col-form-label">' + value.inputLabel + '</label>' +
+                                '<div class="col-md-10">' +
+                                '<div class="form-group">' +
+                                '<select id="customType' + count + value.id + '">';
+
+                            // customInputSelect += '<option value="default"> Select' + value.inputLabel + '</option>'
+
+                            $.each(data, function (index, value) {
+
+                                customInputSelect += '<option value="' + count + value.id + '">' + value.optionName + '</option>'
+
+
+                            });
+                            data1.push(data)
+                            console.log(data1);
+                            //do some stuff
+                            customInputSelect += '</select>';
+                            customInputSelect += '</div>';
+                            customInputSelect += '</div>';
+                            customInputSelect += '</div>';
+
+                            $("#frmOthers").append(customInputSelect);
+
+
+                            $.fn.select2.defaults.set("theme", "bootstrap4");
+                            $.fn.select2.defaults.set("dropdownParent", $(".modal").first());
+                            $.fn.select2.defaults.set("width", "100%");
+                            $.fn.select2.defaults.set("allowClear", true);
+
+
+                            $("#customType" + count + value.id).select2({
+                                placeholder: "Select Options",
+                                allowClear: true,
+                            });
+                        }
+
+                    }
+
+
+                })
+
+            }
+        }
+    })
+
 }
 
 function handleAddressUpdate(self) {

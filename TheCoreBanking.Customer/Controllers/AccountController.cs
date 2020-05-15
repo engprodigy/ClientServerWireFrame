@@ -154,6 +154,7 @@ namespace TheCoreBanking.Customer.Controllers
                 {
                     booleanValue = true;
                 }
+                try { 
                 list.Add(new CasaAccountViewModelPostStatus
                 {
                   
@@ -167,6 +168,11 @@ namespace TheCoreBanking.Customer.Controllers
                    Approvalstatusid = booleanValue ? 1 : 0,
                    Accountstatusid = item.Accountstatusid
                 });
+                }
+                catch
+                {
+
+                }
             }
 
 
@@ -229,6 +235,8 @@ namespace TheCoreBanking.Customer.Controllers
                 {
                     booleanValue = true;
                 }
+
+                try { 
                 list.Add(new CasaAccountViewModelPostStatus
                 {
 
@@ -242,6 +250,11 @@ namespace TheCoreBanking.Customer.Controllers
                     Approvalstatusid = booleanValue ? 1 : 0,
                     Accountstatusid = item.Accountstatusid
                 });
+                }
+                catch
+                {
+
+                }
             }
 
 
@@ -1123,7 +1136,17 @@ namespace TheCoreBanking.Customer.Controllers
             {
                 foreach (var item in accountinfo.AlertMediums)
                 {
-                    accountinfo.AccountService.TblCustomeraccountalertmedium.Add(item);
+                    accountinfo.AccountService.TblCustomeraccountalertmedium.Add(
+
+                         new TblCustomeraccountalertmedium
+                         {
+                             Alertmediumid = item.Alertmediumid,
+                            // Customeraccountserviceid = accountinfo.AccountService.Id,
+                             Isdeleted = true,
+                             Isapproved = false,
+                             Isdisapproved = false,
+                             Approvalstatus = "Pending"
+                         });
                 }
             }
 
@@ -1135,8 +1158,8 @@ namespace TheCoreBanking.Customer.Controllers
                 }
             }
 
-            accountinfo.Account.Availablebalance = 0.00m;
-            accountinfo.Account.Ledgerbalance = 0.00m;
+            //accountinfo.Account.Availablebalance = 0.00m;
+            //accountinfo.Account.Ledgerbalance = 0.00m;
             CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
             CustomerUnitOfWork.Commit();
 

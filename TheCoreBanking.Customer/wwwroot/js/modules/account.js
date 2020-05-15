@@ -823,7 +823,9 @@ function initUpdate(casaaccountid) {
         datetimecreated: row_data.datetimecreated,
         accountnumber: row_data.accountnumber,
         customerid: row_data.customerid,
-        accountstatusid: row_data.accountstatusid
+        accountstatusid: row_data.accountstatusid,
+        availablebalance: row_data.availablebalance,
+        ledgerbalance: row_data.ledgerbalance
     };
 
     // populate wizard tabs
@@ -1344,6 +1346,8 @@ function initWizard() {
                     casa.datetimecreated = updateAccount.datetimecreated;
                     casa.accountnumber = updateAccount.accountnumber;
                     casa.accountstatusid = updateAccount.accountstatusid;
+                    casa.availablebalance = updateAccount.availablebalance;
+                    casa.ledgerbalance = updateAccount.ledgerbalance;
 
                     accountservice.id = updateAccount.casaaccountserviceid;
                     accountservice.casaaccountid = updateAccount.casaaccountid;
