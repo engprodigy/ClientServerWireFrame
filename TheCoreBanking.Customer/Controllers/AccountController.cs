@@ -1187,6 +1187,9 @@ namespace TheCoreBanking.Customer.Controllers
                             Description = "Passport",
                             Mime = upload.Passport.ContentType,
                             Isdeleted = false,
+                            Isapproved = false,
+                            Isdisapproved = false,
+                            Approvalstatus = "Awaiting Approval",
                         };
                         using (var stream = new MemoryStream())
                         {
@@ -1203,6 +1206,9 @@ namespace TheCoreBanking.Customer.Controllers
                             Description = "Signature",
                             Mime = upload.Signature.ContentType,
                             Isdeleted = false,
+                            Isapproved = false,
+                            Isdisapproved = false,
+                            Approvalstatus = "Awaiting Approval",
                         };
                         using (var stream = new MemoryStream())
                         {
@@ -1219,6 +1225,9 @@ namespace TheCoreBanking.Customer.Controllers
                             Description = "Thumbprint",
                             Mime = upload.Thumbprint.ContentType,
                             Isdeleted = false,
+                            Isapproved = false,
+                            Isdisapproved = false,
+                            Approvalstatus = "Awaiting Approval",
                         };
                         using (var stream = new MemoryStream())
                         {

@@ -757,7 +757,7 @@ $('#mandateUpdateTable').on('check.bs.table', function (row, $element) {
     
     debugger 
 
-    if ($element.approvalstatus == "New Copy Awaiting Approval")
+    if ($element.approvalstatus == "New Copy Awaiting Approval" || $element.approvalstatus == "Awaiting Approval")
     {
         swal({
             title: 'Update Mandate',
