@@ -1056,7 +1056,7 @@ namespace TheCoreBanking.Customer.Controllers
 
                 var query = (from b in _contextF.TblMandateimages
                              join a in MandatesDetails on b.Mandateid equals a.MandateID
-                             where b.Isdeleted == true
+                             where b.Isdeleted == true || b.Approvalstatus == "Awaiting First Approval"
                              select new
                              {
                                  MandateId = a.MandateID,
@@ -1189,7 +1189,7 @@ namespace TheCoreBanking.Customer.Controllers
                             Isdeleted = false,
                             Isapproved = false,
                             Isdisapproved = false,
-                            Approvalstatus = "Awaiting Approval",
+                            Approvalstatus = "Awaiting First Approval",
                         };
                         using (var stream = new MemoryStream())
                         {
@@ -1208,7 +1208,7 @@ namespace TheCoreBanking.Customer.Controllers
                             Isdeleted = false,
                             Isapproved = false,
                             Isdisapproved = false,
-                            Approvalstatus = "Awaiting Approval",
+                            Approvalstatus = "Awaiting First Approval",
                         };
                         using (var stream = new MemoryStream())
                         {
@@ -1227,7 +1227,7 @@ namespace TheCoreBanking.Customer.Controllers
                             Isdeleted = false,
                             Isapproved = false,
                             Isdisapproved = false,
-                            Approvalstatus = "Awaiting Approval",
+                            Approvalstatus = "Awaiting First Approval",
                         };
                         using (var stream = new MemoryStream())
                         {
@@ -2032,9 +2032,13 @@ namespace TheCoreBanking.Customer.Controllers
             var db2 = new TheCoreBankingFileContext();
             var mandateDetailForDelete = db2.TblMandateimages.Where(f => f.Mandateid == MandateId && f.Isdeleted == false && f.Description 
              == Description && f.Fileid == Copyfileid).FirstOrDefault();
+
+            if(mandateDetailForDelete != null) { 
+
             db2.Remove(mandateDetailForDelete);
+
             db2.SaveChanges();
-            
+            }
 
             var db = new TheCoreBankingFileContext();
 

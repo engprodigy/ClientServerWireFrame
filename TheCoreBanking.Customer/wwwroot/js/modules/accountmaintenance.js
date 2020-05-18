@@ -757,7 +757,7 @@ $('#mandateUpdateTable').on('check.bs.table', function (row, $element) {
     
     debugger 
 
-    if ($element.approvalstatus == "New Copy Awaiting Approval" || $element.approvalstatus == "Awaiting Approval")
+    if ($element.approvalstatus == "New Copy Awaiting Approval" || $element.approvalstatus == "Awaiting First Approval")
     {
         swal({
             title: 'Update Mandate',
@@ -784,7 +784,7 @@ $('#mandateUpdateTable').on('check.bs.table', function (row, $element) {
     $("#frmMandateUpdate #updateBtn").show();
     $("#frmMandateUpdate #doneBtn").hide();
     //$("#frmMandateUpdate #doneBtn").hide();
-
+    $("#frmMandateUpdate #updateBtn").removeAttr("disabled");
     var bottom_row = $("#mandateImage");
 
 
@@ -1107,7 +1107,7 @@ var utilities = {
 
                             $("#frmMandateUpdate #doneBtn").show();
                           
-                            
+                            $("#frmMandateUpdate #updateBtn").prop('disabled', true);
                             swal({
                                 title: "Update Mandate",
                                 text: "Account Mandate succesfully sent for Approval",

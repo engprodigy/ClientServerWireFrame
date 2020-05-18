@@ -97,9 +97,9 @@
 
     .modal-body {
         /* 100% = dialog height, 120px = header + footer 
-        max-height: calc(100% - 120px);*/
+        max-height: calc(100% - 120px);
        
-      //  overflow-y: scroll;
+        overflow-y: scroll;*/
     }
 </style>
 
@@ -113,7 +113,7 @@
                 <div class="card-body">
                     <div id="custom-toolbar">
                         <div class="dropdown" id="accountTypes">
-                            <button class="btn btn-danger" id="btnAddCustomer" data-toggle="dropdown"
+                            <button class="btn btn-info" id="btnAddCustomer" data-toggle="dropdown"
                                     type="button" aria-haspopup="true" aria-expanded="false">
                                 <i class="now-ui-icons ui-1_simple-add"></i>
                                 Add Customer
@@ -1111,7 +1111,7 @@
                                             <div class="row mb-2">
                                                 <div class="col-12">
                                                     <input type="file" id="uploadFile" class="file" data-browse-label="Choose File"
-                                                           data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                                                           data-browse-class="btn btn-info btn-block btn-simple text-capitalize"
                                                            data-theme="fas" data-show-upload="false" data-show-remove="false"
                                                            data-show-caption="false" data-drop-zone-enabled="false" />
                                                     <label class="text-center w-100" style="color:red">* Max file size 10mb</label>
@@ -1598,8 +1598,8 @@
                         </div>
                         <div class="card-footer">
                             <div class="pull-right">
-                                <input type='button' class='btn btn-danger btn-next btn-wd' value='Next' />
-                                <input type='button' class='btn btn-danger btn-finish btn-wd' value='Finish' />
+                                <input type='button' class='btn btn-info btn-next btn-wd' value='Next' />
+                                <input type='button' class='btn btn-info btn-finish btn-wd' value='Finish' />
                             </div>
                             <div class="pull-left">
                                 <input type='button' class='btn btn-danger btn-previous btn-wd' value='Previous' />
@@ -2673,7 +2673,7 @@
                                             <div class="row mb-2">
                                                 <div class="col-12">
                                                     <input type="file" id="UpdateUploadFile" class="file" data-browse-label="Choose File"
-                                                           data-browse-class="btn btn-danger btn-block btn-simple text-capitalize"
+                                                           data-browse-class="btn btn-info btn-block btn-simple text-capitalize"
                                                            data-theme="fas" data-show-upload="false" data-show-remove="false"
                                                            data-max-file-size="10000" data-max-file-preview-size="400"
                                                            data-show-caption="false" data-drop-zone-enabled="false" />
@@ -2687,7 +2687,7 @@
                                             </div>
                                             <div class="row mb-2">
                                                 <div class="col-12">
-                                                    <button class="btn btn-danger btn-block text-capitalize float-right mt-0"
+                                                    <button class="btn btn-info btn-block text-capitalize float-right mt-0"
                                                             onclick="addKYCUpdateUpload()" type="button">
                                                         Add Document
                                                     </button>
@@ -2795,8 +2795,8 @@
                         </div>
                         <div class="card-footer">
                             <div class="pull-right">
-                                <input type='button' class='btn btn-danger btn-next btn-wd' value='Next' />
-                                <input type='button' class='btn btn-danger btn-finish btn-wd' value='Finish' />
+                                <input type='button' class='btn btn-info btn-next btn-wd' value='Next' />
+                                <input type='button' class='btn btn-info btn-finish btn-wd' value='Finish' />
                             </div>
                             <div class="pull-left">
                                 <input type='button' class='btn btn-danger btn-previous btn-wd' value='Previous' />
@@ -2830,7 +2830,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xs-12 w-100">
                             <div id="address-toolbar">
-                                <button class="btn btn-danger" type="button"
+                                <button class="btn btn-info" type="button"
                                         onclick="utilities.showNewAddFrm()">
                                     <i class="now-ui-icons ui-1_simple-add"></i>
                                     Add new address
@@ -2918,12 +2918,12 @@
                                         </div>
                                         <div class="col">
                                             <button type="button" id="updateBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.updateAddress()">
                                                 UPDATE
                                             </button>
                                             <button type="button" id="saveBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.addAddress()">
                                                 SAVE
                                             </button>
@@ -2959,7 +2959,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xs-12">
                             <div id="phone-toolbar">
-                                <button class="btn btn-danger" type="button"
+                                <button class="btn btn-info" type="button"
                                         onclick="utilities.showNewPhoneFrm()">
                                     <i class="now-ui-icons ui-1_simple-add"></i>
                                     Add new phone
@@ -3005,12 +3005,12 @@
                                         </div>
                                         <div class="col">
                                             <button type="button" id="updateBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.updatePhone()">
                                                 UPDATE
                                             </button>
                                             <button type="button" id="saveBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.addPhone()">
                                                 SAVE
                                             </button>
@@ -3046,7 +3046,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xs-12">
                             <div id="email-toolbar">
-                                <button class="btn btn-danger" type="button"
+                                <button class="btn btn-info" type="button"
                                         onclick="utilities.showNewEmailFrm()">
                                     <i class="now-ui-icons ui-1_simple-add"></i>
                                     Add new email
@@ -3092,12 +3092,12 @@
                                         </div>
                                         <div class="col">
                                             <button type="button" id="updateBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.updateEmail()">
                                                 UPDATE
                                             </button>
                                             <button type="button" id="saveBtn"
-                                                    class="btn btn-danger btn-wd pull-right"
+                                                    class="btn btn-info btn-wd pull-right"
                                                     onclick="utilities.addEmail()">
                                                 SAVE
                                             </button>
