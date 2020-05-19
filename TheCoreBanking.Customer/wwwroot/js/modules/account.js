@@ -1592,9 +1592,9 @@ var utilities = {
     },
     editAccountFormatter: function (value, row) {
         return [
-            "<button class='btn btn-warning btn-icon' ",
+            "<button class='btn btn-info btn-icon' ",
             "onclick='initUpdate(" + row.casaaccountid + ")'>",
-            "<i class='now-ui-icons ui-2_settings-90'>",
+            "<i class='fas fa-edit'>",
             "</i></button>"
         ].join("");
     },

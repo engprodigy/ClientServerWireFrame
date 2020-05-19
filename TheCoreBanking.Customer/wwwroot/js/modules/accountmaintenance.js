@@ -898,9 +898,9 @@ var utilities = {
         
         return [
             "<div class='dropdown'>",
-            "<button class='btn btn-warning btn-icon' ",
+            "<button class='btn btn-info btn-icon' ",
             "data-toggle='dropdown' type='button'>",
-            "<i class='now-ui-icons ui-2_settings-90'></i>",
+            "<i class='fas fa-edit'></i>",
             "</button>",
             "<div class='dropdown-menu dropdown-menu-right'>",
             "<h6 class='dropdown-header'>Maintain</h6>",

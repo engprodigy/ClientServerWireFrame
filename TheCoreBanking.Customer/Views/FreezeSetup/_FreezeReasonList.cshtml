@@ -12,7 +12,7 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#FreezeReasonModal2" type="button" id="FreezeReasonModal" name="FreezeReasonModal">
+                                <button class="btn btn-primary btn-info" data-toggle="modal" data-target="#FreezeReasonModal2" type="button" id="FreezeReasonModal" name="FreezeReasonModal">
                                     <i class="now-ui-icons ui-1_simple-add"></i>
                                     Create Freeze Reason
                                 </button>
@@ -27,8 +27,8 @@
                         <table data-toggle="table" data-url="../FreezeSetup/listfreezereasontype" data-cache="false" data-height="500"
                                id="listfreezeReasonTable" data-pagination="true" data-search="true" data-show-columns="true" data-checkbox-header="false"
                                data-show-refresh="true" data-click-to-select="true" data-single-select="true" data-show-toggle="true" data-toolbar="#custom-toolbar"
-                               data-detail-view="true"
-                               data-detail-formatter="detailFormatter">
+                               
+                               >
                             <thead>
                                 <tr>
                                     <th data-field="state" data-checkbox="true"></th>
@@ -72,8 +72,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button class="btn btn-danger" name="btnSaveFreezeReason" id="btnSaveFreezeReason" >Save Record</button>
-                            <button class="btn btn-danger" id="btnFreezeReasonUpdate" onclick="FreezeReasonUpdate()"  value="Update Record" >
+                            <button class="btn btn-info" name="btnSaveFreezeReason" id="btnSaveFreezeReason" >Save Record</button>
+                            <button class="btn btn-info" id="btnFreezeReasonUpdate" onclick="FreezeReasonUpdate()"  value="Update Record" >
                                 <i class="now-ui-icons ui-1_check"></i>
                                 Update Record
                             </button>

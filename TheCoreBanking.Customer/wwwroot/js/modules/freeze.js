@@ -737,9 +737,9 @@ var utilities = {
     },
     editFreezeFormatter: function (value, row) {
         return [
-            "<button class='btn btn-warning btn-icon' ",
+            "<button class='btn editFreezeFormatter btn-info' ",
             "onclick='utilities.initFreezeReversal(" + row.accountNumber + ")'>",
-            "<i class='now-ui-icons ui-2_settings-90'>",
+            "<i class='fas fa-edit'>",
             "</i></button>"
         ].join("");
     },

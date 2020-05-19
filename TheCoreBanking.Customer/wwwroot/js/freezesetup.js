@@ -1,10 +1,10 @@
 ﻿function freezeTypeOperationFormatter(value, row, index) {
     return [
-        '<a class="edit btn btn-sm btn-warning d-none d-sm-inline mr-2"  title="Edit Freeze Type">',
-        '<i class="now-ui-icons ui-2_settings-90"></i> ',
+        '<a style="color:white" class="edit btn btn-sm btn-info d-none d-sm-inline mr-2"  title="Edit Freeze Type">',
+        '<i class="fas fa-edit"></i> ',
         '</a>',
-        '<a class="remove btn btn-sm btn-danger"  title="Delete Freeze Type">',
-        '<i class="now-ui-icons ui-1_simple-remove"></i> ',
+        '<a style="color:white" class="remove btn btn-sm btn-danger"  title="Delete Freeze Type">',
+        '<i class="fas fa-trash"></i> ',
         '</a>'
     ].join('');
 }

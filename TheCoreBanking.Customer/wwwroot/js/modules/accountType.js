@@ -42,8 +42,8 @@ function initaccounttypeValidation() {
 
 function editFormatter(value, row, index) {
     return [
-        '<button type="button" class="edit btn btn-sm btn-warning" title="Edit">',
-        '<i class="now-ui-icons ui-2_settings-90"></i>',
+        '<button type="button" class="edit btn btn-sm btn-info" title="Edit">',
+        '<i class="fas fa-edit"></i>',
         '</button>'
     ].join('');
 }
@@ -51,7 +51,7 @@ function editFormatter(value, row, index) {
 function deleteFormatter(value, row, index) {
     return [
         '<button type="button" class="remove btn btn-sm btn-danger" title="Delete">',
-        '<i class="now-ui-icons ui-1_simple-remove"></i> ',
+        '<i class="fas fa-trash"></i> ',
         '</button>'
     ].join('');
 }
