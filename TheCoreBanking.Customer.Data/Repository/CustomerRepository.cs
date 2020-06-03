@@ -17,6 +17,7 @@ namespace TheCoreBanking.Customer.Data.Repository
                       .Include(c => c.TblCustomeraccountkycitem)
                           .ThenInclude(ki => ki.Action)    //;
                             .OrderByDescending(c=>c.Customerid).Take(10);
+                            //  .OrderByDescending(c=>c.Customerid);
 
         public int CreateCustCode(long custId)
         {

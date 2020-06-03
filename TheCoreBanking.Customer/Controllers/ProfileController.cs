@@ -124,7 +124,7 @@ namespace TheCoreBanking.Customer.Controllers
                 }
             }
             CustomerUnitOfWork.Commit();
-            GenerateCustomerCode(customerinfo.customer.Customerid);
+           // GenerateCustomerCode(customerinfo.customer.Customerid);
             return Json(customerinfo.customer.Customerid);
         }
 
@@ -274,7 +274,8 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult LoadCustomers()
         {
-            var result = CustomerUnitOfWork.Customers.GetDetailed();    //.GetAll();
+            //var result = CustomerUnitOfWork.Customers.GetAll();     //GetDetailed();  
+            var result = CustomerUnitOfWork.Customers.GetDetailed();
             return Json(result);
         }
 
