@@ -1878,14 +1878,17 @@ var utilities = {
             detail.html("Loading...");
         
         var productid = row.productid;
+        var postnostatusid = row.postnostatusid;
                //productData
             debugger
             var top_row = $("<div class='row'></div>");
             var bottom_row = $("<div class='row'></div>");
-            //var bvn_col = $("<div class='col-sm-12 col-md-6'></div>");
+            
             //var phone_col = $("<div class='col-sm-12 col-md-6'></div>");
             //var email_col = $("<div class='col-sm-12 col-md-6'></div>");
-            var address_col = $("<div class='col'></div>");
+           // var address_col = $("<div class='col'></div>");
+           var address_col = $("<div class='col-sm-12 col-md-6'></div>");
+           var poststatus_col = $("<div class='col-sm-12 col-md-6'></div>");
 
             address_col.append("<h6 class='detail-primary d-inline-block mb-3'>Product Name</h6>");
             if(productData.length == 0) {
@@ -1898,11 +1901,24 @@ var utilities = {
                   //  html.push(", " + value.country.name + ".</p>");
                     address_col.append(html.join(""));
                // });
-            }
+        }
+
+        poststatus_col.append("<h6 class='detail-primary d-inline-block mb-3'>Post No Status</h6>");
+        if (postnostatusid == null) {
+            poststatus_col.append("<p>Post No Status Not Set</p>");
+        } else {
+            // $.each(addresses, function (index, value) {
+            var html = [];
+            html.push("<p><b>" + postnostatusid + "</b></p>");
+            // html.push(value.address + ", " + value.city + ", " + value.state.statename);
+            //  html.push(", " + value.country.name + ".</p>");
+            poststatus_col.append(html.join(""));
+            // });
+        }
             
 
             top_row.append(address_col);
-         // bottom_row.append(address_col);
+            bottom_row.append(poststatus_col);
             detail.empty();
             detail.append(top_row, bottom_row);
         

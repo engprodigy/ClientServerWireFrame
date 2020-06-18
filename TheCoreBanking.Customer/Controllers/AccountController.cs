@@ -121,7 +121,8 @@ namespace TheCoreBanking.Customer.Controllers
        // [HttpGet]
         public JsonResult LoadAccounts()
         {
-            var result = CustomerUnitOfWork.Accounts.GetDetailed().OrderByDescending(c => c.Customerid).Take(10);
+           // var result = CustomerUnitOfWork.Accounts.GetDetailed().OrderByDescending(c => c.Customerid).Take(10);
+            var result = CustomerUnitOfWork.Accounts.GetAll().OrderByDescending(c => c.Customerid);
 
             var productList = CustomerUnitOfWork.Product.GetAll();//  .OrderByDescending(p => p.Productid);
 
@@ -315,7 +316,7 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult LoadAccountsSelectedColumn()
         {
-            var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(o => o.Approvalstatusid == 0).ToList().Select(i => new
+            var result = CustomerUnitOfWork.Accounts.GetDetailed().Where(o => o.Isapproved == false && o.Deleteflag == false).ToList().Select(i => new
             {
 
                 CasaAccountId = i.Casaaccountid,
@@ -344,8 +345,7 @@ namespace TheCoreBanking.Customer.Controllers
             }
 
 
-            var CustomerAccount = CustomerUnitOfWork.Accounts.GetDetailed().Where(o => o.Approvalstatusid == 0
-              && o.Casaaccountid == cassaccountid).SingleOrDefault();
+            var CustomerAccount = CustomerUnitOfWork.Accounts.GetDetailed().Where(o => o.Casaaccountid == cassaccountid).SingleOrDefault();
 
             AccountVM accountVM = new AccountVM();
 
@@ -353,10 +353,22 @@ namespace TheCoreBanking.Customer.Controllers
             accountVM.CustomerAccountname = CustomerAccount.Accountname;
             accountVM.CustomerAccountnumber = CustomerAccount.Accountnumber;
             accountVM.CreatedBy = CustomerAccount.Createdby;
+            try { 
             accountVM.Approved = CustomerAccount.Approvalstatusid.Value;
             accountVM.DateTimeCreated = CustomerAccount.Datetimecreated.Value;
+            }
+            catch
+            {
+
+            }
 
             CustomerAccount.Approvalstatusid = 1;
+            CustomerAccount.Isapproved = true;
+            CustomerAccount.Dateapproved = DateTime.Now;
+            CustomerAccount.Comment = Comment;
+            CustomerAccount.Approvalstatus = "Approved";
+            CustomerAccount.Deleteflag = true;
+
 
             //.Accounts.Add(CustomerAccount);
             //CustomerUnitOfWork.Commit();
@@ -387,6 +399,71 @@ namespace TheCoreBanking.Customer.Controllers
 
         }
 
+
+        [HttpGet]
+        public JsonResult LoadAccountsSelectedColumnDisapprovePost(int cassaccountid, string Comment)
+        {
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+
+            var CustomerAccount = CustomerUnitOfWork.Accounts.GetDetailed().Where(o => o.Casaaccountid == cassaccountid).SingleOrDefault();
+
+            AccountVM accountVM = new AccountVM();
+
+            accountVM.CasaAccountId = CustomerAccount.Casaaccountid;
+            accountVM.CustomerAccountname = CustomerAccount.Accountname;
+            accountVM.CustomerAccountnumber = CustomerAccount.Accountnumber;
+            accountVM.CreatedBy = CustomerAccount.Createdby;
+            try
+            {
+                accountVM.Approved = CustomerAccount.Approvalstatusid.Value;
+                accountVM.DateTimeCreated = CustomerAccount.Datetimecreated.Value;
+            }
+            catch
+            {
+
+            }
+
+            CustomerAccount.Approvalstatusid = 3;
+            CustomerAccount.Isdisapproved = true;
+            CustomerAccount.Dateapproved = DateTime.Now;
+            CustomerAccount.Comment = Comment;
+            CustomerAccount.Approvalstatus = "Disapproved";
+            CustomerAccount.Deleteflag = true;
+
+
+            //.Accounts.Add(CustomerAccount);
+            //CustomerUnitOfWork.Commit();
+            var dbContextTransaction = _context.Database.BeginTransaction();
+            try
+            {
+
+
+                _context.TblCasa.Update(CustomerAccount);
+                _context.SaveChanges();
+
+
+
+                dbContextTransaction.Commit();
+
+
+
+            }
+            catch
+            {
+                dbContextTransaction.Rollback();
+            }
+
+
+
+
+            return Json(accountVM);
+
+        }
 
         [HttpGet]
         public JsonResult ApproveFrozenAccountsTransaction(int id, string Comment)
@@ -1158,8 +1235,13 @@ namespace TheCoreBanking.Customer.Controllers
                 }
             }
 
-            //accountinfo.Account.Availablebalance = 0.00m;
-            //accountinfo.Account.Ledgerbalance = 0.00m;
+            //Update Approval Status
+            accountinfo.Account.Isapproved = false;
+            accountinfo.Account.Isdisapproved = false;
+            accountinfo.Account.Dateapproved = DateTime.Now;
+            accountinfo.Account.Deleteflag = false;
+            accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
+            accountinfo.Account.Approvalstatusid = 0;
             CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
             CustomerUnitOfWork.Commit();
 
@@ -1890,6 +1972,34 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult UpdateAccount([FromBody]UpdateAccountVM accountinfo)
         {
+            var dbContextTransaction = _context.Database.BeginTransaction();
+            try
+            {
+
+
+                var casaAccntDetails = _context.TblCasa.Find(accountinfo.Account.Casaaccountid);
+                 
+                accountinfo.Account.Isapproved = casaAccntDetails.Isapproved;
+                accountinfo.Account.Isdisapproved = casaAccntDetails.Isdisapproved;
+                accountinfo.Account.Dateapproved = casaAccntDetails.Dateapproved;
+                accountinfo.Account.Deleteflag = casaAccntDetails.Deleteflag;
+                accountinfo.Account.Approvalstatus = casaAccntDetails.Approvalstatus;
+                accountinfo.Account.Approvalstatusid = casaAccntDetails.Approvalstatusid;
+               // _context.TblCasa.Update(accountinfo.Account);
+                //_context.SaveChanges();
+
+
+
+                // dbContextTransaction.Commit();
+
+
+
+            }
+            catch
+            {
+                dbContextTransaction.Rollback();
+            }
+            
             CustomerUnitOfWork.Accounts.Update(accountinfo.Account);
             CustomerUnitOfWork.AccountServices.Update(accountinfo.AccountService);
 

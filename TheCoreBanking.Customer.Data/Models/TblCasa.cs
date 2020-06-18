@@ -60,6 +60,12 @@ namespace TheCoreBanking.Customer.Data.Models
         public string Deletedby { get; set; }
         public DateTime? Datetimedeleted { get; set; }
         public int? Approvalstatusid { get; set; }
+        public bool? Isapproved { get; set; }
+        public bool? Isdisapproved { get; set; }
+        public string Approvalstatus { get; set; }
+        public DateTime? Dateapproved { get; set; }
+        public bool? Deleteflag { get; set; }
+        public string Comment { get; set; }
 
         public TblCasaaccountstatus Accountstatus { get; set; }
         public TblCustomer Customer { get; set; }
