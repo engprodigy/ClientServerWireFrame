@@ -279,6 +279,13 @@ namespace TheCoreBanking.Customer.Controllers
             return Json(result);
         }
 
+        public JsonResult LoadCustomersForAccountOpening()
+        {
+            var result = CustomerUnitOfWork.Customers.GetAll();     //GetDetailed();  
+            //var result = CustomerUnitOfWork.Customers.GetDetailed();
+            return Json(result);
+        }
+
         public JsonResult LoadCustomerAccountTypes()
         {
             var list = new List<SelectTwoContent>();

@@ -168,6 +168,19 @@ function saveAccount(postdata) {
         contentType: "application/json"
     }).then(
         function (response) {
+            if (response == false) {
+
+                swal({
+                    title: "Open Account",
+                    text: "Account Product Already Exist for Customer!",
+                    type: 'success',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                })
+                return;
+            }
+
+
             function accountSuccess() {
                 swal({
                     title: "Open Account",
@@ -825,7 +838,9 @@ function initUpdate(casaaccountid) {
         customerid: row_data.customerid,
         accountstatusid: row_data.accountstatusid,
         availablebalance: row_data.availablebalance,
-        ledgerbalance: row_data.ledgerbalance
+        ledgerbalance: row_data.ledgerbalance,
+        customercode: row_data.customercode,
+        productcode: row_data.productcode
     };
 
     // populate wizard tabs
@@ -841,8 +856,11 @@ function initUpdate(casaaccountid) {
 
 function setDataTableEventHandlers() {
     // Customer Data Table
-    debugger
+    
     $("#customer-data-table").on("check.bs.table", function (ev, row) {
+
+        debugger
+
         if (row.customerid) {
             $("#frmCustomer input[name=customerid]").val(row.customerid);
             var fullname = row.surname
@@ -852,7 +870,7 @@ function setDataTableEventHandlers() {
                 .val(fullname);
             $("#frmAccount input[name=accountname]")
                 .val(fullname);
-            $("#cusAccType").text(row.customeraccounttype.name);
+           // $("#cusAccType").text(row.customeraccounttype.name);
             $("#frmCustomer input[name=customercode]").val(row.customercode);
         }
     });
@@ -1348,6 +1366,8 @@ function initWizard() {
                     casa.accountstatusid = updateAccount.accountstatusid;
                     casa.availablebalance = updateAccount.availablebalance;
                     casa.ledgerbalance = updateAccount.ledgerbalance;
+                    casa.customercode = updateAccount.customercode;
+                    casa.productcode = updateAccount.productcode;
 
                     accountservice.id = updateAccount.casaaccountserviceid;
                     accountservice.casaaccountid = updateAccount.casaaccountid;

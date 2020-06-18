@@ -126,7 +126,7 @@
                                                data-show-toggle="true" data-mobile-responsive="true"
                                                data-check-on-init="true" data-pagination="true" data-single-select="true"
                                                data-show-pagination-switch="true" data-unique-id="customerid"
-                                               data-url='@Url.Action("LoadCustomers","Profile")' data-min-width="992">
+                                               data-url='@Url.Action("LoadCustomersForAccountOpening","Profile")' data-min-width="992">
                                             <thead>
                                                 <tr>
                                                     <th data-checkbox="true"></th>
@@ -137,8 +137,8 @@
                                                     <th data-field="customercode"
                                                         data-sortable="true"
                                                         data-align="right">Customer Code</th>
-                                                    <th data-field="customeraccounttype.name"
-                                                        data-sortable="true">Account Type</th>
+                                                    @*<th data-field="customeraccounttype.name"
+                                                        data-sortable="true">Account Type</th>*@
                                                 </tr>
                                             </thead>
                                         </table>

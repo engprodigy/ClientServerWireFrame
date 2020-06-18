@@ -368,6 +368,7 @@ namespace TheCoreBanking.Customer.Controllers
             CustomerAccount.Comment = Comment;
             CustomerAccount.Approvalstatus = "Approved";
             CustomerAccount.Deleteflag = true;
+            CustomerAccount.Accountstatusid = (int)AccountStatusEnum.ACTIVE;
 
 
             //.Accounts.Add(CustomerAccount);
@@ -428,13 +429,13 @@ namespace TheCoreBanking.Customer.Controllers
 
             }
 
-            CustomerAccount.Approvalstatusid = 3;
+            CustomerAccount.Approvalstatusid = 2;
             CustomerAccount.Isdisapproved = true;
             CustomerAccount.Dateapproved = DateTime.Now;
             CustomerAccount.Comment = Comment;
             CustomerAccount.Approvalstatus = "Disapproved";
             CustomerAccount.Deleteflag = true;
-
+            CustomerAccount.Accountstatusid = (int)AccountStatusEnum.UNAPPROVED;
 
             //.Accounts.Add(CustomerAccount);
             //CustomerUnitOfWork.Commit();
@@ -1194,6 +1195,31 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult AddAccount([FromBody]AddAccountVM accountinfo)
         {
+            var casaAccntDetails = new TblCasa();
+            var count = 0;
+            var dbContextTransaction = _context.Database.BeginTransaction();
+            try
+            {
+               var casaAccntDetailsData = _context.TblCasa.Where(c => c.Customerid == accountinfo.Account.Customerid && c.Productid ==
+               accountinfo.Account.Productid);
+
+               count = casaAccntDetailsData.Count();
+               casaAccntDetails = casaAccntDetailsData.FirstOrDefault();
+        
+              }
+            catch
+            {
+                dbContextTransaction.Rollback();
+            }
+
+            if (count > 0 && (casaAccntDetails.Approvalstatusid != 2) &&
+                    (casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED))
+            {
+                return Json(false);
+
+            }
+
+
             accountinfo.Account.Datetimecreated = DateTime.Now;
             accountinfo.Account.Postnostatusid = (int) AccountPostingStatus.NOENTRY;
             accountinfo.Account.Accountnumber = GetRandNo(11);
@@ -1985,7 +2011,17 @@ namespace TheCoreBanking.Customer.Controllers
                 accountinfo.Account.Deleteflag = casaAccntDetails.Deleteflag;
                 accountinfo.Account.Approvalstatus = casaAccntDetails.Approvalstatus;
                 accountinfo.Account.Approvalstatusid = casaAccntDetails.Approvalstatusid;
-               // _context.TblCasa.Update(accountinfo.Account);
+                accountinfo.Account.Accountstatusid = casaAccntDetails.Accountstatusid;
+                accountinfo.Account.Currencyid = casaAccntDetails.Currencyid;
+                accountinfo.Account.Tenor = casaAccntDetails.Tenor;
+                accountinfo.Account.Operationid = casaAccntDetails.Operationid;
+                accountinfo.Account.Miscode = casaAccntDetails.Miscode;
+                accountinfo.Account.Overdraftamount = casaAccntDetails.Overdraftamount;
+                accountinfo.Account.Overdraftinterestrate = casaAccntDetails.Overdraftinterestrate;
+                accountinfo.Account.Deleted = casaAccntDetails.Deleted;
+
+                    //(int)AccountStatusEnum.UNAPPROVED;
+                // _context.TblCasa.Update(accountinfo.Account);
                 //_context.SaveChanges();
 
 
