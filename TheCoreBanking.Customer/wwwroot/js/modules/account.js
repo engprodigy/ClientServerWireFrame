@@ -173,10 +173,12 @@ function saveAccount(postdata) {
                 swal({
                     title: "Open Account",
                     text: "Account Product Already Exist for Customer!",
-                    type: 'success',
+                    type: 'error',
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 })
+
+                $("#accountWizard .btn-finish").removeAttr("disabled");
                 return;
             }
 

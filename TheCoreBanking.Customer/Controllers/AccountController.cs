@@ -368,12 +368,13 @@ namespace TheCoreBanking.Customer.Controllers
             CustomerAccount.Comment = Comment;
             CustomerAccount.Approvalstatus = "Approved";
             CustomerAccount.Deleteflag = true;
+            //var enumValue = 
             CustomerAccount.Accountstatusid = (int)AccountStatusEnum.ACTIVE;
 
 
-            //.Accounts.Add(CustomerAccount);
-            //CustomerUnitOfWork.Commit();
-            var dbContextTransaction = _context.Database.BeginTransaction();
+           //.Accounts.Add(CustomerAccount);
+           //CustomerUnitOfWork.Commit();
+           var dbContextTransaction = _context.Database.BeginTransaction();
             try
             {
 
@@ -1212,66 +1213,127 @@ namespace TheCoreBanking.Customer.Controllers
                 dbContextTransaction.Rollback();
             }
 
-            if (count > 0 && (casaAccntDetails.Approvalstatusid != 2) &&
-                    (casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED))
+           
+
+            //if (count > 0 && (  (casaAccntDetails.Approvalstatusid != 2 && casaAccntDetails.Isdisapproved != true) ||
+            if (count > 0 && (casaAccntDetails.Isdisapproved == true || casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED))
+              //  || casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.UNAPPROVED))
+               // ||(casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED && casaAccntDetails.Isapproved != true)  )   )
+            {
+                accountinfo.Account.Datetimecreated = DateTime.Now;
+                accountinfo.Account.Postnostatusid = (int)AccountPostingStatus.NOENTRY;
+                accountinfo.Account.Accountnumber = GetRandNo(11);
+                accountinfo.Account.Accountstatusid = (int)AccountStatusEnum.UNAPPROVED;
+                accountinfo.Account.TblCustomeraccountservice
+                    .Add(accountinfo.AccountService);
+
+                if (accountinfo.BankingServices.Count > 0)
+                {
+                    foreach (var item in accountinfo.BankingServices)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountbankingservice.Add(item);
+                    }
+                }
+
+                if (accountinfo.AlertMediums.Count > 0)
+                {
+                    foreach (var item in accountinfo.AlertMediums)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountalertmedium.Add(
+
+                             new TblCustomeraccountalertmedium
+                             {
+                                 Alertmediumid = item.Alertmediumid,
+                                 // Customeraccountserviceid = accountinfo.AccountService.Id,
+                                 Isdeleted = true,
+                                 Isapproved = false,
+                                 Isdisapproved = false,
+                                 Approvalstatus = "Pending"
+                             });
+                    }
+                }
+
+                if (accountinfo.StatementMediums.Count > 0)
+                {
+                    foreach (var item in accountinfo.StatementMediums)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountstmntmedium.Add(item);
+                    }
+                }
+
+                //Update Approval Status
+                accountinfo.Account.Isapproved = false;
+                accountinfo.Account.Isdisapproved = false;
+                accountinfo.Account.Dateapproved = DateTime.Now;
+                accountinfo.Account.Deleteflag = false;
+                accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
+                accountinfo.Account.Approvalstatusid = 0;
+                CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
+                CustomerUnitOfWork.Commit();
+
+                return Json(accountinfo.Account.Casaaccountid);
+
+            } else if (count == 0) { 
+            
+            
+                accountinfo.Account.Datetimecreated = DateTime.Now;
+                accountinfo.Account.Postnostatusid = (int)AccountPostingStatus.NOENTRY;
+                accountinfo.Account.Accountnumber = GetRandNo(11);
+                accountinfo.Account.Accountstatusid = (int)AccountStatusEnum.UNAPPROVED;
+                accountinfo.Account.TblCustomeraccountservice
+                    .Add(accountinfo.AccountService);
+
+                if (accountinfo.BankingServices.Count > 0)
+                {
+                    foreach (var item in accountinfo.BankingServices)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountbankingservice.Add(item);
+                    }
+                }
+
+                if (accountinfo.AlertMediums.Count > 0)
+                {
+                    foreach (var item in accountinfo.AlertMediums)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountalertmedium.Add(
+
+                             new TblCustomeraccountalertmedium
+                             {
+                                 Alertmediumid = item.Alertmediumid,
+                                 // Customeraccountserviceid = accountinfo.AccountService.Id,
+                                 Isdeleted = true,
+                                 Isapproved = false,
+                                 Isdisapproved = false,
+                                 Approvalstatus = "Pending"
+                             });
+                    }
+                }
+
+                if (accountinfo.StatementMediums.Count > 0)
+                {
+                    foreach (var item in accountinfo.StatementMediums)
+                    {
+                        accountinfo.AccountService.TblCustomeraccountstmntmedium.Add(item);
+                    }
+                }
+
+                //Update Approval Status
+                accountinfo.Account.Isapproved = false;
+                accountinfo.Account.Isdisapproved = false;
+                accountinfo.Account.Dateapproved = DateTime.Now;
+                accountinfo.Account.Deleteflag = false;
+                accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
+                accountinfo.Account.Approvalstatusid = 0;
+                CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
+                CustomerUnitOfWork.Commit();
+
+               return Json(accountinfo.Account.Casaaccountid);
+            }
+            else
             {
                 return Json(false);
-
             }
 
-
-            accountinfo.Account.Datetimecreated = DateTime.Now;
-            accountinfo.Account.Postnostatusid = (int) AccountPostingStatus.NOENTRY;
-            accountinfo.Account.Accountnumber = GetRandNo(11);
-            accountinfo.Account.Accountstatusid = (int) AccountStatusEnum.UNAPPROVED;
-            accountinfo.Account.TblCustomeraccountservice
-                .Add(accountinfo.AccountService);
-
-            if (accountinfo.BankingServices.Count > 0)
-            {
-                foreach (var item in accountinfo.BankingServices)
-                {
-                    accountinfo.AccountService.TblCustomeraccountbankingservice.Add(item);
-                }
-            }
-
-            if (accountinfo.AlertMediums.Count > 0)
-            {
-                foreach (var item in accountinfo.AlertMediums)
-                {
-                    accountinfo.AccountService.TblCustomeraccountalertmedium.Add(
-
-                         new TblCustomeraccountalertmedium
-                         {
-                             Alertmediumid = item.Alertmediumid,
-                            // Customeraccountserviceid = accountinfo.AccountService.Id,
-                             Isdeleted = true,
-                             Isapproved = false,
-                             Isdisapproved = false,
-                             Approvalstatus = "Pending"
-                         });
-                }
-            }
-
-            if (accountinfo.StatementMediums.Count > 0)
-            {
-                foreach (var item in accountinfo.StatementMediums)
-                {
-                    accountinfo.AccountService.TblCustomeraccountstmntmedium.Add(item);
-                }
-            }
-
-            //Update Approval Status
-            accountinfo.Account.Isapproved = false;
-            accountinfo.Account.Isdisapproved = false;
-            accountinfo.Account.Dateapproved = DateTime.Now;
-            accountinfo.Account.Deleteflag = false;
-            accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
-            accountinfo.Account.Approvalstatusid = 0;
-            CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
-            CustomerUnitOfWork.Commit();
-
-            return Json(accountinfo.Account.Casaaccountid);
         }
 
         public JsonResult AddAccountSignatory(int id, AddSignatoryVM upload, bool sendall)
