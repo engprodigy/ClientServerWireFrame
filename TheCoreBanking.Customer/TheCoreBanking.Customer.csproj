@@ -6,13 +6,13 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
     <PackageReference Include="IdentityServer4" Version="2.1.3" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />-->
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
   </ItemGroup>
   <ItemGroup>
