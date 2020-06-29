@@ -93,6 +93,7 @@ namespace TheCoreBanking.Customer.Data.Models
         public virtual DbSet<TblAccountclosure> TblAccountclosure { get; set; }
         public virtual DbSet<TblFinanceChartOfAccount> TblFinanceChartOfAccount { get; set; }
         public virtual DbSet<TblStampcharge> TblStampcharge { get; set; }
+        public virtual DbSet<TblStaffInformation> TblStaffInformation { get; set; }
 
 
 
@@ -4770,6 +4771,137 @@ namespace TheCoreBanking.Customer.Data.Models
                 entity.Property(e => e.OptionName)
                     .IsRequired()
                     .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TblStaffInformation>(entity =>
+            {
+                entity.ToTable("tbl_StaffInformation", "GeneralSetup");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Age).HasColumnType("DateTime");
+
+                entity.Property(e => e.BranchId)
+                    .HasColumnName("BranchID")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompanyId)
+                    .HasColumnName("CompanyID")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Department)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DesignationCode)
+            .HasMaxLength(100)
+            .IsUnicode(false);
+
+                entity.Property(e => e.DeptCode)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Gender)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.JobTitle)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Miscode)
+                    .HasColumnName("MISCode")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nationality)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NextOfKinAddress)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NextOfKinEmail)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NextOfKinGender)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NextOfKinName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.NextOfKinPhone)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PcCode)
+                    .HasColumnName("pcCode")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Rank)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RelationShip)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StaffName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StaffNo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Staffsignature)
+                 .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.State)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Unit)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitCode)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ImageData)
+                .HasColumnName("imageData")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ImageTitle)
+                    .HasColumnName("imageTitle")
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

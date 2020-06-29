@@ -89,6 +89,23 @@ namespace TheCoreBanking.Customer.Controllers
 
         public JsonResult AddCustomer([FromBody]AddCustomerVM customerinfo)
         {
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            var branch = CustomerUnitOfWork.StaffInform.GetAll().Where(i => i.StaffName == logUser).FirstOrDefault().BranchId;
+
+            var company = CustomerUnitOfWork.StaffInform.GetAll().Where(i => i.StaffName == logUser).FirstOrDefault().CompanyId;
+
+            var staffInfoDetails = CustomerUnitOfWork.StaffInform.GetAll().Where(i => i.StaffName == logUser).FirstOrDefault();
+
+            customerinfo.customer.Branchid = Int32.Parse(branch);
+            customerinfo.customer.Createdby = Int32.Parse(staffInfoDetails.StaffNo);
+            customerinfo.customer.Relationshipofficerid = Int32.Parse(staffInfoDetails.StaffNo);
+            customerinfo.customer.Staffnumber = staffInfoDetails.StaffNo;
+
             CustomerUnitOfWork.Customers.Add(customerinfo.customer);
             CustomerUnitOfWork.Commit();
             if (customerinfo.emails != null)

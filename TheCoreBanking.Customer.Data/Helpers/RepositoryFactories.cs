@@ -91,6 +91,7 @@ namespace TheCoreBanking.Customer.Data.Helpers
                  {typeof(ICasaProductConversionTrackerRepository), dbContext => new CasaProductConversionTrackerRepository(dbContext)},
                  {typeof(ICustomerCustomFieldListRepository), dbContext => new CustomerCustomFieldListRepository(dbContext)},
                  {typeof(ICustomerCustomFieldOptionsRepository), dbContext => new CustomerCustomFieldOptionsRepository(dbContext)},
+                 {typeof(IStaffInformationRepository), dbContext => new StaffInformationRepository(dbContext)},
             };
         }
 

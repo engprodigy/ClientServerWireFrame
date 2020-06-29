@@ -1213,10 +1213,20 @@ namespace TheCoreBanking.Customer.Controllers
                 dbContextTransaction.Rollback();
             }
 
-           
+            var logUser = User.Identity.Name;
+            if (logUser == null)
+            {
+                logUser = "tayo.olawumi";
+            }
+
+            var branch = CustomerUnitOfWork.StaffInform.GetAll().Where(i => i.StaffName == logUser).FirstOrDefault().BranchId;
+
+            var company = CustomerUnitOfWork.StaffInform.GetAll().Where(i => i.StaffName == logUser).FirstOrDefault().CompanyId;
+
+
 
             //if (count > 0 && (  (casaAccntDetails.Approvalstatusid != 2 && casaAccntDetails.Isdisapproved != true) ||
-            if (count > 0 && (casaAccntDetails.Isdisapproved == true || casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED))
+            if (count > 0 && (casaAccntDetails.Isdisapproved == true || casaAccntDetails.Accountstatusid == (int)AccountStatusEnum.CLOSED))
               //  || casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.UNAPPROVED))
                // ||(casaAccntDetails.Accountstatusid != (int)AccountStatusEnum.CLOSED && casaAccntDetails.Isapproved != true)  )   )
             {
@@ -1268,6 +1278,9 @@ namespace TheCoreBanking.Customer.Controllers
                 accountinfo.Account.Deleteflag = false;
                 accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
                 accountinfo.Account.Approvalstatusid = 0;
+                accountinfo.Account.Branchid = Int32.Parse(branch); 
+                accountinfo.Account.Companyid = Int32.Parse(company);
+                accountinfo.Account.Createdby = logUser;
                 CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
                 CustomerUnitOfWork.Commit();
 
@@ -1324,6 +1337,9 @@ namespace TheCoreBanking.Customer.Controllers
                 accountinfo.Account.Deleteflag = false;
                 accountinfo.Account.Approvalstatus = "Awaiting Initial Approval";
                 accountinfo.Account.Approvalstatusid = 0;
+                accountinfo.Account.Branchid = Int32.Parse(branch);
+                accountinfo.Account.Companyid = Int32.Parse(company);
+                accountinfo.Account.Operationid = 1;
                 CustomerUnitOfWork.Accounts.Add(accountinfo.Account);
                 CustomerUnitOfWork.Commit();
 

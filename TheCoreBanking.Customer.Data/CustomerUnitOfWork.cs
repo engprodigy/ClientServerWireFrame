@@ -70,7 +70,7 @@ namespace TheCoreBanking.Customer.Data
         public ICasaProductConversionTrackerRepository CasaProductConversionTracker { get { return GetEntityRepository<ICasaProductConversionTrackerRepository>(); } }
         public ICustomerCustomFieldListRepository CustomerCustomFieldList { get { return GetEntityRepository<ICustomerCustomFieldListRepository>(); } }
         public ICustomerCustomFieldOptionsRepository CustomerCustomFieldOptions { get { return GetEntityRepository<ICustomerCustomFieldOptionsRepository>(); } }
-
+        public IStaffInformationRepository StaffInform { get { return GetEntityRepository<IStaffInformationRepository>(); } }
 
         public CustomerUnitOfWork(IRepositoryProvider repositoryProvider)
         {
