@@ -29,7 +29,7 @@ namespace TheCoreBanking.Customer
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddMvc(options => options.EnableEndpointRouting = false);
                 //.AddJsonOptions(
                 //    options => options.SerializerSettings.ReferenceLoopHandling
                 //        = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -121,7 +121,7 @@ namespace TheCoreBanking.Customer
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
