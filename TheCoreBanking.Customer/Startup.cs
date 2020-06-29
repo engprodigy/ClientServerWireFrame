@@ -29,11 +29,11 @@ namespace TheCoreBanking.Customer
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc()
-                .AddJsonOptions(
-                    options => options.SerializerSettings.ReferenceLoopHandling
-                        = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );
+                .AddMvc();
+                //.AddJsonOptions(
+                //    options => options.SerializerSettings.ReferenceLoopHandling
+                //        = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                //);
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
                 .AddAuthentication(options =>
@@ -114,7 +114,7 @@ namespace TheCoreBanking.Customer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
