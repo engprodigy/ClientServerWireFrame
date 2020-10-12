@@ -7,14 +7,7 @@ namespace TheCoreBanking.Customer.Data.Models
     {
         public TblCustomer()
         {
-            TblCasa = new HashSet<TblCasa>();
-            TblCustomeraccountkycitem = new HashSet<TblCustomeraccountkycitem>();
-            TblCustomeraddress = new HashSet<TblCustomeraddress>();
-            TblCustomerblacklist = new HashSet<TblCustomerblacklist>();
-            TblCustomeremailcontact = new HashSet<TblCustomeremailcontact>();
-            TblCustomeridentification = new HashSet<TblCustomeridentification>();
-            TblCustomernextofkin = new HashSet<TblCustomernextofkin>();
-            TblCustomerphonecontact = new HashSet<TblCustomerphonecontact>();
+            
         }
 
         public int Customerid { get; set; }
@@ -105,36 +98,6 @@ namespace TheCoreBanking.Customer.Data.Models
         public DateTime? Datetimedeleted { get; set; }
         public string Bvn { get; set; }
 
-        public TblAnnualincome Annualincome { get; set; }
-        public TblBank Bank { get; set; }
-        public TblBankaccounttype Bankaccountype { get; set; }
-        public TblBranch Branch { get; set; }
-        public TblBusinesscategory Businesscategory { get; set; }
-        public TblCustomeraccounttype Customeraccounttype { get; set; }
-        public TblSensitivitylevel Customersensitivitylevel { get; set; }
-        public TblEmploymenttype EmploymentstatusNavigation { get; set; }
-        public TblGender Gender { get; set; }
-        public TblIndustry Industry { get; set; }
-        public TblInstitutiontype Institutiontype { get; set; }
-        public TblMaritalstatus Maritalstatus { get; set; }
-        public TblModeofidentification Modeofidentification { get; set; }
-        public TblGender Nokgender { get; set; }
-        public TblRegion Region { get; set; }
-        public TblStaff Relationshipofficer { get; set; }
-        public TblSector Sector { get; set; }
-        public TblSourceoffunds Sourceoffund { get; set; }
-        public TblState Stateoforigin { get; set; }
-        public TblStateandlga Stateoriginlga { get; set; }
-        public TblTitle Title { get; set; }
-        public TblCountry WorkcountryNavigation { get; set; }
-        public TblState WorkstateNavigation { get; set; }
-        public ICollection<TblCasa> TblCasa { get; set; }
-        public ICollection<TblCustomeraccountkycitem> TblCustomeraccountkycitem { get; set; }
-        public ICollection<TblCustomeraddress> TblCustomeraddress { get; set; }
-        public ICollection<TblCustomerblacklist> TblCustomerblacklist { get; set; }
-        public ICollection<TblCustomeremailcontact> TblCustomeremailcontact { get; set; }
-        public ICollection<TblCustomeridentification> TblCustomeridentification { get; set; }
-        public ICollection<TblCustomernextofkin> TblCustomernextofkin { get; set; }
-        public ICollection<TblCustomerphonecontact> TblCustomerphonecontact { get; set; }
+       
     }
 }

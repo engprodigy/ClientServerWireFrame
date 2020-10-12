@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TheCoreBanking.Customer.Data.Contracts;
 using TheCoreBanking.Customer.Data.Models;
 using TheCoreBanking.Customer.Data.Repository;
-using TheCoreBanking.Retail.Data.Repository;
+
 
 namespace TheCoreBanking.Customer.Data.Helpers
 {
@@ -35,63 +35,9 @@ namespace TheCoreBanking.Customer.Data.Helpers
         {
             return new Dictionary<Type, Func<TheCoreBankingCustomerContext, object>>
             {
-                {typeof(IAPIStubRepository), dbContext => new APIStubRepository(dbContext)},
+                
                 {typeof(ICustomerRepository), dbContext => new CustomerRepository(dbContext)},
-                {typeof(IRegionRepository), dbContext => new RegionRepository(dbContext)},
-                {typeof(ISectorRepository), dbContext => new SectorRepository(dbContext)},
-                {typeof(ITitleRepository), dbContext => new TitleRepository(dbContext)},
-                {typeof(IGenderRepository), dbContext => new GenderRepository(dbContext)},
-                {typeof(IStateRepository), dbContext => new StateRepository(dbContext)},
-                {typeof(IAnnualIncomeRepository), dbContext => new AnnualIncomeRepository(dbContext)},
-                {typeof(IModeOfIDRepository), dbContext => new ModeOfIDRepository(dbContext)},
-                {typeof(ICountryRepository), dbContext => new CountryRepository(dbContext)},
-                {typeof(IMaritalStatusRepository), dbContext => new MaritalStatusRepository(dbContext)},
-                {typeof(IStateLGARepository), dbContext => new StateLGARepository(dbContext)},
-                {typeof(IEmploymentTypeRepository), dbContext => new EmploymentTypeRepository(dbContext)},
-                {typeof(ISourceOfFundsRepository), dbContext => new SourceOfFundsRepository(dbContext)},
-                {typeof(IBankRepository), dbContext => new BankRepository(dbContext)},
-                {typeof(IBankAccountTypeRepository), dbContext => new BankAccountTypeRepository(dbContext)},
-                {typeof(IBusinessCategoryRepository), dbContext => new BusinessCategoryRepository(dbContext)},
-                {typeof(IKycItemRepository), dbContext => new KycItemRepository(dbContext)},
-                {typeof(IKYCItemActionRepository), dbContext => new KYCItemActionRepository(dbContext)},
-                {typeof(IInstitutionTypeRepository), dbContext => new InstitutionTypeRepository(dbContext)},
-                {typeof(ICustomerAccountTypeRepository), dbContext => new CustomerAccountTypeRepository(dbContext)},
-                {typeof(ICustomerAddressTypeRepository), dbContext => new CustomerAddressTypeRepository(dbContext)},
-                {typeof(ICustomerAddressRepository), dbContext => new CustomerAddressRepository(dbContext)},
-                {typeof(ICustomerPhoneContactRepository), dbContext => new CustomerPhoneContactRepository(dbContext)},
-                {typeof(ICustomerEmailContactRepository), dbContext => new CustomerEmailContactRepository(dbContext)},
-                {typeof(ICustomerAccountKYCItemRepository), dbContext => new CustomerAccountKYCItemRepository(dbContext)},
-                {typeof(IIndustryRepository), dbContext => new IndustryRepository(dbContext)},
-                {typeof(ICustomerCustomFieldRepository), dbContext => new CustomerCustomFieldRepository(dbContext)},
-                {typeof(IAccountAlertMediumRepository), dbContext => new AccountAlertMediumRepository(dbContext)},
-                {typeof(IAccountBankingServiceRepository), dbContext => new AccountBankingServiceRepository(dbContext)},
-                {typeof(IAccountCardTypeRepository), dbContext => new AccountCardTypeRepository(dbContext)},
-                {typeof(IAccountStmntFreqRepository), dbContext => new AccountStmntFreqRepository(dbContext)},
-                {typeof(IAccountStmntMediumRepository), dbContext => new AccountStmntMediumRepository(dbContext)},
-                {typeof(IDepartmentRepository), dbContext => new DepartmentRepository(dbContext)},
-                {typeof(ISensitivityLevelRepository), dbContext => new SensitivityLevelRepository(dbContext)},
-                {typeof(ICasaRepository), dbContext => new CasaRepository(dbContext)},
-                {typeof(ICasaPostNoStatusRepository), dbContext => new CasaPostNoStatusRepository(dbContext)},
-                {typeof(IMandateRepository), dbContext => new MandateRepository(dbContext)},
-                {typeof(IAccountRefereeRepository), dbContext => new AccountRefereeRepository(dbContext)},
-                {typeof(ICustomerAccountServiceRepository), dbContext => new CustomerAccountServiceRepository(dbContext)},
-                {typeof(ICustomerAccountBankingServiceRepository), dbContext => new CustomerAccountBankingServiceRepository(dbContext)},
-                {typeof(ICustomerAccountAlertMediaRepository), dbContext => new CustomerAccountAlertMediaRepository(dbContext)},
-                {typeof(ICustomerAccountStmntMediaRepository), dbContext => new CustomerAccountStmntMediaRepository(dbContext)},
-                {typeof(ICasaFreezeRepository), dbContext => new CasaFreezeRepository(dbContext)},
-                {typeof(IProductRepository), dbContext => new ProductRepository(dbContext)},
-                {typeof(IFreezetypeRepository), dbContext => new FreezeTypeRepository(dbContext)},
-                {typeof(IFreezereasontypeRepository), dbContext => new FreezereasontypeRepository(dbContext)},
-                {typeof(IFreezeDatetypeRepository), dbContext => new FreezeDatetypeRepository(dbContext)},
-                {typeof(IFreezeTransactionListRepository), dbContext => new FreezeTransactionListRepository(dbContext)},
-                {typeof(IAccountFreezeRepository), dbContext => new AccountFreezeRepository(dbContext)},
-                {typeof(IDesignationRepository), dbContext => new DesignationRepository(dbContext)},
-                {typeof(IAccountClosureRepository), dbContext => new AccountClosureRepository(dbContext)},
-                 {typeof(IChartofAccountRepository), dbContext => new ChartofAccountRepository(dbContext)},
-                 {typeof(ICasaProductConversionTrackerRepository), dbContext => new CasaProductConversionTrackerRepository(dbContext)},
-                 {typeof(ICustomerCustomFieldListRepository), dbContext => new CustomerCustomFieldListRepository(dbContext)},
-                 {typeof(ICustomerCustomFieldOptionsRepository), dbContext => new CustomerCustomFieldOptionsRepository(dbContext)},
-                 {typeof(IStaffInformationRepository), dbContext => new StaffInformationRepository(dbContext)},
+                
             };
         }
 
